@@ -71,6 +71,7 @@
                 <th><spring:message code="table.ex"/></th>
                 <th width="70px"><spring:message code="table.dd"/></th>
                 <th><spring:message code="table.di"/></th>
+                <th><spring:message code="table.dr"/></th>
                 <th><spring:message code="table.rm"/></th>
                 <th></th>
                 <th></th>
@@ -89,6 +90,7 @@
                     <td>${mail.executor}</td>
                     <td>${fn:formatDateTime(mail.doneDate)}</td>
                     <td>${mail.doneIndex}</td>
+                    <td>${mail.doneResult}</td>
                     <td>${mail.remains}</td>
                     <td><a onclick="updateRow(${mail.id})"><span class="fa fa-pencil"></span></a></td>
                     <td><a onclick="deleteRow(${mail.id})"><span class="fa fa-remove"></span></a></td>
@@ -167,13 +169,17 @@
 							</td>
 						</tr>
 						<tr>
+						    <td>
+                                <div class="form-group">
+                                     <label for="doneResult" class="col-form-label"><spring:message code="table.dr"/></label>
+                                     <input type="text" class="form-control" id="doneResult" name="doneResult">
+                                </div>
+                            </td>
 							<td>
 								<div class="form-group">
 									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/></label>
 									<input type="text" class="form-control" id="correspondent" name="correspondent">
 								</div>
-							</td>
-							<td>
 							</td>
 						</tr>
                     </table>

@@ -4,6 +4,7 @@ import com.github.calve.to.MailTo;
 import com.github.calve.util.Journals;
 import com.github.calve.util.builders.ToBuilder;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -45,19 +46,28 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void storeRequests(MultipartFile file) {
-        List<MailTo> listOnSave = new ArrayList<>();
-        validateFile(file);
+        saveFileToDatabase(file, Journals.REQUESTS);
+//        List<MailTo> listOnSave = new ArrayList<>();
+//        validateFile(file);
+//
+//        try {
+//            Workbook workbook = WorkbookFactory.create(file.getInputStream());
+//            Sheet sheet = workbook.getSheetAt(0);
+//            fromSheetToList(listOnSave, sheet, null);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        for (MailTo request : listOnSave) {
+//            requestService.save(request);
+//        }
+    }
+    @Override
+    public void storeInfo(MultipartFile file) {
+        saveFileToDatabase(file, Journals.INFO);
+    }
 
-        try {
-            Workbook workbook = WorkbookFactory.create(file.getInputStream());
-            Sheet sheet = workbook.getSheetAt(0);
-            fromSheetToList(listOnSave, sheet, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (MailTo request : listOnSave) {
-            requestService.save(request);
-        }
+    public void storeComplaints(MultipartFile file) {
+        saveFileToDatabase(file, Journals.COMPLAINTS);
     }
 
     private static boolean validateFile(MultipartFile file) {
@@ -66,15 +76,10 @@ public class FileSystemStorageService implements StorageService {
             //empty body exception
             return false;
         }
-        if (filename.contains("..")) {
-            // This is a security check
-            //empty body exception
-            return false;
-        }
-        return true;
+        return !filename.contains("..");
     }
 
-    public void met(MultipartFile file, Journals type) {
+    private void saveFileToDatabase(MultipartFile file, Journals type) {
         if (validateFile(file)) {
             List<MailTo> saveList = new ArrayList<>();
             fillSaveList(file, type, saveList);
@@ -130,13 +135,31 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
-
-    private static String getStringValue(Iterator<Cell> cellIterator) {
+    // TODO: 20.10.2019 thinking
+    private static String getStringValueFromNumber(Iterator<Cell> cellIterator) {
         try {
-            return cellIterator.hasNext() ? cellIterator.next().getRichStringCellValue().getString() : "";
+            return cellIterator.hasNext() ? Double.toString(cellIterator.next().getNumericCellValue()) : "";
         } catch (Exception e) {
             //empty body exception
+            e.printStackTrace();
             return "";
+        }
+    }
+
+
+    private static String getStringValue(Iterator<Cell> cellIterator) {
+            Cell next = null;
+        try {
+            if (cellIterator.hasNext()) {
+                next = cellIterator.next();
+            }
+            return Objects.nonNull(next) ? next.getRichStringCellValue().getString() : "";
+        } catch (Exception e) {
+            try {
+                return String.format("%.0f", next.getNumericCellValue());
+            } catch (Exception e1) {
+                return "";
+            }
         }
     }
 
@@ -172,12 +195,34 @@ public class FileSystemStorageService implements StorageService {
     private static MailTo parseRowTo(Journals type, Row row) {
         ToBuilder builder = new ToBuilder();
         Iterator<Cell> cellIterator = row.cellIterator();
-        builder.setIncomeDate(getDateValueRequired(cellIterator))
-                .setIncomeIndex(getStringValueRequired(cellIterator))
-                .setCorrespondent(getStringValueRequired(cellIterator))
-                .setOuterDate(getDateValueRequired(cellIterator))
-                .setOuterIndex(getStringValueRequired(cellIterator));
+        constructBasicFields(builder, cellIterator);
+        constructMiddleFields(type, builder, cellIterator);
+        constructExecutorField(type, builder, cellIterator);
+        constructTail(type, builder, cellIterator);
+        System.out.println(builder); //todo sout
+        return builder.getMailTo();
+    }
 
+    private static void constructTail(Journals type, ToBuilder builder, Iterator<Cell> cellIterator) {
+        if (!type.equals(Journals.FOREIGNERS)) {
+            builder.setDoneDate(getDateValue(cellIterator))
+                    .setDoneIndex(getStringValue(cellIterator));
+            if (type.equals(Journals.COMPLAINTS) || type.equals(Journals.INFO)) {
+                builder.setDoneResult(getStringValue(cellIterator));
+            }
+        }
+    }
+
+    private static void constructExecutorField(Journals type, ToBuilder builder, Iterator<Cell> cellIterator) {
+        if (!type.equals(Journals.FOREIGNERS)) {
+            builder.setExecutor(getStringValueRequired(cellIterator));
+        } else {
+            builder.setProceedingNumber(getStringValue(cellIterator))
+                    .setExecutor(getStringValueRequired(cellIterator));
+        }
+    }
+
+    private static void constructMiddleFields(Journals type, ToBuilder builder, Iterator<Cell> cellIterator) {
         if (type.equals(Journals.FOREIGNERS)) {
             builder.setDebtor(getStringValue(cellIterator));
         } else {
@@ -190,116 +235,13 @@ public class FileSystemStorageService implements StorageService {
                         .setProceedingNumber(getStringValue(cellIterator));
             }
         }
-
-        if (!type.equals(Journals.FOREIGNERS)) {
-            builder.setExecutor(getStringValueRequired(cellIterator));
-        } else {
-            builder.setProceedingNumber(getStringValue(cellIterator))
-                    .setExecutor(getStringValueRequired(cellIterator));
-        }
-
-        if (!type.equals(Journals.FOREIGNERS)) {
-            builder.setDoneDate(getDateValue(cellIterator))
-                    .setDoneIndex(getStringValue(cellIterator));
-            if (type.equals(Journals.COMPLAINTS) || type.equals(Journals.INFO)) {
-                builder.setDoneResult(getStringValue(cellIterator));
-            }
-        }
-
-        return builder.getMailTo();
     }
 
-    private static MailTo parseRowToRequest(Row row) {
-        ToBuilder builder = new ToBuilder();
-        Iterator<Cell> cellIterator = row.cellIterator();
+    private static void constructBasicFields(ToBuilder builder, Iterator<Cell> cellIterator) {
         builder.setIncomeDate(getDateValueRequired(cellIterator))
                 .setIncomeIndex(getStringValueRequired(cellIterator))
                 .setCorrespondent(getStringValueRequired(cellIterator))
                 .setOuterDate(getDateValueRequired(cellIterator))
-                .setOuterIndex(getStringValueRequired(cellIterator))
-                .setDescription(getStringValue(cellIterator))
-                .setExecutor(getStringValue(cellIterator))
-                .setDoneDate(getDateValue(cellIterator))
-                .setDoneIndex(getStringValue(cellIterator));
-        return builder.getMailTo();
+                .setOuterIndex(getStringValueRequired(cellIterator));
     }
-
-    private static MailTo parseRowToInfo(Row row) {
-        ToBuilder builder = new ToBuilder();
-        Iterator<Cell> cellIterator = row.cellIterator();
-        builder.setIncomeDate(getDateValueRequired(cellIterator))
-                .setIncomeIndex(getStringValueRequired(cellIterator))
-                .setCorrespondent(getStringValueRequired(cellIterator))
-                .setOuterDate(getDateValueRequired(cellIterator))
-                .setOuterIndex(getStringValueRequired(cellIterator))
-                .setDescription(getStringValue(cellIterator))
-                .setExecutor(getStringValue(cellIterator))
-                .setDoneDate(getDateValue(cellIterator))
-                .setDoneIndex(getStringValue(cellIterator));
-        return builder.getMailTo();
-    }
-
-    private static MailTo parseRowToGeneric(Row row) {
-        ToBuilder builder = new ToBuilder();
-        Iterator<Cell> cellIterator = row.cellIterator();
-        builder.setIncomeDate(getDateValueRequired(cellIterator))
-                .setIncomeIndex(getStringValueRequired(cellIterator))
-                .setCorrespondent(getStringValueRequired(cellIterator))
-                .setOuterDate(getDateValueRequired(cellIterator))
-                .setOuterIndex(getStringValueRequired(cellIterator))
-                .setDescription(getStringValue(cellIterator))
-                .setExecutor(getStringValue(cellIterator))
-                .setDoneDate(getDateValue(cellIterator))
-                .setDoneIndex(getStringValue(cellIterator));
-        return builder.getMailTo();
-    }
-
-    private static MailTo parseRowToComplaint(Row row) {
-        ToBuilder builder = new ToBuilder();
-        Iterator<Cell> cellIterator = row.cellIterator();
-        builder.setIncomeDate(getDateValueRequired(cellIterator))
-                .setIncomeIndex(getStringValueRequired(cellIterator))
-                .setCorrespondent(getStringValueRequired(cellIterator))
-                .setOuterDate(getDateValueRequired(cellIterator))
-                .setOuterIndex(getStringValueRequired(cellIterator))
-                .setDescription(getStringValue(cellIterator))
-                .setExecutor(getStringValue(cellIterator))
-                .setDoneDate(getDateValue(cellIterator))
-                .setDoneIndex(getStringValue(cellIterator))
-                .setDoneResult(getStringValue(cellIterator));
-        return builder.getMailTo();
-    }
-
-    private static MailTo parseRowToForeigner(Row row) {
-        ToBuilder builder = new ToBuilder();
-        Iterator<Cell> cellIterator = row.cellIterator();
-        builder.setIncomeDate(getDateValueRequired(cellIterator))
-                .setIncomeIndex(getStringValueRequired(cellIterator))
-                .setCorrespondent(getStringValueRequired(cellIterator))
-                .setOuterDate(getDateValueRequired(cellIterator))
-                .setOuterIndex(getStringValueRequired(cellIterator))
-                .setDescription(getStringValue(cellIterator))
-                .setProceedingNumber(getStringValue(cellIterator))
-                .setExecutor(getStringValue(cellIterator));
-        return builder.getMailTo();
-    }
-
-    private static MailTo parseRowToApplication(Row row) {
-        ToBuilder builder = new ToBuilder();
-        Iterator<Cell> cellIterator = row.cellIterator();
-        builder.setIncomeDate(getDateValueRequired(cellIterator))
-                .setIncomeIndex(getStringValueRequired(cellIterator))
-                .setCorrespondent(getStringValueRequired(cellIterator))
-                .setOuterDate(getDateValueRequired(cellIterator))
-                .setOuterIndex(getStringValueRequired(cellIterator))
-                .setWorkDate(getDateValue(cellIterator))
-                .setWorkIndex(getStringValue(cellIterator))
-                .setAuthority(getStringValue(cellIterator))
-                .setDescription(getStringValue(cellIterator)) // TODO: 16.10.2019
-                .setExecutor(getStringValue(cellIterator))
-                .setDoneDate(getDateValue(cellIterator))
-                .setDoneIndex(getStringValue(cellIterator));
-        return builder.getMailTo();
-    }
-
 }

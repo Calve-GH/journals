@@ -6,4 +6,9 @@ public interface StorageService {
 
     void storeRequests(MultipartFile file);
 
+    void storeInfo(MultipartFile file);
+
+
+
+
 }

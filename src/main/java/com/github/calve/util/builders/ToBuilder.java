@@ -1,10 +1,9 @@
 package com.github.calve.util.builders;
 
-import com.github.calve.model.Executor;
-import com.github.calve.model.Request;
 import com.github.calve.to.MailTo;
 
 import java.time.LocalDate;
+import java.util.StringJoiner;
 
 public class ToBuilder {
 
@@ -115,5 +114,27 @@ public class ToBuilder {
     public ToBuilder setDebtor(String debtor) {
         this.debtor = debtor;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", ToBuilder.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("incomeDate=" + incomeDate)
+                .add("incomeIndex='" + incomeIndex + "'")
+                .add("correspondent='" + correspondent + "'")
+                .add("outerDate=" + outerDate)
+                .add("outerIndex='" + outerIndex + "'")
+                .add("description='" + description + "'")
+                .add("executor='" + executor + "'")
+                .add("doneDate=" + doneDate)
+                .add("doneIndex='" + doneIndex + "'")
+                .add("doneResult='" + doneResult + "'")
+                .add("workDate=" + workDate)
+                .add("workIndex='" + workIndex + "'")
+                .add("authority='" + authority + "'")
+                .add("proceedingNumber='" + proceedingNumber + "'")
+                .add("debtor='" + debtor + "'")
+                .toString();
     }
 }

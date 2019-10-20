@@ -2,6 +2,7 @@ package com.github.calve.web.mails;
 
 import com.github.calve.service.InfoService;
 import com.github.calve.service.RequestService;
+import com.github.calve.service.StorageService;
 import com.github.calve.to.MailTo;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,14 @@ public class InfoController {
     public static final String REST_URL = "/rest/info/";
 
     private InfoService service;
+    private StorageService storageService;
 
     @Autowired
-    public InfoController(InfoService service) {
+    public InfoController(InfoService service, StorageService storageService) {
         this.service = service;
+        this.storageService = storageService;
     }
+
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -57,6 +61,6 @@ public class InfoController {
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void importExcel(@RequestParam("file") MultipartFile file) {
-        storageService.storeRequests(file);
+        storageService.storeInfo(file);
     }
 }

@@ -138,6 +138,7 @@ public class TransformUtils {
                 .setExecutor(executor)
                 .setDoneDate(mail.getDoneDate())
                 .setDoneIndex(mail.getDoneIndex())
+                .setDoneResult(mail.getDoneResult())
                 .getInfo();
     }
 }

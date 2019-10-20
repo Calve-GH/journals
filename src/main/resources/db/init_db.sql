@@ -77,6 +77,7 @@ create TABLE info
   executor_id      INTEGER   			   NOT NULL,
   done_date        TIMESTAMP,
   done_index       VARCHAR,
+  done_result      VARCHAR,
   FOREIGN KEY (executor_id) REFERENCES executors (id)
 );
 CREATE UNIQUE INDEX info_idx ON info (income_date, income_index);

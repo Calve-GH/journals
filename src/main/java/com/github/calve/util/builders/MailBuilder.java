@@ -53,7 +53,7 @@ public class MailBuilder {
 
     public Info getInfo() {
         return new Info(this.id, this.incomeDate, this.incomeIndex, this.correspondent, this.outerDate,
-                this.outerIndex, this.description, this.executor, this.doneDate, this.doneIndex);
+                this.outerIndex, this.description, this.executor, this.doneDate, this.doneIndex, this.doneResult);
     }
 
     public MailBuilder setId(Integer id) {

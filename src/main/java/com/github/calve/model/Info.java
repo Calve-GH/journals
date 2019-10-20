@@ -13,12 +13,16 @@ public class Info extends AbstractMail {
     private LocalDate doneDate;
     @Column(name = "done_index", nullable = false)
     private String doneIndex;
+    @Column(name = "done_result", nullable = false)
+    private String doneResult;
 
+
+    // TODO: 19.10.2019 wrong data fields
     public Info() {
     }
 
     public Info(Integer id, LocalDate incomeDate, String incomeIndex, String corr, LocalDate outerDate,
-                String outerIndex, String description, Executor executor, LocalDate doneDate, String doneIndex) {
+                String outerIndex, String description, Executor executor, LocalDate doneDate, String doneIndex, String doneResult) {
         super.setId(id);
         super.setIncomeDate(incomeDate);
         super.setIncomeIndex(incomeIndex);
@@ -29,6 +33,16 @@ public class Info extends AbstractMail {
         super.setExecutor(executor);
         this.doneDate = doneDate;
         this.doneIndex = doneIndex;
+        this.doneResult = doneResult;
+    }
+
+    @Override
+    public String getDoneResult() {
+        return doneResult;
+    }
+
+    public void setDoneResult(String doneResult) {
+        this.doneResult = doneResult;
     }
 
     public LocalDate getDoneDate() {
