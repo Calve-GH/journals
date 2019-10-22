@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = InfoController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class InfoController {
 
-    public static final String REST_URL = "/rest/info/";
+    static final String REST_URL = "/rest/info/";
 
     private InfoService service;
     private StorageService storageService;
@@ -28,7 +29,6 @@ public class InfoController {
         this.service = service;
         this.storageService = storageService;
     }
-
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -60,7 +60,7 @@ public class InfoController {
 
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void importExcel(@RequestParam("file") MultipartFile file) {
+    public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
         storageService.storeInfo(file);
     }
 }

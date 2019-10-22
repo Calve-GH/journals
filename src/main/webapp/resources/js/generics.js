@@ -12,7 +12,8 @@ $(".uploadDocumentOnboarding").on("click", function (evt) {
         contentType: false,
         processData: false,
         success: function (response) {
-            alert("Document uploaded successfully.");
+            successNoty("common.file.upload");
+            clearFilter();
         }
     });
 
@@ -54,6 +55,7 @@ $(function () {
 					"orderable": false
 				},
 				{
+				    "defaultContent": "",
 					"data": "description",
 					"orderable": false
 				},

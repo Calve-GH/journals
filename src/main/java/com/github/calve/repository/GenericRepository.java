@@ -22,7 +22,7 @@ public interface GenericRepository extends JpaRepository<Generic, Integer> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Application a where a.id=:id")
+    @Query("DELETE FROM Generic g where g.id=:id")
     int delete(@Param("id") Integer id); // TODO: 26.09.2019 mb return id;
 
     Optional<Generic> findById(Integer id);

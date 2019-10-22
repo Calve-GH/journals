@@ -1,23 +1,22 @@
 package com.github.calve.service;
 
+import com.github.calve.model.Executor;
+import com.github.calve.model.Mail;
 import com.github.calve.to.MailTo;
 import com.github.calve.util.Journals;
 import com.github.calve.util.builders.ToBuilder;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class FileSystemStorageService implements StorageService {
@@ -31,45 +30,57 @@ public class FileSystemStorageService implements StorageService {
     private InfoService infoService;
     private ForeignerService foreignerService;
     private ApplicationService applicationService;
+    private ExecutorService executorService;
+
+    private Map<String, Executor> executorsCache; //todo warning т.к. если мы хотим инициализировать
+    //todo кеш при констракте обьекта получим NPE т.к. прокси на этом этапе еще не существует.
+    // TODO: 21.10.2019 инит кеша при каждом заходе в парсинг
 
     @Autowired
     public FileSystemStorageService(RequestService requestService, ComplaintService complaintService,
                                     GenericService genericService, InfoService infoService,
-                                    ForeignerService foreignerService, ApplicationService applicationService) {
+                                    ForeignerService foreignerService, ApplicationService applicationService,
+                                    ExecutorService executorService) {
         this.requestService = requestService;
         this.complaintService = complaintService;
         this.genericService = genericService;
         this.infoService = infoService;
         this.foreignerService = foreignerService;
         this.applicationService = applicationService;
+        this.executorService = executorService;
     }
 
     @Override
-    public void storeRequests(MultipartFile file) {
+    public void storeRequests(MultipartFile file) throws SQLException {
         saveFileToDatabase(file, Journals.REQUESTS);
-//        List<MailTo> listOnSave = new ArrayList<>();
-//        validateFile(file);
-//
-//        try {
-//            Workbook workbook = WorkbookFactory.create(file.getInputStream());
-//            Sheet sheet = workbook.getSheetAt(0);
-//            fromSheetToList(listOnSave, sheet, null);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        for (MailTo request : listOnSave) {
-//            requestService.save(request);
-//        }
-    }
-    @Override
-    public void storeInfo(MultipartFile file) {
-        saveFileToDatabase(file, Journals.INFO);
     }
 
-    public void storeComplaints(MultipartFile file) {
+    @Override
+    public void storeComplaints(MultipartFile file) throws SQLException {
         saveFileToDatabase(file, Journals.COMPLAINTS);
     }
 
+    @Override
+    public void storeGenerics(MultipartFile file) throws SQLException {
+        saveFileToDatabase(file, Journals.GENERICS);
+    }
+
+    @Override
+    public void storeInfo(MultipartFile file) throws SQLException {
+        saveFileToDatabase(file, Journals.INFO);
+    }
+
+    @Override
+    public void storeForeigners(MultipartFile file) throws SQLException {
+        saveFileToDatabase(file, Journals.FOREIGNERS);
+    }
+
+    @Override
+    public void storeApplications(MultipartFile file) throws SQLException {
+        saveFileToDatabase(file, Journals.APPLICATIONS);
+    }
+
+    // TODO: 20.10.2019 single responsibility
     private static boolean validateFile(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         if (file.isEmpty()) {
@@ -79,7 +90,17 @@ public class FileSystemStorageService implements StorageService {
         return !filename.contains("..");
     }
 
-    private void saveFileToDatabase(MultipartFile file, Journals type) {
+    private Map<String, Executor> initCache() {
+        List<Executor> executorsList = executorService.findAll();
+        HashMap<String, Executor> executorsMap = new HashMap<>();
+
+        for (Executor executor : executorsList) {
+            executorsMap.put(executor.getName().toLowerCase(), executor);
+        }
+        return executorsMap;
+    }
+
+        private void saveFileToDatabase(MultipartFile file, Journals type) throws SQLException {
         if (validateFile(file)) {
             List<MailTo> saveList = new ArrayList<>();
             fillSaveList(file, type, saveList);
@@ -101,8 +122,8 @@ public class FileSystemStorageService implements StorageService {
         sheet.forEach(row -> saveList.add(parseRowTo(type, row)));
     }
 
-
-    private void saveWithService(Journals type, List<MailTo> list) {
+    private void saveWithService(Journals type, List<MailTo> list) throws SQLException {
+        executorsCache = initCache();
         MailSaver service = null;
         switch (type) {
             case REQUESTS: {
@@ -131,66 +152,54 @@ public class FileSystemStorageService implements StorageService {
             }
         }
         if (Objects.nonNull(service)) {
-            list.forEach(service::save);
+            for (MailTo mail : list) {
+                service.save(mail, executorsCache);
+            }
         }
     }
-
-    // TODO: 20.10.2019 thinking
-    private static String getStringValueFromNumber(Iterator<Cell> cellIterator) {
-        try {
-            return cellIterator.hasNext() ? Double.toString(cellIterator.next().getNumericCellValue()) : "";
-        } catch (Exception e) {
-            //empty body exception
-            e.printStackTrace();
-            return "";
-        }
-    }
-
 
     private static String getStringValue(Iterator<Cell> cellIterator) {
-            Cell next = null;
-        try {
-            if (cellIterator.hasNext()) {
-                next = cellIterator.next();
-            }
-            return Objects.nonNull(next) ? next.getRichStringCellValue().getString() : "";
-        } catch (Exception e) {
-            try {
-                return String.format("%.0f", next.getNumericCellValue());
-            } catch (Exception e1) {
-                return "";
-            }
-        }
+        return getStringValueDefault(cellIterator, "");
     }
 
     private static String getStringValueRequired(Iterator<Cell> cellIterator) {
-        try {
-            return cellIterator.hasNext() ? cellIterator.next().getRichStringCellValue().getString() : "б/н";
-        } catch (Exception e) {
-            //empty body exception
-            return "б/н";
+        return getStringValueDefault(cellIterator, "б/н");
+    }
+
+    private static String getStringValueDefault(Iterator<Cell> cellIterator, String defaultValue) {
+        Cell next = null;
+        if (cellIterator.hasNext()) {
+            next = cellIterator.next();
         }
+        if (Objects.nonNull(next)) {
+            switch (next.getCellType()) {
+                case STRING: {
+                    return next.getRichStringCellValue().getString();
+                }
+                case NUMERIC: {
+                    return String.format("%.0f", next.getNumericCellValue());
+                }
+            }
+        }
+        return defaultValue;
     }
 
     private static LocalDate getDateValue(Iterator<Cell> cellIterator) {
-        try {
-            return cellIterator.hasNext() ? cellIterator.next().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
-        } catch (Exception e) {
-            //empty body exception
-            return null;
-        }
+        return getDateValueDefault(cellIterator, null);
     }
 
     private static LocalDate getDateValueRequired(Iterator<Cell> cellIterator) {
+        return getDateValueDefault(cellIterator, NOW);
+    }
 
+    private static LocalDate getDateValueDefault(Iterator<Cell> cellIterator, LocalDate defaultValue) {
         try {
-            return cellIterator.hasNext() ? cellIterator.next().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : NOW;
+            return cellIterator.hasNext() ? cellIterator.next().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : defaultValue;
         } catch (Exception e) {
             //empty body exception
-            return NOW;
         }
+        return defaultValue;
     }
-//boilerplate code
 
     private static MailTo parseRowTo(Journals type, Row row) {
         ToBuilder builder = new ToBuilder();
@@ -199,7 +208,6 @@ public class FileSystemStorageService implements StorageService {
         constructMiddleFields(type, builder, cellIterator);
         constructExecutorField(type, builder, cellIterator);
         constructTail(type, builder, cellIterator);
-        System.out.println(builder); //todo sout
         return builder.getMailTo();
     }
 

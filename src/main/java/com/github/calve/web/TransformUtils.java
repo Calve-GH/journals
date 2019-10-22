@@ -11,6 +11,10 @@ import java.util.List;
 
 public class TransformUtils {
 
+    public static String clearExecutorName(String name) {
+        return name.trim().toLowerCase();
+    }
+
     public static List<MailTo> getToList(List<? extends Mail> list) {
         List<MailTo> result = new ArrayList<>();
         for (Mail mail : list) {

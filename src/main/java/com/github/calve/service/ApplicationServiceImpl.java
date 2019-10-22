@@ -9,8 +9,10 @@ import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -46,5 +48,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public Application findById(Integer id) {
         return repo.findById(id).orElse(null);
+    }
+
+    @Override
+    public Application save(MailTo mail, Map<String, Executor> cache) throws SQLException {
+        try {
+            Executor executor = cache.get(TransformUtils.clearExecutorName(mail.getExecutor()));
+            return repo.save(TransformUtils.getApplication(mail, executor));
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }
     }
 }

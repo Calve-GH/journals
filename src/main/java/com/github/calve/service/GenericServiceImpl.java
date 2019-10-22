@@ -1,9 +1,7 @@
 package com.github.calve.service;
 
 import com.github.calve.model.Executor;
-import com.github.calve.model.Application;
 import com.github.calve.model.Generic;
-import com.github.calve.repository.ApplicationRepository;
 import com.github.calve.repository.GenericRepository;
 import com.github.calve.to.MailTo;
 import com.github.calve.util.DateTimeUtil;
@@ -13,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class GenericServiceImpl implements GenericService {
     private GenericRepository repo;
@@ -47,5 +47,11 @@ public class GenericServiceImpl implements GenericService {
     @Override
     public Generic findById(Integer id) {
         return repo.findById(id).orElse(null);
+    }
+
+    @Override
+    public Generic save(MailTo mail, Map<String, Executor> cache) {
+        Executor executor = cache.get(TransformUtils.clearExecutorName(mail.getExecutor()));
+        return repo.save(TransformUtils.getGeneric(mail, executor));
     }
 }

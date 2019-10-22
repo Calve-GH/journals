@@ -4,6 +4,7 @@ import com.github.calve.util.Journals;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import static com.github.calve.util.Journals.*;
 
@@ -15,6 +16,16 @@ public class NotificationTo implements Serializable {
     private int applications;
 
     public NotificationTo() {
+    }
+
+    public String getTransferRepresentation() {
+        StringJoiner sj = new StringJoiner(";");
+        sj.add(Integer.toString(this.requests))
+                .add(Integer.toString(this.complaints))
+                .add(Integer.toString(this.generics))
+                .add(Integer.toString(this.info))
+                .add(Integer.toString(this.applications));
+        return sj.toString();
     }
 
     public NotificationTo(Map<Journals, Integer> map) {

@@ -3,7 +3,6 @@ package com.github.calve.service;
 import com.github.calve.model.Complaint;
 import com.github.calve.model.Executor;
 import com.github.calve.repository.ComplaintRepository;
-import com.github.calve.repository.RequestRepository;
 import com.github.calve.to.MailTo;
 import com.github.calve.util.DateTimeUtil;
 import com.github.calve.web.TransformUtils;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class ComplaintServiceImpl implements ComplaintService {
     private ComplaintRepository repo;
@@ -46,5 +47,11 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Override
     public Complaint findById(Integer id) {
         return repo.findById(id).orElse(null);
+    }
+
+    @Override
+    public Complaint save(MailTo mail, Map<String, Executor> cache) {
+        Executor executor = cache.get(TransformUtils.clearExecutorName(mail.getExecutor()));
+        return repo.save(TransformUtils.getComplaint(mail, executor));
     }
 }

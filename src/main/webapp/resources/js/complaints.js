@@ -12,26 +12,8 @@ $(".uploadDocumentOnboarding").on("click", function (evt) {
         contentType: false,
         processData: false,
         success: function (response) {
-            alert("Document uploaded successfully.");
-        }
-    });
-
-    return false;
-});
-
-$(".uploadDocumentOnboarding").on("click", function (evt) {
-    var documentData = new FormData();
-    documentData.append('file', $('input#file.findDocumentOnboarding')[0].files[0]);
-
-    $.ajax({
-        url: "rest/complaints/files/",
-        type: 'POST',
-        data: documentData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            alert("Document uploaded successfully.");
+            successNoty("common.file.upload");
+            clearFilter();
         }
     });
 
@@ -73,6 +55,7 @@ $(function () {
 					"orderable": false
 				},
 				{
+				    "defaultContent": "",
 					"data": "description",
 					"orderable": false
 				},

@@ -2,13 +2,16 @@ package com.github.calve.web.mails;
 
 import com.github.calve.service.ForeignerService;
 import com.github.calve.service.RequestService;
+import com.github.calve.service.StorageService;
 import com.github.calve.to.MailTo;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,13 +19,15 @@ import java.util.List;
 @RequestMapping(value = ForeignerController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ForeignerController {
 
-    public static final String REST_URL = "/rest/foreigners/";
+    static final String REST_URL = "/rest/foreigners/";
 
     private ForeignerService service;
+    private StorageService storageService;
 
     @Autowired
-    public ForeignerController(ForeignerService service) {
+    public ForeignerController(ForeignerService service, StorageService storageService) {
         this.service = service;
+        this.storageService = storageService;
     }
 
     @PostMapping
@@ -52,4 +57,11 @@ public class ForeignerController {
     public void deleteMailById(@PathVariable Integer id) {
         service.delete(id);
     }
+
+    @PostMapping("files/")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
+        storageService.storeForeigners(file);
+    }
+
 }

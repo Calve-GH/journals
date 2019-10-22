@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -47,5 +48,11 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public Request findById(Integer id) {
         return repo.findById(id).orElse(null);
+    }
+
+    @Override
+    public Request save(MailTo mail, Map<String, Executor> cache) {
+        Executor executor = cache.get(TransformUtils.clearExecutorName(mail.getExecutor()));
+        return repo.save(TransformUtils.getRequest(mail, executor));
     }
 }

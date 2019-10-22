@@ -24,7 +24,7 @@ public class NotificationController {
     @GetMapping
     public String getMailNotifications() {
         MailNotificationTo.initMailNotification(service.getNotificationsMap());//boilerplate code
-        return MailNotificationTo.getInstance().toString();
+        return MailNotificationTo.getNotificationTo().getTransferRepresentation();
     }
     @GetMapping("to/")
     public NotificationTo getIndexNotifications() {

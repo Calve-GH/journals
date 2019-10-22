@@ -13,6 +13,7 @@ import com.github.calve.to.MailTo;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping(value = RequestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RequestController {
 
-    public static final String REST_URL = "/rest/requests/";
+    static final String REST_URL = "/rest/requests/";
 
     private RequestService service;
     private StorageService storageService;
@@ -63,7 +64,7 @@ public class RequestController {
 
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void importExcel(@RequestParam("file")MultipartFile file) {
+    public void importExcel(@RequestParam("file")MultipartFile file) throws SQLException {
         storageService.storeRequests(file);
     }
 }
