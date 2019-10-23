@@ -12,6 +12,8 @@ public interface ExecutorService {
 
     Executor save(Executor executor);
 
+    int delete(Integer id);
+
     List<Executor> findAllEnabled();
 
     void enable(Integer id, boolean enable);

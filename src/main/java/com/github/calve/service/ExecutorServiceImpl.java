@@ -29,6 +29,11 @@ public class ExecutorServiceImpl implements ExecutorService {
     }
 
     @Override
+    public int delete(Integer id) {
+        return repository.delete(id);
+    }
+
+    @Override
     public Executor save(Executor executor) {
         return repository.save(executor);
     }

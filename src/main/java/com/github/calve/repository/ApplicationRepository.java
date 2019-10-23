@@ -23,7 +23,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     @Transactional
     @Modifying
     @Query("DELETE FROM Application a where a.id=:id")
-    int delete(@Param("id") Integer id); // TODO: 26.09.2019 mb return id;
+    int delete(@Param("id") Integer id);
 
     Optional<Application> findById(Integer id);
 

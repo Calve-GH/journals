@@ -59,23 +59,12 @@
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
-					<table>
-						<tr>
-							<td>
-                                <select class="form-control" id="locality-dropdown" name="locality">
-                                </select>
-							</td>
-							<td>
-								<div class="form-group">
-									<label for="enabled" class="form-control">enabled</label>
-									<select class="form-control" id="enabled" name="enabled">
-									    <option>true</option>
-                                        <option>false</option>
-                                    </select>
-								</div>
-							</td>
-						</tr>
-                    </table>
+
+                    <div class="form-group">
+                        <label for="name" class="col-form-label"><spring:message code="user.name"/></label>
+                        <input type="text" class="form-control" id="name" name="name"
+                            placeholder="<spring:message code="user.name"/>">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

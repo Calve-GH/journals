@@ -35,6 +35,10 @@ public class TransformUtils {
         return new ExecutorTo(executor.getId(), executor.getName(), executor.isEnabled());
     }
 
+    public static Executor getExecutorFromTo(ExecutorTo to) {
+        return new Executor(to.getId(), to.getName(), to.isEnabled());
+    }
+
     public static MailTo getTo(Mail mail) {
         return new ToBuilder().setId(mail.getId())
                 .setIncomeDate(mail.getIncomeDate())

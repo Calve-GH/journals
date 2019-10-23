@@ -29,13 +29,19 @@ public class ExecutorController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void create(ExecutorTo mail) {
-        service.save(new Executor());
+    public void create(ExecutorTo executor) {
+        service.save(TransformUtils.getExecutorFromTo(executor));
     } //hardcode add converter
 
     @GetMapping("{id}/")
     public ExecutorTo getExecutor(@PathVariable Integer id) {
         return TransformUtils.getExecutorTo(service.findById(id));
+    }
+
+    @DeleteMapping("{id}/")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteMailById(@PathVariable Integer id) {
+        service.delete(id);
     }
 
     @GetMapping

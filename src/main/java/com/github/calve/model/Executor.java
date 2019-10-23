@@ -16,6 +16,12 @@ public class Executor extends AbstractEntity {
     public Executor() {
     }
 
+    public Executor(Integer id, String name, boolean enabled) {
+        super.setId(id);
+        this.name = name;
+        this.enabled = enabled;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
