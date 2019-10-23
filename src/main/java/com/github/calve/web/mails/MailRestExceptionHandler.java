@@ -1,6 +1,7 @@
 package com.github.calve.web.mails;
 
 import com.github.calve.util.exception.ErrorInfo;
+import com.github.calve.util.exception.NotFoundException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,17 +20,29 @@ public class MailRestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.unprocessableEntity().body(getErrorInfo(rootCause));
     }
 
+    @ExceptionHandler(value = {NotFoundException.class})
+    protected ResponseEntity<ErrorInfo> handleExecutorConflict(RuntimeException ex, WebRequest request) {
+        return ResponseEntity.unprocessableEntity().body(getExecutorErrorInfo(ex.getMessage()));
+    }
+
     @ExceptionHandler(value = {Exception.class})
-    protected ResponseEntity<ErrorInfo> handleOtherConflict(RuntimeException ex, WebRequest request) {
+    protected ResponseEntity<ErrorInfo> handleOthersConflict(RuntimeException ex, WebRequest request) {
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
-        System.out.println(rootCause.getLocalizedMessage()); //todo sout
         return ResponseEntity.unprocessableEntity().body(getErrorInfo(rootCause));
+    }
+
+    private static ErrorInfo getExecutorErrorInfo(String msg) {
+        return new ErrorInfo("Ошибка сохранения данных",
+                new String[] {msg});
     }
 
     private static ErrorInfo getErrorInfo(Throwable rootCause) {
         if (rootCause.getLocalizedMessage().contains("_idx")) {
             return new ErrorInfo("Ошибка сохранения данных",
                     new String[] {getUniqueConstraintsMessage(rootCause.getLocalizedMessage())});
+        }
+        if (rootCause.getLocalizedMessage().contains("NOT NULL")) {
+            return new ErrorInfo("Ошибка сохранения данных", new String[] {"Не все обязательные поля заполнены."});
         }
         return new ErrorInfo("Ошибка", new String[] {"Ошибка обработки данных на сервере."});
     }

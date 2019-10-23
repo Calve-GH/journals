@@ -5,6 +5,7 @@ import com.github.calve.model.Request;
 import com.github.calve.repository.RequestRepository;
 import com.github.calve.to.MailTo;
 import com.github.calve.util.DateTimeUtil;
+import com.github.calve.util.exception.NotFoundException;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,11 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Request save(MailTo mail) {
-        Executor executor = service.findExecutorByName(mail.getExecutor().trim());
+        Executor executor = service.findExecutorByName(mail.getExecutor()); //refactoring мб как то по другому.
+        if (executor == null) throw new NotFoundException("Исполнителя не существует в БД");
+        System.out.println(mail); //todo sout
+        if (mail.getIncomeIndex() == null) System.out.println("II is null"); //todo sout
+        else System.out.println("II isn't null"); //todo sout
         return repo.save(TransformUtils.getRequest(mail, executor));
     }
 

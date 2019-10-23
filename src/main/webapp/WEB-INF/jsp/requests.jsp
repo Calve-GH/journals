@@ -113,13 +113,13 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="incomeDate" class="col-form-label"><spring:message code="table.id"/></label>
+									<label for="incomeDate" class="col-form-label"><spring:message code="table.id"/>*</label>
 									<input type="date" class="form-control" id="incomeDate" name="incomeDate">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="incomeIndex" class="col-form-label"><spring:message code="table.ii"/></label>
+									<label for="incomeIndex" class="col-form-label"><spring:message code="table.ii"/>*</label>
 									<input type="text" class="form-control" id="incomeIndex" name="incomeIndex">
 								</div>
 							</td>
@@ -128,13 +128,13 @@
 							<td>
 
 								<div class="form-group">
-									<label for="outerDate" class="col-form-label"><spring:message code="table.od"/></label>
+									<label for="outerDate" class="col-form-label"><spring:message code="table.od"/>*</label>
 									<input type="date" class="form-control" id="outerDate" name="outerDate">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="outerIndex" class="col-form-label"><spring:message code="table.oi"/></label>
+									<label for="outerIndex" class="col-form-label"><spring:message code="table.oi"/>*</label>
 									<input type="text" class="form-control" id="outerIndex" name="outerIndex">
 								</div>
 							</td>
@@ -148,7 +148,7 @@
 							</td>
 							<td>
                                 <div class="form-group">
-                                    <label for="executor" class="col-form-label"><spring:message code="table.ex"/></label>
+                                    <label for="executor" class="col-form-label"><spring:message code="table.ex"/>*</label>
                                     <select class="form-control" id="locality-dropdown" id="executor" name="executor"></select>
                                 </div>
 							</td>
@@ -170,7 +170,7 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/></label>
+									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/>*</label>
 									<input type="text" class="form-control" id="correspondent" name="correspondent">
 								</div>
 							</td>

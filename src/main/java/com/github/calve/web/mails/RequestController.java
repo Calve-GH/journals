@@ -1,18 +1,19 @@
 package com.github.calve.web.mails;
 
+import com.github.calve.service.RequestService;
 import com.github.calve.service.StorageService;
+import com.github.calve.to.MailTo;
+import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.github.calve.model.Executor;
-import com.github.calve.service.RequestService;
-import com.github.calve.service.ExecutorService;
-import com.github.calve.to.MailTo;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,8 +35,12 @@ public class RequestController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createMail(MailTo mail) {
+    public ResponseEntity createMail(@Valid MailTo mail, BindingResult result) {
+        if (result.hasErrors()) {
+            return Util.getStringResponseEntity(result);
+        }
         service.save(mail);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("{id}/")
@@ -64,7 +69,7 @@ public class RequestController {
 
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void importExcel(@RequestParam("file")MultipartFile file) throws SQLException {
+    public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
         storageService.storeRequests(file);
     }
 }

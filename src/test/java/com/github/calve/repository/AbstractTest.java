@@ -3,6 +3,7 @@ package com.github.calve.repository;
 import com.github.calve.service.ApplicationService;
 import com.github.calve.service.ExecutorService;
 import com.github.calve.service.InfoService;
+import com.github.calve.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -28,6 +29,8 @@ public abstract class AbstractTest {
     @Autowired
     private Environment env;
 
+    @Autowired
+    protected RequestRepository requestRepository;
     @Autowired
     protected ApplicationService service;
     @Autowired

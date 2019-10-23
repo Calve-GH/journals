@@ -1,22 +1,29 @@
 package com.github.calve.to;
 
 import com.github.calve.util.DateTimeUtil;
-import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.StringJoiner;
 
 public class MailTo extends BaseTo implements Serializable {
 
+    @NotNull(message = "должна быть задана")//refactoring зачем тогда поля можно оставить в одном месте
     private LocalDate incomeDate;
+    @NotBlank(message = "не может быть пустым")
     private String incomeIndex;
+    @NotBlank(message = "не может быть пустым")
     private String correspondent;
+    @NotNull(message = "должна быть задана")
     private LocalDate outerDate;
+    @NotBlank(message = "не может быть пустым")
     private String outerIndex;
     private String description;
+    @NotBlank(message = "не может быть пустым")
     private String executor;
     private LocalDate doneDate;
     private String doneIndex;
