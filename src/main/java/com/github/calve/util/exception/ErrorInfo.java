@@ -1,4 +1,4 @@
-package com.github.calve.web.mails;
+package com.github.calve.util.exception;
 
 import java.io.Serializable;
 
