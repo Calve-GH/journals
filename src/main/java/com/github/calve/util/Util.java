@@ -27,7 +27,7 @@ public class Util {
         return (start == null || value.compareTo(start) >= 0) && (end == null || value.compareTo(end) <= 0);
     }
 
-    public static ResponseEntity<ErrorInfo> getStringResponseEntity(BindingResult result) {
+    public static ResponseEntity<ErrorInfo> getFieldsErrors(BindingResult result) {
         List<String> listOfErrors = new ArrayList<>(result.getErrorCount());
         for (FieldError fe : result.getFieldErrors()) {
             String msg = fe.getDefaultMessage();

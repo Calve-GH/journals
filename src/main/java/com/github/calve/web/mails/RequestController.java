@@ -37,7 +37,7 @@ public class RequestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity createMail(@Valid MailTo mail, BindingResult result) {
         if (result.hasErrors()) {
-            return Util.getStringResponseEntity(result);
+            return Util.getFieldsErrors(result);
         }
         service.save(mail);
         return ResponseEntity.ok().build();

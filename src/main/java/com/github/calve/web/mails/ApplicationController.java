@@ -3,13 +3,17 @@ package com.github.calve.web.mails;
 import com.github.calve.service.ApplicationService;
 import com.github.calve.service.StorageService;
 import com.github.calve.to.MailTo;
+import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,10 +35,13 @@ public class ApplicationController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createMail(MailTo mail) {
+    public ResponseEntity createMail(@Valid MailTo mail, BindingResult result) {
+        if (result.hasErrors()) {
+            return Util.getFieldsErrors(result);
+        }
         service.save(mail);
+        return ResponseEntity.ok().build();
     }
-
     @GetMapping("{id}/")
     public MailTo getMail(@PathVariable Integer id) {
         return TransformUtils.getTo(service.findById(id));
