@@ -8,6 +8,7 @@ drop table IF EXISTS executors;
 drop sequence IF EXISTS global_seq;
 
 create sequence global_seq start with 100000;
+create sequence outgoing_seq start with 1;
 
 create TABLE executors
 (
@@ -118,3 +119,16 @@ create TABLE applications
   FOREIGN KEY (executor_id) REFERENCES executors (id)
 );
 CREATE UNIQUE INDEX applications_idx ON applications (income_date, income_index);
+
+create TABLE outgoing
+(
+  id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  sent_date        TIMESTAMP               NOT NULL,
+  proceeding       VARCHAR                 NOT NULL,
+  index            INTEGER   			   DEFAULT nextval('outgoing_seq'),
+  correspondent    VARCHAR                 NOT NULL,
+  description      VARCHAR                 ,
+  executor_id      INTEGER   			   NOT NULL,
+  FOREIGN KEY (executor_id) REFERENCES executors (id)
+);
+CREATE UNIQUE INDEX outgoing_idx ON outgoing (sent_date, index);
