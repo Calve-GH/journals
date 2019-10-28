@@ -3,6 +3,7 @@ package com.github.calve.web;
 import com.github.calve.model.*;
 import com.github.calve.to.ExecutorTo;
 import com.github.calve.to.MailTo;
+import com.github.calve.to.OutMailTo;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
 
@@ -23,6 +24,14 @@ public class TransformUtils {
         return result;
     }
 
+    public static List<OutMailTo> getToListFromOutgoing(List<OutgoingMail> list) {
+        List<OutMailTo> result = new ArrayList<>();
+        for (OutgoingMail mail : list) {
+            result.add(getToFromOutgoing(mail));
+        }
+        return result;
+    }
+
     public static List<ExecutorTo> getExecutorsToList(List<? extends Executor> list) {
         List<ExecutorTo> result = new ArrayList<>();
         for (Executor executor : list) {
@@ -37,6 +46,17 @@ public class TransformUtils {
 
     public static Executor getExecutorFromTo(ExecutorTo to) {
         return new Executor(to.getId(), to.getName(), to.isEnabled());
+    }
+
+    public static OutMailTo getToFromOutgoing(OutgoingMail mail) {
+        return new ToBuilder().setId(mail.getId())
+                .setOuterDate(mail.getOuterDate())
+                .setProceedingNumber(mail.getProceedingNumber())
+                .setOuterIndex(mail.getOuterIndex())
+                .setCorrespondent(mail.getCorrespondent())
+                .setDescription(mail.getDescription())
+                .setExecutor(mail.getExecutor().getName())
+                .getOutMailTo();
     }
 
     public static MailTo getTo(Mail mail) {
@@ -148,5 +168,16 @@ public class TransformUtils {
                 .setDoneIndex(mail.getDoneIndex())
                 .setDoneResult(mail.getDoneResult())
                 .getInfo();
+    }
+
+    public static OutgoingMail getOutgoing(OutMailTo mail, Executor executor) {
+        return new MailBuilder().setId(mail.getId())
+                .setOuterDate(mail.getOuterDate())
+                .setNumberIndex(mail.getOuterIndex())
+                .setProceedingNumber(mail.getProceedingNumber())
+                .setCorrespondent(mail.getCorrespondent())
+                .setDescription(mail.getDescription())
+                .setExecutor(executor)
+                .getOutgoing();
     }
 }

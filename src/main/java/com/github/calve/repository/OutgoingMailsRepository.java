@@ -1,6 +1,7 @@
 package com.github.calve.repository;
 
 import com.github.calve.model.OutgoingMail;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,9 @@ public interface OutgoingMailsRepository extends JpaRepository<OutgoingMail, Int
     @Transactional
     <O extends OutgoingMail> O save(O entity);
 
+    @Query("SELECT count(*) FROM OutgoingMail m where year(m.outerDate)=:year")
+    int countByYear(@Param("year") Integer year);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM OutgoingMail m where m.id=:id")
@@ -29,7 +33,7 @@ public interface OutgoingMailsRepository extends JpaRepository<OutgoingMail, Int
 
     //refactoring n + 1 PROBLEM
 //    @EntityGraph(attributePaths = {})
-    @Query("SELECT o FROM OutgoingMail o WHERE o.sentDate BETWEEN :from AND :to ")
+    @Query("SELECT o FROM OutgoingMail o WHERE o.outerDate BETWEEN :from AND :to ")
     List<OutgoingMail> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 
 }

@@ -59,7 +59,7 @@ public class MailTo extends BaseTo implements Serializable {
         this.executor = executor;
         this.doneDate = doneDate;
         this.doneIndex = doneIndex;
-        if (Objects.isNull(this.doneDate)) {
+        if (Objects.nonNull(this.incomeDate) && Objects.isNull(this.doneDate)) {
             this.remains = DateTimeUtil.initRemains(this.incomeDate);
             this.excess = DateTimeUtil.initExcess(this.incomeDate);
         }

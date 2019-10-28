@@ -1,29 +1,62 @@
 package com.github.calve.service;
 
+import com.github.calve.model.Executor;
 import com.github.calve.model.OutgoingMail;
+import com.github.calve.repository.OutgoingMailsRepository;
+import com.github.calve.to.MailTo;
+import com.github.calve.to.OutMailTo;
+import com.github.calve.web.TransformUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
-// TODO: 25.10.2019  
+@Service
 public class OutgoingMailsServiceImpl implements OutgoingMailsService {
+
+    private OutgoingMailsRepository outgoingMailsRepository;
+    private ExecutorService executorService;
+
+    @Autowired
+    public OutgoingMailsServiceImpl(OutgoingMailsRepository outgoingMailsRepository, ExecutorService executorService) {
+        this.outgoingMailsRepository = outgoingMailsRepository;
+        this.executorService = executorService;
+    }
+
     @Override
     public List<OutgoingMail> findMails() {
-        return null;
+        return outgoingMailsRepository.findAll();
     }
 
     @Override
     public List<OutgoingMail> findMailsBetween(LocalDate from, LocalDate to) {
-        return null;
+        return outgoingMailsRepository.getBetween(from, to);
     }
 
     @Override
     public int delete(Integer id) {
-        return 0;
+        return outgoingMailsRepository.delete(id);
     }
 
     @Override
     public OutgoingMail findById(Integer id) {
-        return null;
+        return outgoingMailsRepository.findById(id).orElse(null);
+    }
+
+    public int count() { // TODO: 28.10.2019  
+        return outgoingMailsRepository.countByYear(LocalDate.now().getYear()) + 1;
+    }
+
+    @Override
+    public OutgoingMail save(OutMailTo mail) { // TODO: 28.10.2019 а как же 2й TO
+        Executor executor = executorService.findExecutorByName(mail.getExecutor());
+        if (Objects.isNull(mail.getOuterIndex())) {
+            int index = outgoingMailsRepository.countByYear(LocalDate.now().getYear()) + 1;
+            mail.setOuterIndex(index);
+        }
+        return outgoingMailsRepository.save(TransformUtils.getOutgoing(mail, executor));
     }
 }

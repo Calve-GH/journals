@@ -2,7 +2,10 @@ package com.github.calve.repository;
 
 import com.github.calve.model.Executor;
 import com.github.calve.model.Info;
+import com.github.calve.model.OutgoingMail;
 import com.github.calve.model.Request;
+import com.github.calve.to.OutMailTo;
+import com.github.calve.web.TransformUtils;
 import com.github.calve.web.json.JsonUtil;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +14,15 @@ import java.util.List;
 public class DataJpaTest extends AbstractTest {
 
     private final static Executor executor = new Executor("Матвеева А.И.");
+
+    @Test
+    void test0() {
+        List<OutgoingMail> mails = outgoingMailsService.findMails();
+        System.out.println(mails); //todo sout
+
+        List<OutMailTo> toListFromOutgoing = TransformUtils.getToListFromOutgoing(mails);
+        System.out.println(toListFromOutgoing); //todo sout
+    }
 
     @Test
     void test1() {

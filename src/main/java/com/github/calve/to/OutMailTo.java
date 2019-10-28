@@ -1,35 +1,34 @@
-package com.github.calve.model;
+package com.github.calve.to;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.StringJoiner;
 
-@Entity()
-@Table(name = "outgoing")
-public class OutgoingMail extends AbstractEntity implements Mail {
-
-    @Column(name = "sent_date", nullable = false)
+public class OutMailTo extends BaseTo implements Serializable {
+    @NotNull(message = "должна быть задана")
     private LocalDate outerDate;
-    @Column(name = "proceeding", nullable = false)
+    @NotNull(message = "должн быть задан")
     private String proceedingNumber;
-    @Column(name = "index")
     private Integer outerIndex;
-    @Column(name = "correspondent", nullable = false)
+    @NotBlank(message = "не может быть пустым")
     private String correspondent;
-    @Column(name = "description", nullable = false)
     private String description;
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Executor executor;
+    @NotBlank(message = "не может быть пустым")
+    private String executor;
+    private boolean excess = false;
 
-    public OutgoingMail() {
+    public OutMailTo() {
     }
 
-    public OutgoingMail(Integer id, LocalDate sentDate, String proceeding, Integer index, String correspondent, String description, Executor executor) {
-        super.setId(id);
-        this.outerDate = sentDate;
-        this.proceedingNumber = proceeding;
-        this.outerIndex = index;
+    public OutMailTo(Integer id, LocalDate outerDate, String proceedingNumber,
+                     Integer outerIndex, String correspondent,
+                     String description, String executor) {
+        super(id);
+        this.outerDate = outerDate;
+        this.proceedingNumber = proceedingNumber;
+        this.outerIndex = outerIndex;
         this.correspondent = correspondent;
         this.description = description;
         this.executor = executor;
@@ -51,8 +50,8 @@ public class OutgoingMail extends AbstractEntity implements Mail {
         this.proceedingNumber = proceedingNumber;
     }
 
-    public String getOuterIndex() {
-        return Integer.toString(outerIndex);
+    public Integer getOuterIndex() {
+        return outerIndex;
     }
 
     public void setOuterIndex(Integer outerIndex) {
@@ -75,23 +74,32 @@ public class OutgoingMail extends AbstractEntity implements Mail {
         this.description = description;
     }
 
-    public Executor getExecutor() {
+    public String getExecutor() {
         return executor;
     }
 
-    public void setExecutor(Executor executor) {
+    public void setExecutor(String executor) {
         this.executor = executor;
+    }
+
+    public boolean isExcess() {
+        return excess;
+    }
+
+    public void setExcess(boolean excess) {
+        this.excess = excess;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", OutgoingMail.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", OutMailTo.class.getSimpleName() + "[", "]")
                 .add("outerDate=" + outerDate)
                 .add("proceedingNumber='" + proceedingNumber + "'")
                 .add("outerIndex=" + outerIndex)
                 .add("correspondent='" + correspondent + "'")
                 .add("description='" + description + "'")
-                .add("executor=" + executor)
+                .add("executor='" + executor + "'")
+                .add("excess=" + excess)
                 .toString();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 @ControllerAdvice
 public class MailRestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -27,6 +28,7 @@ public class MailRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<ErrorInfo> handleOthersConflict(RuntimeException ex, WebRequest request) {
+        ex.printStackTrace();
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
         return ResponseEntity.unprocessableEntity().body(getErrorInfo(rootCause));
     }
@@ -37,12 +39,14 @@ public class MailRestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private static ErrorInfo getErrorInfo(Throwable rootCause) {
-        if (rootCause.getLocalizedMessage().contains("_idx")) {
-            return new ErrorInfo("Ошибка сохранения данных",
-                    new String[] {getUniqueConstraintsMessage(rootCause.getLocalizedMessage())});
-        }
-        if (rootCause.getLocalizedMessage().contains("NOT NULL")) {
-            return new ErrorInfo("Ошибка сохранения данных", new String[] {"Не все обязательные поля заполнены."});
+        if (Objects.nonNull(rootCause) && Objects.nonNull(rootCause.getLocalizedMessage())) {
+            if (rootCause.getLocalizedMessage().contains("_idx")) {
+                return new ErrorInfo("Ошибка сохранения данных",
+                        new String[]{getUniqueConstraintsMessage(rootCause.getLocalizedMessage())});
+            }
+            if (rootCause.getLocalizedMessage().contains("NOT NULL")) {
+                return new ErrorInfo("Ошибка сохранения данных", new String[]{"Не все обязательные поля заполнены."});
+            }
         }
         return new ErrorInfo("Ошибка", new String[] {"Ошибка обработки данных на сервере."});
     }

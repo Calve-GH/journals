@@ -24,6 +24,7 @@ public class MailBuilder {
     private String authority;
     private String proceedingNumber;
     private String debtor;
+    private Integer numberIndex;
 
     public Request getRequest() {
         return new Request(this.id, this.incomeDate, this.incomeIndex, this.correspondent, this.outerDate,
@@ -54,6 +55,16 @@ public class MailBuilder {
     public Info getInfo() {
         return new Info(this.id, this.incomeDate, this.incomeIndex, this.correspondent, this.outerDate,
                 this.outerIndex, this.description, this.executor, this.doneDate, this.doneIndex, this.doneResult);
+    }
+
+    public OutgoingMail getOutgoing() {
+        return new OutgoingMail(this.id, outerDate, this.proceedingNumber, this.numberIndex,
+                this.correspondent, this.description, this.executor);
+    }
+
+    public MailBuilder setNumberIndex(Integer numberIndex) {
+        this.numberIndex = numberIndex;
+        return this;
     }
 
     public MailBuilder setId(Integer id) {
