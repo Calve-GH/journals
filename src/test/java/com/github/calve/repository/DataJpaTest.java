@@ -8,12 +8,24 @@ import com.github.calve.to.OutMailTo;
 import com.github.calve.web.TransformUtils;
 import com.github.calve.web.json.JsonUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public class DataJpaTest extends AbstractTest {
 
     private final static Executor executor = new Executor("Матвеева А.И.");
+
+    @Test
+    void testPage() {
+        Pageable pageable = PageRequest.of(0, 20);
+        Page<Request> page = requestRepository.findAll(pageable);
+        System.out.println(page.getTotalElements()); //todo sout
+        System.out.println(page.getTotalPages()); //todo sout
+        page.get().forEach(System.out::println);
+    }
 
     @Test
     void test0() {

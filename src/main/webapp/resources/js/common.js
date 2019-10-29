@@ -10,7 +10,7 @@ function makeEditable(ctx) {
                     "url": context.ajaxUrl,
                     "dataSrc": ""
                 },
-                "paging": false,
+                "paging": true,
                 "info": true,
                 "language": {
                     "search": i18n["common.search"]

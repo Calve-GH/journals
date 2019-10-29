@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "requests")
@@ -46,4 +47,11 @@ public class Request extends AbstractMail {
         this.doneIndex = doneIndex;
     }
 
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Request.class.getSimpleName() + "[", "]")
+                .add("doneDate=" + super.getId())
+                .add("doneIndex='" + super.getOuterDate())
+                .toString();
+    }
 }

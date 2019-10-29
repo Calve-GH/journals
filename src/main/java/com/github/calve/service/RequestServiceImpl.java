@@ -8,6 +8,8 @@ import com.github.calve.util.DateTimeUtil;
 import com.github.calve.util.exception.NotFoundException;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -59,5 +61,10 @@ public class RequestServiceImpl implements RequestService {
     public Request save(MailTo mail, Map<String, Executor> cache) {
         Executor executor = cache.get(TransformUtils.clearExecutorName(mail.getExecutor()));
         return repo.save(TransformUtils.getRequest(mail, executor));
+    }
+
+    @Override
+    public Page<Request> findAll(Pageable pageable) {
+        return repo.findAll(pageable);
     }
 }

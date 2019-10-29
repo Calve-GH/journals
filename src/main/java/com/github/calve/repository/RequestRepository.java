@@ -1,6 +1,8 @@
 package com.github.calve.repository;
 
 import com.github.calve.model.Request;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,4 +36,7 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 //    @EntityGraph(attributePaths = {})
     @Query("SELECT r FROM Request r WHERE r.incomeDate BETWEEN :from AND :to ")
     List<Request> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
+
+    @Override
+    Page<Request> findAll(Pageable pageable);
 }
