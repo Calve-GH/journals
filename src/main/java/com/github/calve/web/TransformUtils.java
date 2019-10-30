@@ -1,9 +1,9 @@
 package com.github.calve.web;
 
 import com.github.calve.model.*;
+import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.ExecutorTo;
 import com.github.calve.to.MailTo;
-import com.github.calve.to.OutMailTo;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
 
@@ -24,8 +24,8 @@ public class TransformUtils {
         return result;
     }
 
-    public static List<OutMailTo> getToListFromOutgoing(List<OutgoingMail> list) {
-        List<OutMailTo> result = new ArrayList<>();
+    public static List<BaseMailTo> getBaseToList(List<OutgoingMail> list) {
+        List<BaseMailTo> result = new ArrayList<>();
         for (OutgoingMail mail : list) {
             result.add(getToFromOutgoing(mail));
         }
@@ -48,26 +48,26 @@ public class TransformUtils {
         return new Executor(to.getId(), to.getName(), to.isEnabled());
     }
 
-    public static OutMailTo getToFromOutgoing(OutgoingMail mail) {
+    private static ToBuilder getBaseToBuilder(Mail mail) {
         return new ToBuilder().setId(mail.getId())
                 .setOuterDate(mail.getOuterDate())
-                .setProceedingNumber(mail.getProceedingNumber())
-                .setOuterIndex(mail.getOuterIndex())
                 .setCorrespondent(mail.getCorrespondent())
                 .setDescription(mail.getDescription())
-                .setExecutor(mail.getExecutor().getName())
-                .getOutMailTo();
+                .setExecutor(mail.getExecutor().getName());
+    }
+
+    public static BaseMailTo getToFromOutgoing(OutgoingMail mail) {
+        return getBaseToBuilder(mail)
+                .setOuterIndex(mail.getProceedingNumber())
+                .setGenIndex(mail.getGenIndex())
+                .getBaseMailTo();
     }
 
     public static MailTo getTo(Mail mail) {
-        return new ToBuilder().setId(mail.getId())
+        return getBaseToBuilder(mail)
                 .setIncomeDate(mail.getIncomeDate())
                 .setIncomeIndex(mail.getIncomeIndex())
-                .setCorrespondent(mail.getCorrespondent())
-                .setOuterDate(mail.getOuterDate())
                 .setOuterIndex(mail.getOuterIndex())
-                .setDescription(mail.getDescription())
-                .setExecutor(mail.getExecutor().getName())
                 .setDoneDate(mail.getDoneDate())
                 .setDoneIndex(mail.getDoneIndex())
                 .setDoneResult(mail.getDoneResult())
@@ -77,10 +77,9 @@ public class TransformUtils {
                 .setWorkIndex(mail.getWorkIndex())
                 .setAuthority(mail.getAuthority())
                 .getMailTo();
-
     }
-    //refactoring all methods
-    public static Request getRequest(MailTo mail, Executor executor) {
+
+    private static MailBuilder getBaseBuilder(MailTo mail, Executor executor) {
         return new MailBuilder().setId(mail.getId())
                 .setIncomeDate(mail.getIncomeDate())
                 .setIncomeIndex(mail.getIncomeIndex())
@@ -88,66 +87,40 @@ public class TransformUtils {
                 .setOuterDate(mail.getOuterDate())
                 .setOuterIndex(mail.getOuterIndex())
                 .setDescription(mail.getDescription())
-                .setExecutor(executor)
+                .setExecutor(executor);
+    }
+
+    private static MailBuilder getDoneBuilder(MailTo mail, Executor executor) {
+        return getBaseBuilder(mail, executor)
                 .setDoneDate(mail.getDoneDate())
-                .setDoneIndex(mail.getDoneIndex())
+                .setDoneIndex(mail.getDoneIndex());
+    }
+
+    public static Request getRequest(MailTo mail, Executor executor) {
+        return getDoneBuilder(mail, executor)
                 .getRequest();
     }
 
     public static Generic getGeneric(MailTo mail, Executor executor) { // TODO: 04.10.2019
-        return new MailBuilder().setId(mail.getId())
-                .setIncomeDate(mail.getIncomeDate())
-                .setIncomeIndex(mail.getIncomeIndex())
-                .setCorrespondent(mail.getCorrespondent())
-                .setOuterDate(mail.getOuterDate())
-                .setOuterIndex(mail.getOuterIndex())
-                .setDescription(mail.getDescription())
-                .setExecutor(executor)
-                .setDoneDate(mail.getDoneDate())
-                .setDoneIndex(mail.getDoneIndex())
+        return getDoneBuilder(mail, executor)
                 .getGeneric();
     }
 
     public static Complaint getComplaint(MailTo mail, Executor executor) {// TODO: 04.10.2019
-        return new MailBuilder().setId(mail.getId())
-                .setIncomeDate(mail.getIncomeDate())
-                .setIncomeIndex(mail.getIncomeIndex())
-                .setCorrespondent(mail.getCorrespondent())
-                .setOuterDate(mail.getOuterDate())
-                .setOuterIndex(mail.getOuterIndex())
-                .setDescription(mail.getDescription())
-                .setExecutor(executor)
-                .setDoneDate(mail.getDoneDate())
-                .setDoneIndex(mail.getDoneIndex())
+        return getDoneBuilder(mail, executor)
                 .setDoneResult(mail.getDoneResult())
                 .getComplaint();
     }
 
     public static Foreigner getForeigner(MailTo mail, Executor executor) {
-        return new MailBuilder().setId(mail.getId())
-                .setIncomeDate(mail.getIncomeDate())
-                .setIncomeIndex(mail.getIncomeIndex())
-                .setCorrespondent(mail.getCorrespondent())
-                .setOuterDate(mail.getOuterDate())
-                .setOuterIndex(mail.getOuterIndex())
-                .setDescription(mail.getDescription())
-                .setExecutor(executor)
+        return getBaseBuilder(mail, executor)
                 .setProceedingNumber(mail.getProceedingNumber())
                 .setDebtor(mail.getDebtor())
                 .getForeigner();
     }
 
     public static Application getApplication(MailTo mail, Executor executor) {
-        return new MailBuilder().setId(mail.getId())
-                .setIncomeDate(mail.getIncomeDate())
-                .setIncomeIndex(mail.getIncomeIndex())
-                .setCorrespondent(mail.getCorrespondent())
-                .setOuterDate(mail.getOuterDate())
-                .setOuterIndex(mail.getOuterIndex())
-                .setDescription(mail.getDescription())
-                .setExecutor(executor)
-                .setDoneDate(mail.getDoneDate())
-                .setDoneIndex(mail.getDoneIndex())
+        return getDoneBuilder(mail, executor)
                 .setWorkDate(mail.getWorkDate())
                 .setWorkIndex(mail.getWorkIndex())
                 .setAuthority(mail.getAuthority())
@@ -156,25 +129,18 @@ public class TransformUtils {
     }
 
     public static Info getInfo(MailTo mail, Executor executor) {
-        return new MailBuilder().setId(mail.getId())
-                .setIncomeDate(mail.getIncomeDate())
-                .setIncomeIndex(mail.getIncomeIndex())
-                .setCorrespondent(mail.getCorrespondent())
-                .setOuterDate(mail.getOuterDate())
-                .setOuterIndex(mail.getOuterIndex())
-                .setDescription(mail.getDescription())
-                .setExecutor(executor)
+        return getBaseBuilder(mail, executor)
                 .setDoneDate(mail.getDoneDate())
                 .setDoneIndex(mail.getDoneIndex())
                 .setDoneResult(mail.getDoneResult())
                 .getInfo();
     }
 
-    public static OutgoingMail getOutgoing(OutMailTo mail, Executor executor) {
+    public static OutgoingMail getOutgoing(BaseMailTo mail, Executor executor) {
         return new MailBuilder().setId(mail.getId())
                 .setOuterDate(mail.getOuterDate())
-                .setNumberIndex(mail.getOuterIndex())
-                .setProceedingNumber(mail.getProceedingNumber())
+                .setGenIndex(mail.getGenIndex())
+                .setProceedingNumber(mail.getOuterIndex())
                 .setCorrespondent(mail.getCorrespondent())
                 .setDescription(mail.getDescription())
                 .setExecutor(executor)

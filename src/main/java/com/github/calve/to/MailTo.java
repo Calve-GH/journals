@@ -3,28 +3,17 @@ package com.github.calve.to;
 import com.github.calve.util.DateTimeUtil;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class MailTo extends BaseTo implements Serializable {
+public class MailTo extends BaseMailTo {
 
-    @NotNull(message = "должна быть задана")//refactoring зачем тогда поля можно оставить в одном месте
+    @NotNull(message = "должна быть задана")
     private LocalDate incomeDate;
     @NotBlank(message = "не может быть пустым")
     private String incomeIndex;
-    @NotBlank(message = "не может быть пустым")
-    private String correspondent;
-    @NotNull(message = "должна быть задана")
-    private LocalDate outerDate;
-    @NotBlank(message = "не может быть пустым")
-    private String outerIndex;
-    private String description;
-    @NotBlank(message = "не может быть пустым")
-    private String executor;
     private LocalDate doneDate;
     private String doneIndex;
     private String doneResult;
@@ -34,7 +23,6 @@ public class MailTo extends BaseTo implements Serializable {
     private String workIndex;
     private String authority;
     private long remains = 0;
-    private boolean excess = false;
 
     public MailTo() {
     }
@@ -49,7 +37,7 @@ public class MailTo extends BaseTo implements Serializable {
     }
 
     public MailTo(Integer id, LocalDate incomeDate, String incomeIndex, String correspondent, LocalDate outerDate, String outerIndex, String description, String executor, LocalDate doneDate, String doneIndex) {
-        super(id);
+        super.setId(id);
         this.incomeDate = incomeDate;
         this.incomeIndex = incomeIndex;
         this.correspondent = correspondent;
@@ -74,7 +62,7 @@ public class MailTo extends BaseTo implements Serializable {
 
     public MailTo(Integer id, LocalDate incomeDate, String incomeIndex, String correspondent, LocalDate outerDate,
                   String outerIndex, String description, String executor, String proceedingNumber, String debtor) {
-        super(id);
+        super.setId(id);
         this.incomeDate = incomeDate;
         this.incomeIndex = incomeIndex;
         this.correspondent = correspondent;
@@ -256,7 +244,7 @@ public class MailTo extends BaseTo implements Serializable {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", MailTo.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", \n", MailTo.class.getSimpleName() + "[", "]")
                 .add("incomeDate=" + incomeDate)
                 .add("incomeIndex='" + incomeIndex + "'")
                 .add("correspondent='" + correspondent + "'")

@@ -1,7 +1,7 @@
 package com.github.calve.util.builders;
 
+import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.MailTo;
-import com.github.calve.to.OutMailTo;
 
 import java.time.LocalDate;
 import java.util.StringJoiner;
@@ -24,7 +24,7 @@ public class ToBuilder {
     private String authority;
     private String proceedingNumber;
     private String debtor;
-    private Integer numberIndex;
+    private Integer genIndex;
 
     public MailTo getMailTo() {
         return new MailTo(this.id, this.incomeDate, this.incomeIndex, this.correspondent, this.outerDate,
@@ -32,20 +32,19 @@ public class ToBuilder {
                 this.proceedingNumber, this.debtor, this.workDate, this.workIndex, this.authority);
     }
 
-    // TODO: 28.10.2019 тут поплава int -> str -> int -> str simplify pls
-    public OutMailTo getOutMailTo() {
-        return new OutMailTo(this.id, this.outerDate, this.proceedingNumber, Integer.parseInt(this.outerIndex),
+    public BaseMailTo getBaseMailTo() {
+        return new BaseMailTo(this.id, this.outerDate, this.outerIndex, this.genIndex,
                 this.correspondent, this.description, this.executor);
     }
 
-    public MailTo getRequest() {
+/*    public MailTo getRequest() {
         return new MailTo(this.id, this.incomeDate, this.incomeIndex, this.correspondent,
                 this.outerDate, this.outerIndex, this.description, this.executor,
                 this.doneDate, this.doneIndex);
-    }
+    }*/
 
-    public ToBuilder setNumberIndex(Integer numberIndex) {
-        this.numberIndex = numberIndex;
+    public ToBuilder setGenIndex(Integer genIndex) {
+        this.genIndex = genIndex;
         return this;
     }
 

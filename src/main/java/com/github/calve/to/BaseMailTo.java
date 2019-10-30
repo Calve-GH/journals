@@ -6,32 +6,40 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.StringJoiner;
 
-public class OutMailTo extends BaseTo implements Serializable {
+public class BaseMailTo extends BaseTo implements Serializable {
     @NotNull(message = "должна быть задана")
-    private LocalDate outerDate;
+    protected LocalDate outerDate;
     @NotNull(message = "должн быть задан")
-    private String proceedingNumber;
-    private Integer outerIndex;
+    protected String outerIndex;
+    private Integer genIndex;
     @NotBlank(message = "не может быть пустым")
-    private String correspondent;
-    private String description;
+    protected String correspondent;
+    protected String description;
     @NotBlank(message = "не может быть пустым")
-    private String executor;
-    private boolean excess = false;
+    protected String executor;
+    protected boolean excess = false;
 
-    public OutMailTo() {
+    public BaseMailTo() {
     }
 
-    public OutMailTo(Integer id, LocalDate outerDate, String proceedingNumber,
-                     Integer outerIndex, String correspondent,
-                     String description, String executor) {
+    public BaseMailTo(Integer id, LocalDate outerDate, String outerIndex,
+                      Integer genIndex, String correspondent,
+                      String description, String executor) {
         super(id);
         this.outerDate = outerDate;
-        this.proceedingNumber = proceedingNumber;
         this.outerIndex = outerIndex;
+        this.genIndex = genIndex;
         this.correspondent = correspondent;
         this.description = description;
         this.executor = executor;
+    }
+
+    public void setId(Integer id) {
+        super.setId(id);
+    }
+
+    public Integer getId() {
+        return super.getId();
     }
 
     public LocalDate getOuterDate() {
@@ -42,20 +50,20 @@ public class OutMailTo extends BaseTo implements Serializable {
         this.outerDate = outerDate;
     }
 
-    public String getProceedingNumber() {
-        return proceedingNumber;
-    }
-
-    public void setProceedingNumber(String proceedingNumber) {
-        this.proceedingNumber = proceedingNumber;
-    }
-
-    public Integer getOuterIndex() {
+    public String getOuterIndex() {
         return outerIndex;
     }
 
-    public void setOuterIndex(Integer outerIndex) {
+    public void setOuterIndex(String outerIndex) {
         this.outerIndex = outerIndex;
+    }
+
+    public Integer getGenIndex() {
+        return genIndex;
+    }
+
+    public void setGenIndex(Integer genIndex) {
+        this.genIndex = genIndex;
     }
 
     public String getCorrespondent() {
@@ -92,10 +100,10 @@ public class OutMailTo extends BaseTo implements Serializable {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", OutMailTo.class.getSimpleName() + "[", "]")
+        return new StringJoiner(",\n", BaseMailTo.class.getSimpleName() + "[", "]")
                 .add("outerDate=" + outerDate)
-                .add("proceedingNumber='" + proceedingNumber + "'")
-                .add("outerIndex=" + outerIndex)
+                .add("outerIndex='" + outerIndex + "'")
+                .add("genIndex=" + genIndex)
                 .add("correspondent='" + correspondent + "'")
                 .add("description='" + description + "'")
                 .add("executor='" + executor + "'")

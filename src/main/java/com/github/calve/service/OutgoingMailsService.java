@@ -1,8 +1,7 @@
 package com.github.calve.service;
 
 import com.github.calve.model.OutgoingMail;
-import com.github.calve.to.MailTo;
-import com.github.calve.to.OutMailTo;
+import com.github.calve.to.BaseMailTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +11,7 @@ public interface OutgoingMailsService {
 
     List<OutgoingMail> findMailsBetween(LocalDate from, LocalDate to);
 
-    OutgoingMail save(OutMailTo mail);
+    OutgoingMail save(BaseMailTo mail);
 //
 //    OutgoingMail save(MailTo mail, Map<String, Executor> cache) throws SQLException;
 

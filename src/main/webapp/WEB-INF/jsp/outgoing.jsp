@@ -60,7 +60,7 @@
         <h3><spring:message code="applications.header.first"/></hr></br>
         <hr><spring:message code="applications.header.second"/></h3>
         </div>
-        <table class="table table-striped" id="datatable">
+        <table class="table table-striped table-bordered table-sm" id="datatable" width = "100%" style = "margin: 0px;">
             <thead>
             <tr>
                 <th width="70px"><spring:message code="table.od"/></th>
@@ -75,11 +75,11 @@
             </thead>
             <tbody>
             <c:forEach items="${mails}" var="mail">
-                <jsp:useBean id="mail" type="com.github.calve.to.OutMailTo"/>
+                <jsp:useBean id="mail" type="com.github.calve.to.BaseMailTo"/>
                 <tr data-mealExcess="${mail.excess}">
                     <td>${fn:formatDateTime(mail.outerDate)}</td>
-                    <td>${mail.proceedingNumber}</td>
                     <td>${mail.outerIndex}</td>
+                    <td>${mail.genIndex}</td>
                     <td>${mail.correspondent}</td>
                     <td>${mail.description}</td>
                     <td>${mail.executor}</td>
@@ -111,16 +111,16 @@
                             </td>
 							<td>
 								<div class="form-group">
-									<label for="proceedingNumber" class="col-form-label"><spring:message code="table.pn"/></label>
-									<input type="text" class="form-control" id="proceedingNumber" name="proceedingNumber">
+									<label for="outerIndex" class="col-form-label"><spring:message code="table.pn"/></label>
+									<input type="text" class="form-control" id="outerIndex" name="outerIndex">
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="outerIndex" class="col-form-label"><spring:message code="table.oi"/></label>
-									<input type="number" class="form-control" id="outerIndex" name="outerIndex">
+									<label for="genIndex" class="col-form-label"><spring:message code="table.oi"/></label>
+									<input type="number" class="form-control" id="genIndex" name="genIndex">
 								</div>
 							</td>
 							<td>

@@ -43,10 +43,10 @@ $(function () {
 				},
 				{
                     "defaultContent": "",
-					"data": "proceedingNumber"
+					"data": "outerIndex"
 				},
 				{
-					"data": "outerIndex",
+					"data": "genIndex",
 				},
 				{
 				    "defaultContent": "",

@@ -1,12 +1,9 @@
 package com.github.calve.repository;
 
-import com.github.calve.model.Executor;
-import com.github.calve.model.Info;
-import com.github.calve.model.OutgoingMail;
-import com.github.calve.model.Request;
-import com.github.calve.to.OutMailTo;
+import com.github.calve.model.*;
+import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.MailTo;
 import com.github.calve.web.TransformUtils;
-import com.github.calve.web.json.JsonUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +29,7 @@ public class DataJpaTest extends AbstractTest {
         List<OutgoingMail> mails = outgoingMailsService.findMails();
         System.out.println(mails); //todo sout
 
-        List<OutMailTo> toListFromOutgoing = TransformUtils.getToListFromOutgoing(mails);
+        List<BaseMailTo> toListFromOutgoing = TransformUtils.getBaseToList(mails);
         System.out.println(toListFromOutgoing); //todo sout
     }
 
@@ -51,7 +48,12 @@ public class DataJpaTest extends AbstractTest {
 
     @Test
     void findAllEnabled() {
-        List<Executor> allEnabled = executorService.findAllEnabled();
-        System.out.println(allEnabled); //todo sout
+//        List<Executor> allEnabled = executorService.findAllEnabled();
+//        System.out.println(allEnabled); //todo sout
+
+        List<Application> mails = service.findMails();
+        List<MailTo> toList = TransformUtils.getToList(mails);
+        System.out.println(toList); //todo sout
+
     }
 }

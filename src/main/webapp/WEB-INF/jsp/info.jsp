@@ -59,7 +59,7 @@
         <div align="center">
         <h3><spring:message code="info.header.first"/></hr>
         </div>
-        <table class="table table-striped" id="datatable">
+        <table class="table table-striped table-bordered table-sm" id="datatable" width = "100%" style = "margin: 0px;">
             <thead>
             <tr>
                 <th width="70px"><spring:message code="table.id"/></th>

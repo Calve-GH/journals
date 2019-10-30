@@ -1,10 +1,7 @@
 package com.github.calve.web.mails;
 
-
 import com.github.calve.service.OutgoingMailsService;
-import com.github.calve.service.StorageService;
-import com.github.calve.to.MailTo;
-import com.github.calve.to.OutMailTo;
+import com.github.calve.to.BaseMailTo;
 import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,7 +30,7 @@ public class OutgoingController {
 
     @PostMapping //refactoring add validation
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(OutMailTo mail, BindingResult result) {
+    public ResponseEntity createMail(BaseMailTo mail, BindingResult result) {
         if (result.hasErrors()) {
             return Util.getFieldsErrors(result);
         }
@@ -42,19 +38,19 @@ public class OutgoingController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("{id}/")
-    public MailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getTo(service.findById(id));
+    public BaseMailTo getMail(@PathVariable Integer id) {
+        return TransformUtils.getToFromOutgoing(service.findById(id));
     }
 
     @GetMapping
-    public List<OutMailTo> getMails() {
-        return TransformUtils.getToListFromOutgoing(service.findMails());
+    public List<BaseMailTo> getMails() {
+        return TransformUtils.getBaseToList(service.findMails());
     }
 
     @GetMapping(value = "/filter/")
-    public List<OutMailTo> getMailsByDate(@RequestParam(value = "startDate", required = false) LocalDate from,
-                                       @RequestParam(value = "endDate", required = false) LocalDate to) {
-        return TransformUtils.getToListFromOutgoing(service.findMailsBetween(from, to));
+    public List<BaseMailTo> getMailsByDate(@RequestParam(value = "startDate", required = false) LocalDate from,
+                                           @RequestParam(value = "endDate", required = false) LocalDate to) {
+        return TransformUtils.getBaseToList(service.findMailsBetween(from, to));
     }
 
     @DeleteMapping("{id}/")

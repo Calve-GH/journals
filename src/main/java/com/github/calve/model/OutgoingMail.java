@@ -2,7 +2,6 @@ package com.github.calve.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 @Entity()
@@ -14,7 +13,7 @@ public class OutgoingMail extends AbstractEntity implements Mail {
     @Column(name = "proceeding", nullable = false)
     private String proceedingNumber;
     @Column(name = "index")
-    private Integer outerIndex;
+    private Integer genIndex;
     @Column(name = "correspondent", nullable = false)
     private String correspondent;
     @Column(name = "description", nullable = false)
@@ -29,7 +28,7 @@ public class OutgoingMail extends AbstractEntity implements Mail {
         super.setId(id);
         this.outerDate = sentDate;
         this.proceedingNumber = proceeding;
-        this.outerIndex = index;
+        this.genIndex = index;
         this.correspondent = correspondent;
         this.description = description;
         this.executor = executor;
@@ -37,6 +36,14 @@ public class OutgoingMail extends AbstractEntity implements Mail {
 
     public LocalDate getOuterDate() {
         return outerDate;
+    }
+
+    public Integer getGenIndex() {
+        return genIndex;
+    }
+
+    public void setGenIndex(Integer genIndex) {
+        this.genIndex = genIndex;
     }
 
     public void setOuterDate(LocalDate outerDate) {
@@ -49,14 +56,6 @@ public class OutgoingMail extends AbstractEntity implements Mail {
 
     public void setProceedingNumber(String proceedingNumber) {
         this.proceedingNumber = proceedingNumber;
-    }
-
-    public String getOuterIndex() {
-        return Integer.toString(outerIndex);
-    }
-
-    public void setOuterIndex(Integer outerIndex) {
-        this.outerIndex = outerIndex;
     }
 
     public String getCorrespondent() {
@@ -88,7 +87,7 @@ public class OutgoingMail extends AbstractEntity implements Mail {
         return new StringJoiner(", ", OutgoingMail.class.getSimpleName() + "[", "]")
                 .add("outerDate=" + outerDate)
                 .add("proceedingNumber='" + proceedingNumber + "'")
-                .add("outerIndex=" + outerIndex)
+                .add("outerIndex=" + genIndex)
                 .add("correspondent='" + correspondent + "'")
                 .add("description='" + description + "'")
                 .add("executor=" + executor)
