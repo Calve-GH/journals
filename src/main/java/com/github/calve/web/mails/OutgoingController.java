@@ -1,6 +1,7 @@
 package com.github.calve.web.mails;
 
 import com.github.calve.service.OutgoingMailsService;
+import com.github.calve.service.StorageService;
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
@@ -22,10 +23,12 @@ public class OutgoingController {
     static final String REST_URL = "/rest/outgoing/";
 
     private OutgoingMailsService service;
+    private StorageService storageService;
 
     @Autowired
-    public OutgoingController(OutgoingMailsService outgoingMailsService) {
-        this.service = outgoingMailsService;
+    public OutgoingController(OutgoingMailsService service, StorageService storageService) {
+        this.service = service;
+        this.storageService = storageService;
     }
 
     @PostMapping //refactoring add validation
@@ -62,8 +65,6 @@ public class OutgoingController {
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
-//        storageService.storeApplications(file);
-        //refactoring
+        storageService.storeOutgoing(file);
     }
-
 }

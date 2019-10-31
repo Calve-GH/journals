@@ -7,7 +7,8 @@ public enum Journals {
     GENERICS("Проверка факт.прож."),
     INFO("Запросы ст.9"),
     FOREIGNERS(""),
-    APPLICATIONS("Проверка бухгалтерии");
+    APPLICATIONS("Проверка бухгалтерии"),
+    OUTGOING("Входящие");
 
     private String name;
 

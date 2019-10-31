@@ -17,6 +17,7 @@ public class MailRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {SQLException.class, IllegalStateException.class})
     protected ResponseEntity<ErrorInfo> handleConflict(RuntimeException ex, WebRequest request) {
+        ex.printStackTrace();
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
         return ResponseEntity.unprocessableEntity().body(getErrorInfo(rootCause));
     }

@@ -1,15 +1,19 @@
 package com.github.calve.service;
 
+import com.github.calve.model.Application;
 import com.github.calve.model.Executor;
 import com.github.calve.model.OutgoingMail;
 import com.github.calve.repository.OutgoingMailsRepository;
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.MailTo;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -56,5 +60,17 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
             mail.setGenIndex(index);
         }
         return outgoingMailsRepository.save(TransformUtils.getOutgoing(mail, executor));
+    }
+
+    @Override
+    public OutgoingMail save(BaseMailTo mail, Map<String, Executor> cache) throws SQLException {
+        try {
+            Executor executor = cache.get(TransformUtils.clearExecutorName(mail.getExecutor()));
+            OutgoingMail outgoing = TransformUtils.getOutgoing(mail, executor);
+            System.out.println(outgoing); //todo sout
+            return outgoingMailsRepository.save(outgoing);
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }
     }
 }
