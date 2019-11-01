@@ -1,11 +1,18 @@
 package com.github.calve.web.mails;
 
+import com.github.calve.model.OutgoingMail;
 import com.github.calve.service.OutgoingMailsService;
 import com.github.calve.service.StorageService;
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.DataTable;
 import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +53,27 @@ public class OutgoingController {
     }
 
     @GetMapping
-    public List<BaseMailTo> getMails() {
-        return TransformUtils.getBaseToList(service.findMails());
+    public ResponseEntity getMails(@RequestParam("draw") int draw,
+                                   @RequestParam("start") int start,
+                                   @RequestParam("length") int length) {
+
+        int page = start / length;
+
+        Pageable pageable = PageRequest.of(page, length, new Sort(Sort.Direction.DESC, "id"));
+
+        Page<OutgoingMail> mails = service.findMails(pageable);
+
+        DataTable dataTable = new DataTable();
+
+        //refactoring stream
+        dataTable.setData(TransformUtils.getBaseToList(mails.getContent()));
+        dataTable.setRecordsTotal(mails.getTotalElements());
+        dataTable.setRecordsFiltered(mails.getTotalElements());
+
+        dataTable.setDraw(draw);
+        dataTable.setStart(start);
+
+        return ResponseEntity.ok(dataTable);
     }
 
     @GetMapping(value = "/filter/")

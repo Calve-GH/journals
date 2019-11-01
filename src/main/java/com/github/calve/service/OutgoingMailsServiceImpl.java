@@ -8,6 +8,8 @@ import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.MailTo;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -31,6 +33,10 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
     @Override
     public List<OutgoingMail> findMails() {
         return outgoingMailsRepository.findAll();
+    }
+    @Override
+    public Page<OutgoingMail> findMails(Pageable pageable) {
+        return outgoingMailsRepository.findAll(pageable);
     }
 
     @Override

@@ -8,9 +8,14 @@ function makeEditable(ctx) {
             {
                 "ajax": {
                     "url": context.ajaxUrl,
-                    "dataSrc": ""
+                    "dataSrc": function(response) {
+                        var data = response.data;
+                        return data;
+                    }
                 },
-                "paging": true,
+                "processing": true,
+                "serverSide": true,
+                "pageLength" : 25,
                 "info": true,
                 "language": {
                     "search": i18n["common.search"]

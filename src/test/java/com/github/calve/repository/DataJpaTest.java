@@ -18,9 +18,12 @@ public class DataJpaTest extends AbstractTest {
     @Test
     void testPage() {
         Pageable pageable = PageRequest.of(0, 20);
+
         Page<Request> page = requestRepository.findAll(pageable);
+        System.out.println(page.getNumber()); //todo sout
         System.out.println(page.getTotalElements()); //todo sout
         System.out.println(page.getTotalPages()); //todo sout
+        System.out.println(page.getSort()); //todo sout
         page.get().forEach(System.out::println);
     }
 

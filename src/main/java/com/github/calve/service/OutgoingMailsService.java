@@ -3,6 +3,8 @@ package com.github.calve.service;
 import com.github.calve.model.Executor;
 import com.github.calve.model.OutgoingMail;
 import com.github.calve.to.BaseMailTo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -11,6 +13,8 @@ import java.util.Map;
 
 public interface OutgoingMailsService {
     List<OutgoingMail> findMails();
+
+    Page<OutgoingMail> findMails(Pageable pageable);
 
     List<OutgoingMail> findMailsBetween(LocalDate from, LocalDate to);
 
