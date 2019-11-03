@@ -3,6 +3,7 @@ package com.github.calve.service;
 import com.github.calve.model.Executor;
 import com.github.calve.model.OutgoingMail;
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.ex.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,4 +30,6 @@ public interface OutgoingMailsService {
     OutgoingMail findById(Integer id);
 
     int count(); // TODO: 28.10.2019
+
+    Page<OutgoingMail> findSearchable(Pageable pageable, Spec<OutgoingMail> spec);
 }

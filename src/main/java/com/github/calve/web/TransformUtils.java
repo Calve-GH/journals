@@ -1,16 +1,47 @@
 package com.github.calve.web;
 
 import com.github.calve.model.*;
-import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.ExecutorTo;
-import com.github.calve.to.MailTo;
+import com.github.calve.to.*;
+import com.github.calve.to.ex.SearchCriteria;
+import com.github.calve.to.ex.Spec;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class TransformUtils {
+public final class TransformUtils {
+
+    public TransformUtils() {
+        throw new AssertionError("Cannot create instance of util class");
+    }
+
+    public static Pageable getPageable(DataTablesInput dti) {
+        int page = dti.getStart() / dti.getLength();
+        Sort sort = Sort.by(
+                Sort.Direction.fromString(dti.getOrder().get(0).getDir().toUpperCase()),
+                dti.getColumns().get(dti.getOrder().get(0).getColumn()).getData());
+        return sort != null ? PageRequest.of(page, dti.getLength(), sort) :
+                PageRequest.of(page, dti.getLength());
+    }
+
+    public static <T> Spec<T> getSpecification(DataTablesInput dti) {
+        Spec<T> spec = null;
+        if (!dti.getOrder().isEmpty()) {
+            if (!dti.getSearch().getValue().isEmpty()) {
+                List<SearchCriteria> criteriaList = new ArrayList<>();
+                for (Column column : dti.getColumns().stream().filter(Column::getSearchable).collect(Collectors.toList())) {
+                    criteriaList.add(new SearchCriteria(column.getData(), dti.getSearch().getValue()));
+                }
+                spec = new Spec<>(criteriaList);
+            }
+        }
+        return spec;
+    }
 
     public static String clearExecutorName(String name) {
         return name.trim().toLowerCase();

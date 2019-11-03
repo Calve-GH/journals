@@ -39,6 +39,7 @@ $(function () {
         datatableOpts: {
             "columns": [
 				{
+				    "searchable" : false,
 					"data": "incomeDate"
 				},
 				{
@@ -48,6 +49,7 @@ $(function () {
 					"data": "correspondent"
 				},
 				{
+				    "searchable" : false,
 					"data": "outerDate"
 				},
 				{
@@ -60,9 +62,11 @@ $(function () {
 					"orderable": false
 				},
 				{
+				    "searchable" : false,
 					"data": "executor"
 				},
 				{
+				    "searchable" : false,
 				    "defaultContent": "",
 					"data": "doneDate"
 				},
@@ -77,14 +81,17 @@ $(function () {
                 	"orderable": false
                 },
 			    {
+			        "searchable" : false,
 					"data": "remains",
 				},
                 {
+                    "searchable" : false,
                     "render": renderEditBtn,
                     "defaultContent": "",
                     "orderable": false
                 },
                 {
+                    "searchable" : false,
                     "render": renderDeleteBtn,
                     "defaultContent": "",
                     "orderable": false

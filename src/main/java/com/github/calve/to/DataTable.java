@@ -1,8 +1,10 @@
 package com.github.calve.to;
 
+import com.github.calve.model.Mail;
+
 import java.util.List;
 
-public class DataTable<T> {
+public class DataTable<T extends BaseMailTo> {
     private int draw;
     private int start;
     private long recordsTotal;

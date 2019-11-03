@@ -6,14 +6,12 @@ import com.github.calve.service.StorageService;
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.DataTable;
 import com.github.calve.to.DataTablesInput;
+import com.github.calve.to.ex.Spec;
 import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +23,7 @@ import javax.validation.Valid;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = OutgoingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,66 +48,46 @@ public class OutgoingController {
         service.save(mail);
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("{id}/")
     public BaseMailTo getMail(@PathVariable Integer id) {
         return TransformUtils.getToFromOutgoing(service.findById(id));
     }
-
+//refactoring do not like met concept, simplify
     @GetMapping
     public ResponseEntity getMails(@Valid DataTablesInput dti) {
-        // TODO: 03.11.2019  
-        System.out.println(dti); //todo sout
+
         int start = dti.getStart();
         int draw = dti.getDraw();
-        int page = dti.getStart() / dti.getLength();
 
-        Sort sort = null;
-        if (!dti.getOrder().isEmpty()) {
-            System.out.println(dti.getOrder().get(0).getDir()); //todo sout
-            System.out.println(dti.getColumns().get(dti.getOrder().get(0).getColumn()).getData()); //todo sout
+        Spec<OutgoingMail> spec = TransformUtils.getSpecification(dti);
+        Pageable pageable = TransformUtils.getPageable(dti);
 
-            sort = Sort.by(Sort.Direction.fromString(dti.getOrder().get(0).getDir().toUpperCase()),
-                    dti.getColumns().get(dti.getOrder().get(0).getColumn()).getData());
+        Page<OutgoingMail> mails;
 
+        if (Objects.isNull(spec)) {
+            mails = service.findMails(pageable);
+        } else {
+            mails = service.findSearchable(pageable, spec);
         }
 
-        Pageable pageable = sort != null ? PageRequest.of(page, dti.getLength(), sort) :
-                PageRequest.of(page, dti.getLength());
-
-        Page<OutgoingMail> mails = service.findMails(pageable);
-
-        DataTable dataTable = new DataTable();
-
         //refactoring stream
+        try {
+            return ResponseEntity.ok(constructDataTableByBaseMailTo(start, draw, mails));
+        } catch (Exception e) {
+            //empty body exception
+        }
+        return ResponseEntity.ok("");
+    }
+
+    private DataTable<BaseMailTo> constructDataTableByBaseMailTo(int start, int draw, Page<OutgoingMail> mails) {
+        DataTable<BaseMailTo> dataTable = new DataTable<>();
         dataTable.setData(TransformUtils.getBaseToList(mails.getContent()));
         dataTable.setRecordsTotal(mails.getTotalElements());
         dataTable.setRecordsFiltered(mails.getTotalElements());
-
         dataTable.setDraw(draw);
         dataTable.setStart(start);
-
-        return ResponseEntity.ok(dataTable);
-
-/*        @RequestParam("draw") int draw,
-        @RequestParam("start") int start,
-        @RequestParam("length") int length
-        int page = start / length;
-
-        Pageable pageable = PageRequest.of(page, length, new Sort(Sort.Direction.DESC, "id"));
-
-        Page<OutgoingMail> mails = service.findMails(pageable);
-
-        DataTable dataTable = new DataTable();
-
-        //refactoring stream
-        dataTable.setData(TransformUtils.getBaseToList(mails.getContent()));
-        dataTable.setRecordsTotal(mails.getTotalElements());
-        dataTable.setRecordsFiltered(mails.getTotalElements());
-
-        dataTable.setDraw(draw);
-        dataTable.setStart(start);
-
-        return ResponseEntity.ok(dataTable);*/
+        return dataTable;
     }
 
     @GetMapping(value = "/filter/")

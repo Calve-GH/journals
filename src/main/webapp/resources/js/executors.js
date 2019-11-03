@@ -24,6 +24,7 @@ $(function () {
                         "data": "name"
                     },
                     {
+                        "searchable" : false,
                         "data": "enabled",
                         "render": function (data, type, row) {
                             if (type === "display") {
@@ -33,11 +34,13 @@ $(function () {
                         }
                     },
                     {
+                        "searchable" : false,
                         "orderable": false,
                         "defaultContent": "",
                         "render": renderEditBtn
                     },
                     {
+                        "searchable" : false,
                         "orderable": false,
                         "defaultContent": "",
                         "render": renderDeleteBtn

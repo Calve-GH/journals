@@ -58,6 +58,7 @@ $(function () {
 					"data": "correspondent"
 				},
 				{
+				    "searchable" : false,
 					"data": "executor"
 				},
                 {

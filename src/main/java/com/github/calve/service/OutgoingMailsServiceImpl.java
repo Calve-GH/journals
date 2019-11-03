@@ -1,11 +1,10 @@
 package com.github.calve.service;
 
-import com.github.calve.model.Application;
 import com.github.calve.model.Executor;
 import com.github.calve.model.OutgoingMail;
 import com.github.calve.repository.OutgoingMailsRepository;
 import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.MailTo;
+import com.github.calve.to.ex.Spec;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +33,7 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
     public List<OutgoingMail> findMails() {
         return outgoingMailsRepository.findAll();
     }
+
     @Override
     public Page<OutgoingMail> findMails(Pageable pageable) {
         return outgoingMailsRepository.findAll(pageable);
@@ -78,5 +78,10 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
         } catch (Exception e) {
             throw new SQLException(e);
         }
+    }
+
+    @Override
+    public Page<OutgoingMail> findSearchable(Pageable pageable, Spec<OutgoingMail> spec) {
+        return outgoingMailsRepository.findAll(spec, pageable);
     }
 }
