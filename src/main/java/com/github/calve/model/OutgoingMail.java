@@ -11,7 +11,7 @@ public class OutgoingMail extends AbstractEntity implements Mail {
     @Column(name = "sent_date", nullable = false)
     private LocalDate outerDate;
     @Column(name = "proceeding", nullable = false)
-    private String proceedingNumber;
+    private String outerIndex;
     @Column(name = "index")
     private Integer genIndex;
     @Column(name = "correspondent", nullable = false)
@@ -24,10 +24,10 @@ public class OutgoingMail extends AbstractEntity implements Mail {
     public OutgoingMail() {
     }
 
-    public OutgoingMail(Integer id, LocalDate sentDate, String proceeding, Integer index, String correspondent, String description, Executor executor) {
+    public OutgoingMail(Integer id, LocalDate sentDate, String outerIndex, Integer index, String correspondent, String description, Executor executor) {
         super.setId(id);
         this.outerDate = sentDate;
-        this.proceedingNumber = proceeding;
+        this.outerIndex = outerIndex;
         this.genIndex = index;
         this.correspondent = correspondent;
         this.description = description;
@@ -50,12 +50,13 @@ public class OutgoingMail extends AbstractEntity implements Mail {
         this.outerDate = outerDate;
     }
 
-    public String getProceedingNumber() {
-        return proceedingNumber;
+    @Override
+    public String getOuterIndex() {
+        return outerIndex;
     }
 
-    public void setProceedingNumber(String proceedingNumber) {
-        this.proceedingNumber = proceedingNumber;
+    public void setOuterIndex(String outerIndex) {
+        this.outerIndex = outerIndex;
     }
 
     public String getCorrespondent() {
@@ -86,8 +87,8 @@ public class OutgoingMail extends AbstractEntity implements Mail {
     public String toString() {
         return new StringJoiner(", ", OutgoingMail.class.getSimpleName() + "[", "]")
                 .add("outerDate=" + outerDate)
-                .add("proceedingNumber='" + proceedingNumber + "'")
-                .add("outerIndex=" + genIndex)
+                .add("outerIndex='" + outerIndex + "'")
+                .add("index=" + genIndex)
                 .add("correspondent='" + correspondent + "'")
                 .add("description='" + description + "'")
                 .add("executor=" + executor)

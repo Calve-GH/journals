@@ -58,7 +58,7 @@ public class MailBuilder {
     }
 
     public OutgoingMail getOutgoing() {
-        return new OutgoingMail(this.id, outerDate, this.proceedingNumber, this.genIndex,
+        return new OutgoingMail(this.id, outerDate, this.outerIndex, this.genIndex,
                 this.correspondent, this.description, this.executor);
     }
 

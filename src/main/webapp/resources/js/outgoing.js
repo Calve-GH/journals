@@ -39,6 +39,7 @@ $(function () {
         datatableOpts: {
             "columns": [
 				{
+				    "searchable" : false,
 					"data": "outerDate"
 				},
 				{
@@ -60,11 +61,13 @@ $(function () {
 					"data": "executor"
 				},
                 {
+                    "searchable" : false,
                     "render": renderEditBtn,
                     "defaultContent": "",
                     "orderable": false
                 },
                 {
+                    "searchable" : false,
                     "render": renderDeleteBtn,
                     "defaultContent": "",
                     "orderable": false
