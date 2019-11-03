@@ -58,7 +58,7 @@ public class TransformUtils {
 
     public static BaseMailTo getToFromOutgoing(OutgoingMail mail) {
         return getBaseToBuilder(mail)
-                .setOuterIndex(mail.getProceedingNumber())
+                .setOuterIndex(mail.getOuterIndex())
                 .setGenIndex(mail.getGenIndex())
                 .getBaseMailTo();
     }
