@@ -2,24 +2,34 @@ package com.github.calve.web;
 
 import com.github.calve.model.*;
 import com.github.calve.to.*;
+import com.github.calve.to.ex.DateCriteria;
 import com.github.calve.to.ex.SearchCriteria;
 import com.github.calve.to.ex.Spec;
+import com.github.calve.to.ex.SpecDate;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class TransformUtils {
 
+    private final static String date_templ = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
+    private final static String date_range_tmpl = date_templ + "-" + date_templ;
+    private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public TransformUtils() {
         throw new AssertionError("Cannot create instance of util class");
     }
 
+    //refactoring review
     public static Pageable getPageable(DataTablesInput dti) {
         int page = dti.getStart() / dti.getLength();
         Sort sort = Sort.by(
@@ -29,15 +39,32 @@ public final class TransformUtils {
                 PageRequest.of(page, dti.getLength());
     }
 
-    public static <T> Spec<T> getSpecification(DataTablesInput dti) {
-        Spec<T> spec = null;
+
+    public static <T> Specification<T> getSpecification(DataTablesInput dti) {
+        Specification<T> spec = null;
         if (!dti.getOrder().isEmpty()) {
             if (!dti.getSearch().getValue().isEmpty()) {
-                List<SearchCriteria> criteriaList = new ArrayList<>();
-                for (Column column : dti.getColumns().stream().filter(Column::getSearchable).collect(Collectors.toList())) {
-                    criteriaList.add(new SearchCriteria(column.getData(), dti.getSearch().getValue()));
+                if (dti.getSearch().getValue().matches(date_templ)) {
+                    LocalDate date = LocalDate.parse(dti.getSearch().getValue().trim(), DTF);
+                    String parameterName = dti.getColumns().get(0).getData();
+                    return new SpecDate<>(new DateCriteria(parameterName, date), null);
                 }
-                spec = new Spec<>(criteriaList);
+                if (dti.getSearch().getValue().matches(date_range_tmpl)) {
+                    String[] dates = dti.getSearch().getValue().split("-");
+                    if (dates.length == 2) {
+                    String parameterName = dti.getColumns().get(0).getData();
+                        LocalDate from = LocalDate.parse(dates[0].trim(), DTF);
+                        LocalDate to = LocalDate.parse(dates[1].trim(), DTF);
+                        return new SpecDate<>(new DateCriteria(parameterName, from), new DateCriteria(parameterName, to));
+                    }
+                } else {
+                    List<SearchCriteria> criteriaList = new ArrayList<>();
+                    dti.getColumns().remove(0);
+                    for (Column column : dti.getColumns().stream().filter(Column::getSearchable).collect(Collectors.toList())) {
+                        criteriaList.add(new SearchCriteria(column.getData(), dti.getSearch().getValue()));
+                    }
+                    spec = new Spec<>(criteriaList);
+                }
             }
         }
         return spec;

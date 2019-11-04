@@ -3,9 +3,12 @@ package com.github.calve.service;
 import com.github.calve.model.Executor;
 import com.github.calve.model.OutgoingMail;
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.DataTable;
+import com.github.calve.to.DataTablesInput;
 import com.github.calve.to.ex.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -31,5 +34,7 @@ public interface OutgoingMailsService {
 
     int count(); // TODO: 28.10.2019
 
-    Page<OutgoingMail> findSearchable(Pageable pageable, Spec<OutgoingMail> spec);
+    Page<OutgoingMail> findSearchable(Pageable pageable, Specification<OutgoingMail> spec);
+
+    DataTable findSearchableMails(DataTablesInput dti);
 }

@@ -1,14 +1,18 @@
 package com.github.calve.service;
 
 import com.github.calve.model.Executor;
+import com.github.calve.model.Mail;
 import com.github.calve.model.OutgoingMail;
 import com.github.calve.repository.OutgoingMailsRepository;
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.DataTable;
+import com.github.calve.to.DataTablesInput;
 import com.github.calve.to.ex.Spec;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -81,7 +85,43 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
     }
 
     @Override
-    public Page<OutgoingMail> findSearchable(Pageable pageable, Spec<OutgoingMail> spec) {
+    public Page<OutgoingMail> findSearchable(Pageable pageable, Specification<OutgoingMail> spec) {
         return outgoingMailsRepository.findAll(spec, pageable);
     }
+
+    public DataTable findSearchableMails(DataTablesInput dti) {
+
+        Pageable pageable = TransformUtils.getPageable(dti);
+        Specification<OutgoingMail> spec = TransformUtils.getSpecification(dti);
+
+        if (Objects.isNull(spec)) {
+            return constructPage(dti, findMails(pageable));
+        } else {
+            return constructPage(dti, findSearchable(pageable, spec));
+        }
+    }
+    //refactoring mb generics
+    private static DataTable constructPage(DataTablesInput dti, Page<OutgoingMail> mails) {
+        return DataTable.builder()
+                .data(getBaseTos(mails))
+                .recordsTotal(mails.getTotalElements())
+                .recordsFiltered(mails.getTotalElements())
+                .draw(dti.getDraw())
+                .start(dti.getStart())
+                .build();
+    }
+
+    private static List<BaseMailTo> getBaseTos(Page<OutgoingMail> mails) {
+        return TransformUtils.getBaseToList(mails.getContent());
+    }
+// TODO: 04.11.2019 old version
+/*    private static DataTable constructOutgoingPage(DataTablesInput dti, Page<OutgoingMail> mails) {
+        DataTable dataTable = new DataTable();
+        dataTable.setData(TransformUtils.getBaseToList(mails.getContent()));
+        dataTable.setRecordsTotal(mails.getTotalElements());
+        dataTable.setRecordsFiltered(mails.getTotalElements());
+        dataTable.setDraw(dti.getDraw());
+        dataTable.setStart(dti.getStart());
+        return dataTable;
+    }*/
 }

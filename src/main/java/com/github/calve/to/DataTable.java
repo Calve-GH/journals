@@ -1,16 +1,23 @@
 package com.github.calve.to;
 
 import com.github.calve.model.Mail;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-public class DataTable<T extends BaseMailTo> {
+// TODO: 04.11.2019  friendly with lombok annotations
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DataTable {
     private int draw;
     private int start;
     private long recordsTotal;
     private long recordsFiltered;
 
-    private List<T> data;
+    private List<BaseMailTo> data;
 
     public int getDraw() {
         return draw;
@@ -44,11 +51,11 @@ public class DataTable<T extends BaseMailTo> {
         this.recordsFiltered = recordsFiltered;
     }
 
-    public List<T> getData() {
+    public List<BaseMailTo> getData() {
         return data;
     }
 
-    public void setData(List<T> data) {
+    public void setData(List<BaseMailTo> data) {
         this.data = data;
     }
 }

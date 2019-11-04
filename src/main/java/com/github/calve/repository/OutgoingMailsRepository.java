@@ -2,6 +2,8 @@ package com.github.calve.repository;
 
 import com.github.calve.model.OutgoingMail;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,7 +36,7 @@ public interface OutgoingMailsRepository extends JpaRepository<OutgoingMail, Int
 
     //refactoring n + 1 PROBLEM
 //    @EntityGraph(attributePaths = {})
-    @Query("SELECT o FROM OutgoingMail o WHERE o.outerDate BETWEEN :from AND :to ")
+    @Query("SELECT o FROM OutgoingMail o WHERE o.outerDate BETWEEN :from AND :to")
     List<OutgoingMail> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 
 }

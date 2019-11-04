@@ -39,7 +39,6 @@ $(function () {
         datatableOpts: {
             "columns": [
 				{
-				    "searchable" : false,
 					"data": "outerDate"
 				},
 				{
