@@ -2,10 +2,7 @@ package com.github.calve.web;
 
 import com.github.calve.model.*;
 import com.github.calve.to.*;
-import com.github.calve.to.ex.DateCriteria;
-import com.github.calve.to.ex.SearchCriteria;
-import com.github.calve.to.ex.Spec;
-import com.github.calve.to.ex.SpecDate;
+import com.github.calve.util.to.*;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
 import org.springframework.data.domain.PageRequest;
@@ -82,7 +79,7 @@ public final class TransformUtils {
         return result;
     }
 
-    public static List<BaseMailTo> getBaseToList(List<OutgoingMail> list) {
+    public static List<BaseMailTo> getBaseToList(List<? extends OutgoingMail> list) {
         List<BaseMailTo> result = new ArrayList<>();
         for (OutgoingMail mail : list) {
             result.add(getToFromOutgoing(mail));

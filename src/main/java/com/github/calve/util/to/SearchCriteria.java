@@ -1,8 +1,7 @@
-package com.github.calve.to.ex;
+package com.github.calve.util.to;
 
 public class SearchCriteria {
     private String key;
-//    private String operation;
     private Object value;
 
     public SearchCriteria() {
@@ -10,7 +9,6 @@ public class SearchCriteria {
 
     public SearchCriteria(String key, Object value) {
         this.key = key;
-//        this.operation = operation;
         this.value = value;
     }
 

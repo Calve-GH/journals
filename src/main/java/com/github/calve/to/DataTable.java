@@ -1,6 +1,5 @@
 package com.github.calve.to;
 
-import com.github.calve.model.Mail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

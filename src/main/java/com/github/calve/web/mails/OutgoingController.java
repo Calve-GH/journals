@@ -4,7 +4,7 @@ import com.github.calve.service.OutgoingMailsService;
 import com.github.calve.service.StorageService;
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.DataTable;
-import com.github.calve.to.DataTablesInput;
+import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = OutgoingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,7 +48,6 @@ public class OutgoingController {
         return TransformUtils.getToFromOutgoing(service.findById(id));
     }
 
-    //refactoring do not like met concept, simplify
     @GetMapping
     public ResponseEntity getMails(@Valid DataTablesInput dti) {
         return ResponseEntity.ok(service.findSearchableMails(dti));
@@ -58,7 +56,7 @@ public class OutgoingController {
 
     @GetMapping(value = "/filter/")
     public ResponseEntity getMailsByDate(@RequestParam(value = "startDate", required = false) LocalDate from,
-                                           @RequestParam(value = "endDate", required = false) LocalDate to) {
+                                         @RequestParam(value = "endDate", required = false) LocalDate to) {
         DataTable dt = new DataTable();
         dt.setData(TransformUtils.getBaseToList(service.findMailsBetween(from, to)));
         return ResponseEntity.ok(dt);

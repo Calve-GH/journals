@@ -1,4 +1,4 @@
-package com.github.calve.to;
+package com.github.calve.util.to;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;

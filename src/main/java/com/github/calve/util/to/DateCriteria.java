@@ -1,10 +1,9 @@
-package com.github.calve.to.ex;
+package com.github.calve.util.to;
 
 import java.time.LocalDate;
 
 public class DateCriteria {
     private String key;
-//    private String operation;
     private LocalDate value;
 
     public DateCriteria() {
@@ -12,7 +11,6 @@ public class DateCriteria {
 
     public DateCriteria(String key, LocalDate value) {
         this.key = key;
-//        this.operation = operation;
         this.value = value;
     }
 

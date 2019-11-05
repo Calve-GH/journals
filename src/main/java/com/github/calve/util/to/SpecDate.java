@@ -1,4 +1,4 @@
-package com.github.calve.to.ex;
+package com.github.calve.util.to;
 
 import org.springframework.data.jpa.domain.Specification;
 
