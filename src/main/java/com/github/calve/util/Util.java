@@ -12,12 +12,12 @@ public class Util {
     private static final Map<String, String> FIELD_NAMES = new HashMap<>();
 
     static {
-        FIELD_NAMES.put("incomeDate","Дата входщего");
-        FIELD_NAMES.put("incomeIndex","№ входящего");
-        FIELD_NAMES.put("correspondent","Корреспондент");
-        FIELD_NAMES.put("outerDate","Реквизиты вх. Дата");
-        FIELD_NAMES.put("outerIndex","Реквизиты вх. №");
-        FIELD_NAMES.put("executor","Исполнитель");
+        FIELD_NAMES.put("incomeDate", "Дата входщего");
+        FIELD_NAMES.put("incomeIndex", "№ входящего");
+        FIELD_NAMES.put("correspondent", "Корреспондент");
+        FIELD_NAMES.put("outerDate", "Реквизиты вх. Дата");
+        FIELD_NAMES.put("outerIndex", "Реквизиты вх. №");
+        FIELD_NAMES.put("executor", "Исполнитель");
     }
 
     private Util() {

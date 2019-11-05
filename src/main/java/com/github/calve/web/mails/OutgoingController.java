@@ -3,7 +3,6 @@ package com.github.calve.web.mails;
 import com.github.calve.service.OutgoingMailsService;
 import com.github.calve.service.StorageService;
 import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
@@ -35,31 +34,25 @@ public class OutgoingController {
 
     @PostMapping //refactoring add validation
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(BaseMailTo mail, BindingResult result) {
-        if (result.hasErrors()) {
-            return Util.getFieldsErrors(result);
-        }
-        service.save(mail);
-        return ResponseEntity.ok().build();
+    public ResponseEntity createMail(BaseMailTo mail, BindingResult validation) {
+        return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")
     public BaseMailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getToFromOutgoing(service.findById(id));
+        return TransformUtils.getBaseMailTo(service.findById(id));
     }
 
     @GetMapping
     public ResponseEntity getMails(@Valid DataTablesInput dti) {
-        return ResponseEntity.ok(service.findSearchableMails(dti));
+        return ResponseEntity.ok(service.findFilteredAndSort(dti));
     }
 
-
+    @Deprecated
     @GetMapping(value = "/filter/")
     public ResponseEntity getMailsByDate(@RequestParam(value = "startDate", required = false) LocalDate from,
                                          @RequestParam(value = "endDate", required = false) LocalDate to) {
-        DataTable dt = new DataTable();
-        dt.setData(TransformUtils.getBaseToList(service.findMailsBetween(from, to)));
-        return ResponseEntity.ok(dt);
+        return ResponseEntity.ok("");
     }
 
     @DeleteMapping("{id}/")
@@ -72,5 +65,10 @@ public class OutgoingController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
         storageService.storeOutgoing(file);
+    }
+
+    private ResponseEntity getResponseOnSave(BaseMailTo mail) {
+        service.save(mail);
+        return ResponseEntity.ok().build();
     }
 }

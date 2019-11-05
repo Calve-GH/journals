@@ -18,7 +18,20 @@ function makeEditable(ctx) {
                 "pageLength" : 25,
                 "info": true,
                 "language": {
-                    "search": i18n["common.search"]
+                    "search":       i18n["common.search"],
+                    "emptyTable":   i18n["common.empty.table"],
+                    "info":         i18n["common.info"],
+                    "infoEmpty":    i18n["common.info.empty"],
+                    "infoFiltered": i18n["common.info.filtered"],
+                    "processing":   i18n["common.processing"],
+                    "zeroRecords":  i18n["common.zero.records"],
+                    "lengthMenu":   i18n["common.length.menu"],
+                    "paginate": {
+                        "first":    "First",
+                        "last":     "Last",
+                        "next":     i18n["common.next"],
+                        "previous": i18n["common.previous"],
+                        }
                 }
             }
         ));

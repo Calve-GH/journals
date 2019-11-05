@@ -30,5 +30,5 @@ public interface OutgoingMailsService {
 
     int count(); // TODO: 28.10.2019
 
-    DataTable findSearchableMails(DataTablesInput dti);
+    DataTable findFilteredAndSort(DataTablesInput dti);
 }

@@ -58,8 +58,7 @@
         <div class="container">
         </div>
         <div align="center">
-        <h3><spring:message code="applications.header.first"/></hr></br>
-        <hr><spring:message code="applications.header.second"/></h3>
+        <h3><spring:message code="outgoing.header.first"/></h3>
         </div>
         <table class="table table-striped table-bordered table-sm" id="datatable" width = "100%" style = "margin: 0px;">
             <thead>
@@ -168,7 +167,9 @@
     i18n["addTitle"] = '<spring:message code="meal.add"/>';
     i18n["editTitle"] = '<spring:message code="meal.edit"/>';
 
-    <c:forEach var="key" items='<%=new String[]{"common.deleted","common.saved","common.enabled","common.disabled","common.errorStatus","common.confirm", "common.file.upload"}%>'>
+    <c:forEach var="key" items='<%=new String[]{"common.empty.table","common.info","common.info.empty","common.info.filtered",
+    "common.processing","common.zero.records","common.previous", "common.next", "common.length.menu",
+    "common.search", "common.deleted","common.saved","common.enabled","common.disabled","common.errorStatus","common.confirm", "common.file.upload"}%>'>
     i18n["${key}"] = "<spring:message code="${key}"/>";
     </c:forEach>
 </script>

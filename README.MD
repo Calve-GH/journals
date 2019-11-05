@@ -7,6 +7,4 @@ todo list:
  - spring gen util;
  - rebuild all mails;
  
- 
- - href/generify out mails;
  - remove base date filtering from UI/SERVER;

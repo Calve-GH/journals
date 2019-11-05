@@ -82,7 +82,7 @@ public final class TransformUtils {
     public static List<BaseMailTo> getBaseToList(List<? extends OutgoingMail> list) {
         List<BaseMailTo> result = new ArrayList<>();
         for (OutgoingMail mail : list) {
-            result.add(getToFromOutgoing(mail));
+            result.add(getBaseMailTo(mail));
         }
         return result;
     }
@@ -111,7 +111,7 @@ public final class TransformUtils {
                 .setExecutor(mail.getExecutor().getName());
     }
 
-    public static BaseMailTo getToFromOutgoing(OutgoingMail mail) {
+    public static BaseMailTo getBaseMailTo(OutgoingMail mail) {
         return getBaseToBuilder(mail)
                 .setOuterIndex(mail.getOuterIndex())
                 .setGenIndex(mail.getGenIndex())

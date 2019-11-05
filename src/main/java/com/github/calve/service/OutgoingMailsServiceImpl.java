@@ -86,7 +86,7 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
         return outgoingMailsRepository.findAll(spec, pageable);
     }
 
-    public DataTable findSearchableMails(DataTablesInput dti) {
+    public DataTable findFilteredAndSort(DataTablesInput dti) {
 
         Pageable pageable = TransformUtils.getPageable(dti);
         Specification<OutgoingMail> spec = TransformUtils.getSpecification(dti);
