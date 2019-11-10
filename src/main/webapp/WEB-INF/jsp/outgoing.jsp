@@ -14,33 +14,9 @@
     <div class="container-fluid">
         <%--https://getbootstrap.com/docs/4.0/components/card/--%>
         <div class="card border-dark">
-            <div class="card-body pb-0">
-                <form id="filter">
-                    <div class="row">
-                        <div class="col-3">
-                            <input class="form-control" type="date" name="startDate" id="startDate">
-                        </div>
-                        <div class="col-3">
-                            <input class="form-control" type="date" name="endDate" id="endDate">
-                        </div>
-                    </div>
-                </form>
-            </div>
 			<table>
 			<tr>
-			    <td>
-			<div class="card-footer text-left">
-				<button class="btn btn-danger" onclick="clearFilter()">
-					<span class="fa fa-remove"></span>
-					<spring:message code="common.cancel"/>
-				</button>
-				<button class="btn btn-primary" onclick="updateFilteredTable()">
-					<span class="fa fa-filter"></span>
-					<spring:message code="meal.filter"/>
-				</button>
-			</div>
-			    </td>
-			    <td>
+		    <td>
 			<div class="card-footer text-right">
 				<button class="btn btn-primary" onclick="add()">
 					<span class="fa fa-plus"></span>
@@ -50,7 +26,7 @@
                 <input id="file" type="file" class="findDocumentOnboarding">
                 <label for="file" /><spring:message code="common.choose.file"/></label>
 			</div>
-			    </td>
+			</td>
 			</tr>
 			</table>
         </div>

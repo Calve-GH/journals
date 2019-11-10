@@ -48,13 +48,6 @@ public class OutgoingController {
         return ResponseEntity.ok(service.findFilteredAndSort(dti));
     }
 
-    @Deprecated
-    @GetMapping(value = "/filter/")
-    public ResponseEntity getMailsByDate(@RequestParam(value = "startDate", required = false) LocalDate from,
-                                         @RequestParam(value = "endDate", required = false) LocalDate to) {
-        return ResponseEntity.ok("");
-    }
-
     @DeleteMapping("{id}/")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteMailById(@PathVariable Integer id) {

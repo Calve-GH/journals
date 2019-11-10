@@ -18,8 +18,6 @@ public interface OutgoingMailsService {
 
     Page<OutgoingMail> findMails(Pageable pageable);
 
-    List<OutgoingMail> findMailsBetween(LocalDate from, LocalDate to);
-
     OutgoingMail save(BaseMailTo mail);
 
     OutgoingMail save(BaseMailTo mail, Map<String, Executor> executors) throws SQLException;

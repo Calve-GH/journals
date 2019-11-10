@@ -39,7 +39,9 @@ $(function () {
         datatableOpts: {
             "columns": [
 				{
-					"data": "outerDate"
+					"data": "outerDate",
+					"render": function(data, type, row){
+                                              return moment(data).format("DD-MM-YYYY");}
 				},
 				{
                     "defaultContent": "",

@@ -5,6 +5,6 @@ todo list:
 4) Exceptions review
 5) Outgoing mails add paging -> refactoring.
  - spring gen util;
- - rebuild all mails;
+ - rebuild all mails;//test
  
  - remove base date filtering from UI/SERVER;

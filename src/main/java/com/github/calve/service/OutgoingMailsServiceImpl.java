@@ -42,11 +42,6 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
     }
 
     @Override
-    public List<OutgoingMail> findMailsBetween(LocalDate from, LocalDate to) {
-        return outgoingMailsRepository.getBetween(from, to);
-    }
-
-    @Override
     public int delete(Integer id) {
         return outgoingMailsRepository.delete(id);
     }

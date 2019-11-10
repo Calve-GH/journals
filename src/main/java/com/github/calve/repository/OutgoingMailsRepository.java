@@ -33,10 +33,4 @@ public interface OutgoingMailsRepository extends JpaRepository<OutgoingMail, Int
 
     @Override
     List<OutgoingMail> findAll();
-
-    //refactoring n + 1 PROBLEM
-//    @EntityGraph(attributePaths = {})
-    @Query("SELECT o FROM OutgoingMail o WHERE o.outerDate BETWEEN :from AND :to")
-    List<OutgoingMail> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
-
 }
