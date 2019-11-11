@@ -55,6 +55,7 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
         return outgoingMailsRepository.countByYear(LocalDate.now().getYear()) + 1;
     }
 
+    //refactoring add Spring gen;
     @Override
     public OutgoingMail save(BaseMailTo mail) { // TODO: 28.10.2019 а как же 2й TO
         Executor executor = executorService.findExecutorByName(mail.getExecutor());

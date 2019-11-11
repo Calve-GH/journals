@@ -1,11 +1,12 @@
 package com.github.calve.web;
 
 import com.github.calve.model.*;
-import com.github.calve.to.*;
-import com.github.calve.util.to.*;
+import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.ExecutorTo;
+import com.github.calve.to.MailTo;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
-import org.apache.xmlbeans.impl.common.LoadSaveUtils;
+import com.github.calve.util.to.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 
 public final class TransformUtils {
 
-    private final static String date_tmpl = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
-    private final static String date_range_tmpl = date_tmpl + "-" + date_tmpl;
+    private final static String DATE_SOLO_TEMPLATE = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
+    private final static String DATE_RANGE_TEMPLATE = DATE_SOLO_TEMPLATE + "-" + DATE_SOLO_TEMPLATE;
     private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public TransformUtils() {
@@ -29,43 +30,84 @@ public final class TransformUtils {
 
     //refactoring review
     public static Pageable getPageable(DataTablesInput dti) {
-        int page = dti.getStart() / dti.getLength();
-        Sort sort = Sort.by(
-                Sort.Direction.fromString(dti.getOrder().get(0).getDir().toUpperCase()),
-                dti.getColumns().get(dti.getOrder().get(0).getColumn()).getData());
-        return sort != null ? PageRequest.of(page, dti.getLength(), sort) :
-                PageRequest.of(page, dti.getLength());
+        int length = dti.getLength();
+        int pageNumber = dti.getStart() / length;
+        Sort sort = Sort.by(getSortDirection(dti), getProperty(dti));
+        return sort != null ? PageRequest.of(pageNumber, length, sort) : PageRequest.of(pageNumber, length);
     }
 
+    private static Sort.Direction getSortDirection(DataTablesInput dti) {
+        return Sort.Direction.fromString(dti.getOrder().get(0).getDir().toUpperCase());
+    }
+
+    private static String getProperty(DataTablesInput dti) {
+        return dti.getColumns().get(dti.getOrder().get(0).getColumn()).getData();
+    }
+
+    private static boolean isSearchValueContainsDateTemplate(DataTablesInput dti, String template) {
+        return getSearchValue(dti).matches(template);
+    }
+
+    private static String[] parseDateRange(DataTablesInput dti) {
+        return getSearchValue(dti).split("-");
+    }
+
+    private static String getSearchValue(DataTablesInput dti) {
+        return dti.getSearch().getValue();
+    }
 
     public static <T> Specification<T> getSpecification(DataTablesInput dti) {
-        Specification<T> spec = null;
-        if (!dti.getOrder().isEmpty()) {
-            if (!dti.getSearch().getValue().isEmpty()) {
-                if (dti.getSearch().getValue().matches(date_tmpl)) {
-                    LocalDate date = LocalDate.parse(dti.getSearch().getValue().trim(), DTF);
-                    String parameterName = dti.getColumns().get(0).getData();
-                    return new SpecDate<>(new DateCriteria(parameterName, date), null);
-                }
-                if (dti.getSearch().getValue().matches(date_range_tmpl)) {
-                    String[] dates = dti.getSearch().getValue().split("-");
-                    if (dates.length == 2) {
-                    String parameterName = dti.getColumns().get(0).getData();
-                        LocalDate from = LocalDate.parse(dates[0].trim(), DTF);
-                        LocalDate to = LocalDate.parse(dates[1].trim(), DTF);
-                        return new SpecDate<>(new DateCriteria(parameterName, from), new DateCriteria(parameterName, to));
-                    }
-                } else {
-                    List<SearchCriteria> criteriaList = new ArrayList<>();
-                    dti.getColumns().remove(0);
-                    for (Column column : dti.getColumns().stream().filter(Column::getSearchable).collect(Collectors.toList())) {
-                        criteriaList.add(new SearchCriteria(column.getData(), dti.getSearch().getValue()));
-                    }
-                    spec = new Spec<>(criteriaList);
-                }
+        if (!getSearchValue(dti).isEmpty()) {
+            if (isSearchValueContainsDateTemplate(dti, DATE_SOLO_TEMPLATE)) {
+                return getDateSpecification(dti);
             }
+            if (isSearchValueContainsDateTemplate(dti, DATE_RANGE_TEMPLATE) && isDateRange(dti)) {
+                return getDateRangeSpecification(dti);
+            }
+            return getDefaultSpecification(dti);
         }
+        return null;
+    }
+
+    private static boolean isDateRange(DataTablesInput dti) {
+        return parseDateRange(dti).length == 2;
+    }
+
+    private static <T> Specification<T> getDefaultSpecification(DataTablesInput dti) {
+        Specification<T> spec;
+        List<SearchCriteria> criteriaList = new ArrayList<>();
+        //first column always Date, cannot be sort as a String;
+        dti.getColumns().remove(0);
+        for (Column column : getSearchableColumns(dti)) {
+            criteriaList.add(new SearchCriteria(column.getData(), getSearchValue(dti)));
+        }
+        spec = new Spec<>(criteriaList);
         return spec;
+    }
+
+    private static <T> Specification<T> getDateRangeSpecification(DataTablesInput dti) {
+        String[] dates = parseDateRange(dti);
+        LocalDate from = parseToDate(0, dates);
+        LocalDate to = parseToDate(1, dates);
+        return new SpecDate<>(new DateCriteria(getSearchableDateParameterName(dti), from),
+                new DateCriteria(getSearchableDateParameterName(dti), to));
+    }
+
+    private static <T> Specification<T> getDateSpecification(DataTablesInput dti) {
+        LocalDate date = LocalDate.parse(getSearchValue(dti).trim(), DTF);
+        return new SpecDate<>(new DateCriteria(getSearchableDateParameterName(dti), date), null);
+    }
+
+    private static List<Column> getSearchableColumns(DataTablesInput dti) {
+        return dti.getColumns().stream().filter(Column::getSearchable).collect(Collectors.toList());
+    }
+
+    private static LocalDate parseToDate(int i, String[] dates) {
+        return LocalDate.parse(dates[i].trim(), DTF);
+    }
+
+    private static String getSearchableDateParameterName(DataTablesInput dti) {
+        return dti.getColumns().get(0).getData();
     }
 
     public static String clearExecutorName(String name) {
