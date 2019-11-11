@@ -24,6 +24,16 @@ public class RootController {
         return "index";
     }
 
+    @GetMapping("/income/")
+    public String getIncome() {
+        return "income";
+    }
+
+    @GetMapping("/outcome/")
+    public String getOutcome() {
+        return "outcome";
+    }
+
     @GetMapping("/outgoing/")
     public String getOutgoing() {
         return "outgoing";
@@ -40,7 +50,7 @@ public class RootController {
     }
 
     @GetMapping("/generics/")
-    public String getGenerics(Model model) {
+    public String getGenerics() {
         return "generics";
     }
 

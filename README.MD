@@ -3,8 +3,6 @@ todo list:
 2) hibernate second lvl cache ref overview
 3) refactoring
 4) Exceptions review
-5) Outgoing mails add paging -> refactoring.
+5) Spring data jpa -> Specification refactoring.
  - spring gen util;
- - rebuild all mails;//test
- 
- - remove base date filtering from UI/SERVER;
+ - ref index view;
