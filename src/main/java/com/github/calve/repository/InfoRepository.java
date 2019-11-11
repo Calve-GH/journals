@@ -29,9 +29,4 @@ public interface InfoRepository extends JpaRepository<Info, Integer> {
 
     @Override
     List<Info> findAll();
-
-    //refactoring n + 1 PROBLEM
-//    @EntityGraph(attributePaths = {})
-    @Query("SELECT i FROM Info i WHERE i.incomeDate BETWEEN :from AND :to ")
-    List<Info> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }

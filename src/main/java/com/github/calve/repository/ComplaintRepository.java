@@ -29,9 +29,4 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Integer> {
 
     @Override
     List<Complaint> findAll();
-
-    //refactoring n + 1 PROBLEM
-//    @EntityGraph(attributePaths = {})
-    @Query("SELECT c FROM Complaint c WHERE c.incomeDate BETWEEN :from AND :to ")
-    List<Complaint> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }

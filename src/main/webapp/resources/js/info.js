@@ -39,8 +39,8 @@ $(function () {
         datatableOpts: {
             "columns": [
 				{
-				    "searchable" : false,
-					"data": "incomeDate"
+					"data": "incomeDate",
+                    "render": function(data, type, row) { return moment(data).format("DD-MM-YYYY"); }
 				},
 				{
 					"data": "incomeIndex"
@@ -50,7 +50,8 @@ $(function () {
 				},
 				{
 				    "searchable" : false,
-					"data": "outerDate"
+					"data": "outerDate",
+                    "render": function(data, type, row) { return moment(data).format("DD-MM-YYYY"); }
 				},
 				{
 					"data": "outerIndex",
@@ -68,7 +69,8 @@ $(function () {
 				{
 				    "searchable" : false,
 				    "defaultContent": "",
-					"data": "doneDate"
+					"data": "doneDate",
+                    "render": function(data, type, row) { return moment(data).format("DD-MM-YYYY"); }
 				},
 				{
 				    "defaultContent": "",

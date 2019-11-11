@@ -29,11 +29,6 @@ public class InfoServiceImpl implements InfoService {
     }
 
     @Override
-    public List<Info> findMailsBetween(LocalDate from, LocalDate to) {
-        return DateTimeUtil.validateDateRange(from, to) ? repo.getBetween(from, to) : repo.findAll();
-    }
-
-    @Override
     public Info save(MailTo mail) {
         Executor executor = service.findExecutorByName(mail.getExecutor());
         return repo.save(TransformUtils.getInfo(mail, executor));

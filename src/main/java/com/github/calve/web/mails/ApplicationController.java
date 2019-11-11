@@ -52,12 +52,6 @@ public class ApplicationController {
         return TransformUtils.getToList(service.findMails());
     }
 
-    @GetMapping(value = "/filter/")
-    public List<MailTo> getMailsByDate(@RequestParam(value = "startDate", required = false) LocalDate from,
-                                       @RequestParam(value = "endDate", required = false) LocalDate to) {
-        return TransformUtils.getToList(service.findMailsBetween(from, to));
-    }
-
     @DeleteMapping("{id}/")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteMailById(@PathVariable Integer id) {

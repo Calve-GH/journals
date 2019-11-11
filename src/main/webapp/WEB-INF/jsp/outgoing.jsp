@@ -15,19 +15,19 @@
         <%--https://getbootstrap.com/docs/4.0/components/card/--%>
         <div class="card border-dark">
 			<table>
-			<tr>
-		    <td>
-			<div class="card-footer text-right">
-				<button class="btn btn-primary" onclick="add()">
-					<span class="fa fa-plus"></span>
-                        <spring:message code="common.add"/>
-                </button>
-				<input type="button" value=<spring:message code="common.upload"/> class="btn btn-xs btn-primary uploadDocumentOnboarding">
-                <input id="file" type="file" class="findDocumentOnboarding">
-                <label for="file" /><spring:message code="common.choose.file"/></label>
-			</div>
-			</td>
-			</tr>
+                <tr>
+                    <td>
+                        <div class="card-footer text-right">
+                            <button class="btn btn-primary" onclick="add()">
+                                <span class="fa fa-plus"></span>
+                                    <spring:message code="common.add"/>
+                            </button>
+                            <input type="button" value=<spring:message code="common.upload"/> class="btn btn-xs btn-primary uploadDocumentOnboarding">
+                            <input id="file" type="file" class="findDocumentOnboarding">
+                            <label for="file" /><spring:message code="common.choose.file"/></label>
+                        </div>
+                    </td>
+                </tr>
 			</table>
         </div>
         <br/>

@@ -33,11 +33,6 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<Request> findMailsBetween(LocalDate from, LocalDate to) {
-        return DateTimeUtil.validateDateRange(from, to) ? repo.getBetween(from, to) : repo.findAll();
-    }
-
-    @Override
     public Request save(MailTo mail) {
         Executor executor = service.findExecutorByName(mail.getExecutor()); //refactoring мб как то по другому.
         if (executor == null) throw new NotFoundException("Исполнителя не существует в БД");

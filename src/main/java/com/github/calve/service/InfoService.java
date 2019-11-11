@@ -12,8 +12,6 @@ import java.util.Map;
 public interface InfoService extends MailSaver {
     List<Info> findMails();
 
-    List<Info> findMailsBetween(LocalDate from, LocalDate to);
-
     Info save(MailTo mail);
 
     Info save(MailTo mail, Map<String, Executor> cache);

@@ -29,11 +29,6 @@ public class ForeignerServiceImpl implements ForeignerService {
     }
 
     @Override
-    public List<Foreigner> findMailsBetween(LocalDate from, LocalDate to) {
-        return DateTimeUtil.validateDateRange(from, to) ? repo.getBetween(from, to) : repo.findAll();
-    }
-
-    @Override
     public Foreigner save(MailTo mail) {
         Executor executor = service.findExecutorByName(mail.getExecutor());
         return repo.save(TransformUtils.getForeigner(mail, executor));

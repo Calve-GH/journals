@@ -13,8 +13,6 @@ import java.util.Map;
 public interface RequestService extends MailSaver {
     List<Request> findMails();
 
-    List<Request> findMailsBetween(LocalDate from, LocalDate to);
-
     Request save(MailTo mail);
 
     Request save(MailTo mail, Map<String, Executor> cache);

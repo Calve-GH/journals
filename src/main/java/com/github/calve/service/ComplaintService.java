@@ -11,8 +11,6 @@ import java.util.Map;
 public interface ComplaintService extends MailSaver {
     List<Complaint> findMails();
 
-    List<Complaint> findMailsBetween(LocalDate from, LocalDate to);
-
     Complaint save(MailTo mail);
 
     Complaint save(MailTo mail, Map<String, Executor> cache);

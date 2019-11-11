@@ -29,9 +29,4 @@ public interface ForeignerRepository extends JpaRepository<Foreigner, Integer> {
 
     @Override
     List<Foreigner> findAll();
-
-    //refactoring n + 1 PROBLEM
-//    @EntityGraph(attributePaths = {})
-    @Query("SELECT f FROM Foreigner f WHERE f.incomeDate BETWEEN :from AND :to ")
-    List<Foreigner> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }

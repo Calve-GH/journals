@@ -29,11 +29,6 @@ public class GenericServiceImpl implements GenericService {
     }
 
     @Override
-    public List<Generic> findMailsBetween(LocalDate from, LocalDate to) {
-        return DateTimeUtil.validateDateRange(from, to) ? repo.getBetween(from, to) : repo.findAll();
-    }
-
-    @Override
     public Generic save(MailTo mail) {
         Executor executor = service.findExecutorByName(mail.getExecutor());
         return repo.save(TransformUtils.getGeneric(mail, executor));

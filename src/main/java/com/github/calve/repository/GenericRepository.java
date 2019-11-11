@@ -29,9 +29,4 @@ public interface GenericRepository extends JpaRepository<Generic, Integer> {
 
     @Override
     List<Generic> findAll();
-
-    //refactoring n + 1 PROBLEM
-//    @EntityGraph(attributePaths = {})
-    @Query("SELECT g FROM Generic g WHERE g.incomeDate BETWEEN :from AND :to ")
-    List<Generic> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }

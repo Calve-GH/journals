@@ -12,8 +12,6 @@ import java.util.Map;
 public interface ForeignerService extends MailSaver {
     List<Foreigner> findMails();
 
-    List<Foreigner> findMailsBetween(LocalDate from, LocalDate to);
-
     Foreigner save(MailTo mail);
 
     Foreigner save(MailTo mail, Map<String, Executor> cache);

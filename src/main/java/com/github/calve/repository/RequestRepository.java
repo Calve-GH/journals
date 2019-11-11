@@ -32,11 +32,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     @Override
     List<Request> findAll();
 
-    //refactoring n + 1 PROBLEM
-//    @EntityGraph(attributePaths = {})
-    @Query("SELECT r FROM Request r WHERE r.incomeDate BETWEEN :from AND :to ")
-    List<Request> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
-
     @Override
     Page<Request> findAll(Pageable pageable);
 }

@@ -29,11 +29,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public List<Complaint> findMailsBetween(LocalDate from, LocalDate to) {
-        return DateTimeUtil.validateDateRange(from, to) ? repo.getBetween(from, to) : repo.findAll();
-    }
-
-    @Override
     public Complaint save(MailTo mail) {
         Executor executor = service.findExecutorByName(mail.getExecutor());
         return repo.save(TransformUtils.getComplaint(mail, executor));

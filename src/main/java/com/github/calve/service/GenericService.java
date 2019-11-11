@@ -12,8 +12,6 @@ import java.util.Map;
 public interface GenericService extends MailSaver {
     List<Generic> findMails();
 
-    List<Generic> findMailsBetween(LocalDate from, LocalDate to);
-
     Generic save(MailTo mail);
 
     Generic save(MailTo mail, Map<String, Executor> cache);

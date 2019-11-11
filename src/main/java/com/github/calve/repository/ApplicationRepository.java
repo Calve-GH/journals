@@ -29,9 +29,4 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
     @Override
     List<Application> findAll();
-
-    //refactoring n + 1 PROBLEM
-//    @EntityGraph(attributePaths = {})
-    @Query("SELECT a FROM Application a WHERE a.incomeDate BETWEEN :from AND :to ")
-    List<Application> getBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }
