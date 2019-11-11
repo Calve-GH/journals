@@ -7,6 +7,6 @@ import com.github.calve.to.MailTo;
 import java.sql.SQLException;
 import java.util.Map;
 
-public interface MailSaver {
+public interface MailSaver extends FilteredSortedData {
     Mail save(MailTo mail, Map<String, Executor> cache) throws SQLException;
 }

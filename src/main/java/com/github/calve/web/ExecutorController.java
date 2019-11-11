@@ -5,11 +5,14 @@ import com.github.calve.service.ExecutorService;
 import com.github.calve.service.GenericService;
 import com.github.calve.to.ExecutorTo;
 import com.github.calve.to.MailTo;
+import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -45,8 +48,8 @@ public class ExecutorController {
     }
 
     @GetMapping
-    public List<ExecutorTo> getExecutors() {
-        return TransformUtils.getExecutorsToList(service.findAll());
+    public ResponseEntity getExecutors(@Valid DataTablesInput dti) {
+        return ResponseEntity.ok(service.findFilteredAndSort(dti));
     }
 
     @GetMapping("enabled/")

@@ -113,6 +113,7 @@ public class StorageServiceImpl implements StorageService {
             saveWithService(type, saveList);
         }
     }
+
     private void saveFileToDatabaseOut(MultipartFile file) throws SQLException {
         if (validateFile(file)) {
             List<BaseMailTo> saveList = new ArrayList<>();

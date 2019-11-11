@@ -2,6 +2,7 @@ package com.github.calve.repository;
 
 import com.github.calve.model.Executor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface ExecutorRepository extends JpaRepository<Executor, Integer> {
+public interface ExecutorRepository extends JpaRepository<Executor, Integer>, JpaSpecificationExecutor<Executor> {
 
     @Query("SELECT e FROM Executor e WHERE e.name=:name")
     Executor findByName(@Param("name") String name);

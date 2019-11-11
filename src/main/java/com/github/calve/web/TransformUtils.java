@@ -5,6 +5,7 @@ import com.github.calve.to.*;
 import com.github.calve.util.to.*;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
+import org.apache.xmlbeans.impl.common.LoadSaveUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,8 +19,8 @@ import java.util.stream.Collectors;
 
 public final class TransformUtils {
 
-    private final static String date_templ = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
-    private final static String date_range_tmpl = date_templ + "-" + date_templ;
+    private final static String date_tmpl = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
+    private final static String date_range_tmpl = date_tmpl + "-" + date_tmpl;
     private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public TransformUtils() {
@@ -41,7 +42,7 @@ public final class TransformUtils {
         Specification<T> spec = null;
         if (!dti.getOrder().isEmpty()) {
             if (!dti.getSearch().getValue().isEmpty()) {
-                if (dti.getSearch().getValue().matches(date_templ)) {
+                if (dti.getSearch().getValue().matches(date_tmpl)) {
                     LocalDate date = LocalDate.parse(dti.getSearch().getValue().trim(), DTF);
                     String parameterName = dti.getColumns().get(0).getData();
                     return new SpecDate<>(new DateCriteria(parameterName, date), null);

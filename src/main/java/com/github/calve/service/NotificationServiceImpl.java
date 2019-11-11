@@ -7,7 +7,10 @@ import com.github.calve.util.Journals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.github.calve.util.Journals.*;
 
@@ -42,7 +45,8 @@ public class NotificationServiceImpl implements NotificationService {
         calcApplications(notificationValues);
         return notificationValues;
     }
-//refactoring enum map
+
+    //refactoring enum map
     private void calcRequests(Map<Journals, Integer> map) {
         map.put(REQUESTS, findExpired(requestRepository.findAll()));
     }

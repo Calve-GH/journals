@@ -6,12 +6,13 @@ import com.github.calve.to.MailTo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 public interface RequestService extends MailSaver {
     List<Request> findMails();
+
+    Page<Request> findMails(Pageable pageable);
 
     Request save(MailTo mail);
 
@@ -20,6 +21,4 @@ public interface RequestService extends MailSaver {
     int delete(Integer id);
 
     Request findById(Integer id);
-
-    Page<Request> findAll(Pageable pageable);
 }

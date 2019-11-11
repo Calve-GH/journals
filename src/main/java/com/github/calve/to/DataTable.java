@@ -1,5 +1,6 @@
 package com.github.calve.to;
 
+import com.github.calve.model.Executor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class DataTable {
     private long recordsTotal;
     private long recordsFiltered;
 
-    private List<BaseMailTo> data;
+    private List<? extends BaseTo> data;
 
     public int getDraw() {
         return draw;
@@ -50,11 +51,11 @@ public class DataTable {
         this.recordsFiltered = recordsFiltered;
     }
 
-    public List<BaseMailTo> getData() {
+    public List<? extends BaseTo> getData() {
         return data;
     }
 
-    public void setData(List<BaseMailTo> data) {
+    public void setData(List<? extends BaseTo> data) {
         this.data = data;
     }
 }

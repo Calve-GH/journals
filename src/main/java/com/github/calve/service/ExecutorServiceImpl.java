@@ -1,12 +1,23 @@
 package com.github.calve.service;
 
 import com.github.calve.model.Executor;
+import com.github.calve.model.Foreigner;
 import com.github.calve.repository.ExecutorRepository;
+import com.github.calve.to.DataTable;
+import com.github.calve.util.to.DataTablesInput;
+import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.github.calve.service.ServiceUtils.constructExecutorsPage;
+import static com.github.calve.service.ServiceUtils.constructPage;
 
 @Service
 public class ExecutorServiceImpl implements ExecutorService {
@@ -21,11 +32,6 @@ public class ExecutorServiceImpl implements ExecutorService {
     @Override
     public Executor findExecutorByName(String name) {
         return repository.findByName(name);
-    }
-
-    @Override
-    public List<Executor> findAll() {
-        return repository.findAll();
     }
 
     @Override
@@ -57,5 +63,31 @@ public class ExecutorServiceImpl implements ExecutorService {
             executor.setEnabled(enable);
             repository.save(executor);
         }
+    }
+
+    @Override
+    public DataTable findFilteredAndSort(DataTablesInput dti) {
+        Pageable pageable = TransformUtils.getPageable(dti);
+        Specification<Executor> spec = TransformUtils.getSpecification(dti);
+
+        if (Objects.isNull(spec)) {
+            return constructExecutorsPage(dti, findAll(pageable));
+        } else {
+            return constructExecutorsPage(dti, findSearchable(pageable, spec));
+        }
+    }
+
+    @Override
+    public Page<Executor> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    private Page<Executor> findSearchable(Pageable pageable, Specification<Executor> spec) {
+        return repository.findAll(spec, pageable);
+    }
+
+    @Override
+    public List<Executor> findAll() {
+        return repository.findAll();
     }
 }
