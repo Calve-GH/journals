@@ -73,7 +73,7 @@ function deleteRow(id) {
             url: context.ajaxUrl + id + "/",
             type: "DELETE"
         }).done(function () {
-            context.updateTable();
+            updateTableDefault();
             successNoty("common.deleted");
         });
     }
@@ -81,6 +81,10 @@ function deleteRow(id) {
 
 function updateTableByData(data) {
     context.datatableApi.clear().rows.add(data).draw();
+}
+//https://datatables.net/reference/api/ajax.reload()
+function updateTableDefault() {
+    context.datatableApi.ajax.reload(null, false);
 }
 
 function save() {
@@ -90,7 +94,7 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        context.updateTable();
+        updateTableDefault();
         successNoty("common.saved");
     });
 }

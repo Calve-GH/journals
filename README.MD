@@ -3,5 +3,6 @@ todo list:
 2) hibernate second lvl cache ref overview
 3) refactoring
 4) Exceptions review
+5) Export outgoing in xls
+6) Make select by current year;
  - spring gen util;
- - ref index view;

@@ -23,7 +23,7 @@ $(".uploadDocumentOnboarding").on("click", function (evt) {
 function updateFilteredTable() {
     $.ajax({
         type: "GET",
-        url: mailAjaxUrl + "filter/",
+        url: mailAjaxUrl,
         data: $("#filter").serialize()
     }).done(updateTableByData);
 }
