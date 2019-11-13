@@ -85,4 +85,16 @@ public class RootController {
             e.printStackTrace();
         }
     }
+
+    @GetMapping(value = "/excelout/")
+    public void getOutgoingExcelRepresentation(HttpServletResponse response) {
+        try {
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition",
+                    "attachment; filename=EXCEL_OUTGOING_DB.xls");
+            response.getOutputStream().write(excelService.getOutgoingExcelRepresentation());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

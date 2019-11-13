@@ -19,17 +19,20 @@ public class ExcelServiceImpl implements ExcelService {
     private InfoRepository infoRepository;
     private ForeignerRepository foreignerRepository;
     private GenericRepository applicationRepository;
+    private OutgoingMailsRepository outgoingMailsRepository;
 
     @Autowired
     public ExcelServiceImpl(RequestRepository requestRepository, ComplaintRepository complaintRepository,
                             ApplicationRepository genericRepository, InfoRepository infoRepository,
-                            ForeignerRepository foreignerRepository, GenericRepository applicationRepository) {
+                            ForeignerRepository foreignerRepository, GenericRepository applicationRepository,
+                            OutgoingMailsRepository outgoingMailsRepository) {
         this.requestRepository = requestRepository;
         this.complaintRepository = complaintRepository;
         this.genericRepository = genericRepository;
         this.infoRepository = infoRepository;
         this.foreignerRepository = foreignerRepository;
         this.applicationRepository = applicationRepository;
+        this.outgoingMailsRepository = outgoingMailsRepository;
     }
 
     @Override
@@ -43,6 +46,15 @@ public class ExcelServiceImpl implements ExcelService {
             list.add(foreignerRepository.findAll());
             list.add(applicationRepository.findAll());
             return ExcelWriter.getExcelFile(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public byte[] getOutgoingExcelRepresentation(){
+        try {
+            return ExcelWriter.getExcelOutFile(outgoingMailsRepository.findAll());
         } catch (IOException e) {
             e.printStackTrace();
         }

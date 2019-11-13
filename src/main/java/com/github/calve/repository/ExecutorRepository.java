@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface ExecutorRepository extends JpaRepository<Executor, Integer>, JpaSpecificationExecutor<Executor> {
+public interface ExecutorRepository extends JpaRepository<Executor, Integer> {
 
     @Query("SELECT e FROM Executor e WHERE e.name=:name")
     Executor findByName(@Param("name") String name);

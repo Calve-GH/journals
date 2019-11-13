@@ -14,6 +14,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +23,13 @@ import java.util.stream.Collectors;
 public final class TransformUtils {
 
     private final static String DATE_SOLO_TEMPLATE = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
+    private final static String DATE_YEAR_TEMPLATE = "\\.((?:19|20)\\d{2})\\s*";
     private final static String DATE_RANGE_TEMPLATE = DATE_SOLO_TEMPLATE + "-" + DATE_SOLO_TEMPLATE;
     private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final static LocalDate NOW = LocalDate.now();
+    //https://stackoverflow.com/questions/9382897/how-to-get-start-and-end-date-of-a-year
+    private final static LocalDate FIRST_DAY_OF_YEAR = NOW.with(TemporalAdjusters.firstDayOfYear());
+    private final static LocalDate LAST_DAY_OF_YEAR = NOW.with(TemporalAdjusters.lastDayOfYear());
 
     public TransformUtils() {
         throw new AssertionError("Cannot create instance of util class");
@@ -56,8 +63,15 @@ public final class TransformUtils {
         return dti.getSearch().getValue();
     }
 
+    private static String getSearchYear(String dirtyDate) {
+        return dirtyDate.substring(1, 5);
+    }
+
     public static <T> Specification<T> getSpecification(DataTablesInput dti) {
         if (!getSearchValue(dti).isEmpty()) {
+            if (isSearchValueContainsDateTemplate(dti, DATE_YEAR_TEMPLATE)) {
+                return getYearSpecification(dti);
+            }
             if (isSearchValueContainsDateTemplate(dti, DATE_SOLO_TEMPLATE)) {
                 return getDateSpecification(dti);
             }
@@ -66,8 +80,10 @@ public final class TransformUtils {
             }
             return getDefaultSpecification(dti);
         }
-        return null;
+        return getCurrentYearSpecification(dti);
     }
+
+
 
     private static boolean isDateRange(DataTablesInput dti) {
         return parseDateRange(dti).length == 2;
@@ -89,6 +105,21 @@ public final class TransformUtils {
         String[] dates = parseDateRange(dti);
         LocalDate from = parseToDate(0, dates);
         LocalDate to = parseToDate(1, dates);
+        return getDateDefaultSpecification(dti, from, to);
+    }
+
+    private static <T> Specification<T> getCurrentYearSpecification(DataTablesInput dti) {
+        return getDateDefaultSpecification(dti, FIRST_DAY_OF_YEAR, LAST_DAY_OF_YEAR);
+    }
+
+    private static <T> Specification<T> getYearSpecification(DataTablesInput dti) {
+        int searchYear = Integer.parseInt(getSearchYear(getSearchValue(dti)));
+        LocalDate from = LocalDate.of(searchYear, 1, 1);
+        LocalDate to = from.with(TemporalAdjusters.lastDayOfYear());
+        return getDateDefaultSpecification(dti, from, to);
+    }
+
+    private static <T> Specification<T> getDateDefaultSpecification(DataTablesInput dti, LocalDate from, LocalDate to) {
         return new SpecDate<>(new DateCriteria(getSearchableDateParameterName(dti), from),
                 new DateCriteria(getSearchableDateParameterName(dti), to));
     }
