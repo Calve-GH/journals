@@ -25,6 +25,7 @@ public interface GenericRepository extends JpaRepository<Generic, Integer>, JpaS
     @Query("DELETE FROM Generic g where g.id=:id")
     int delete(@Param("id") Integer id); // TODO: 26.09.2019 mb return id;
 
+    @Override
     Optional<Generic> findById(Integer id);
 
     @Override

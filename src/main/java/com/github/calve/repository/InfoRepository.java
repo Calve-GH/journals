@@ -18,13 +18,14 @@ public interface InfoRepository extends JpaRepository<Info, Integer>, JpaSpecifi
 
     @Override
     @Transactional
-    <S extends Info> S save(S entity);
+    <I extends Info> I save(I entity);
 
     @Transactional
     @Modifying
     @Query("DELETE FROM Info i where i.id=:id")
     int delete(@Param("id") Integer id); // TODO: 26.09.2019 mb return id;
 
+    @Override
     Optional<Info> findById(Integer id);
 
     @Override

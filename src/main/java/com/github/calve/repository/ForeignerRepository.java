@@ -18,13 +18,14 @@ public interface ForeignerRepository extends JpaRepository<Foreigner, Integer>, 
 
     @Override
     @Transactional
-    <S extends Foreigner> S save(S entity);
+    <F extends Foreigner> F save(F entity);
 
     @Transactional
     @Modifying
     @Query("DELETE FROM Foreigner f where f.id=:id")
     int delete(@Param("id") Integer id); // TODO: 26.09.2019 mb return id;
 
+    @Override
     Optional<Foreigner> findById(Integer id);
 
     @Override

@@ -18,7 +18,6 @@ public class AbstractMail extends AbstractEntity implements Mail {
     private String outerIndex;
     @Column(name = "description", nullable = false)
     private String description;
-    //    @Column(name = "executor_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Executor executor;
 

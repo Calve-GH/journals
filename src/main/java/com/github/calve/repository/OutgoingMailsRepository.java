@@ -25,6 +25,7 @@ public interface OutgoingMailsRepository extends JpaRepository<OutgoingMail, Int
     @Query("DELETE FROM OutgoingMail m where m.id=:id")
     int delete(@Param("id") Integer id);
 
+    @Override
     Optional<OutgoingMail> findById(Integer id);
 
     @Override

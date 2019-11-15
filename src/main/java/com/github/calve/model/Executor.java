@@ -10,7 +10,7 @@ import java.util.StringJoiner;
 public class Executor extends AbstractEntity {
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "enabled") // TODO: 14.10.2019 not null ref
+    @Column(name = "enabled")
     private boolean enabled = true;
 
     public Executor() {

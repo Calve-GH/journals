@@ -3,9 +3,7 @@ package com.github.calve.util.excel;
 import com.github.calve.model.Mail;
 import com.github.calve.model.OutgoingMail;
 import com.github.calve.util.DateTimeUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.ByteArrayOutputStream;
@@ -37,7 +35,8 @@ public class ExcelWriter {
         }
         return writeToFile(workbook);
     }
-//refactoring thinking mb memory leak
+
+    //refactoring thinking mb memory leak
     private static String getSortedYear(OutgoingMail mail) {
         return Integer.toString(mail.getOuterDate().getYear());
     }
@@ -57,11 +56,14 @@ public class ExcelWriter {
 
     private static void createOutcomeSheet(Workbook workbook, List<OutgoingMail> table, String sheetName) throws IOException {
         Sheet sheet = workbook.createSheet(sheetName);
+        setOutgoingTableColumnsWidth(sheet);
         int colNum = 0;
         int rowNum = 0;
         Row row1 = sheet.createRow(rowNum++);
         for (Columns column : OUTGOING_COLUMNS) {
-            row1.createCell(colNum++).setCellValue(column.getName());
+            Cell headCell = row1.createCell(colNum++);
+            headCell.setCellValue(column.getName());
+            headCell.setCellStyle(getDefaultCellStyle(workbook));
         }
         for (OutgoingMail mail : table) { //refactoring sheet
             colNum = 0;
@@ -69,9 +71,13 @@ public class ExcelWriter {
             row.createCell(colNum++).setCellValue(wrapDateCell(mail.getOuterDate()));
             row.createCell(colNum++).setCellValue(mail.getOuterIndex());
             row.createCell(colNum++).setCellValue(mail.getGenIndex());
-            row.createCell(colNum++).setCellValue(mail.getCorrespondent());
-            row.createCell(colNum++).setCellValue(mail.getDescription());
-            row.createCell(colNum++).setCellValue(mail.getExecutor().getName());
+            Cell corr = row.createCell(colNum++);
+            corr.setCellValue(mail.getCorrespondent());
+            corr.setCellStyle(getDefaultCellStyle(workbook));
+            Cell descr = row.createCell(colNum++);
+            descr.setCellValue(mail.getDescription());
+            descr.setCellStyle(getDefaultCellStyle(workbook));
+            row.createCell(colNum).setCellValue(mail.getExecutor().getName());
         }
     }
 
@@ -138,7 +144,7 @@ public class ExcelWriter {
                 row.createCell(colNum++).setCellValue(mail.getDebtor());
             }
             if (columns.contains(DR)) {
-                row.createCell(colNum++).setCellValue(mail.getProceedingNumber());
+                row.createCell(colNum).setCellValue(mail.getProceedingNumber());
             }
         }
         //setArchiveTableColumnsWidth(sheet);
@@ -153,19 +159,38 @@ public class ExcelWriter {
 
     }
 
-    private static void setArchiveTableColumnsWidth(Sheet sheet) { // TODO: 16.10.2019
-        sheet.setColumnWidth(0, 13 * 256);
+    private static void setOutgoingTableColumnsWidth(Sheet sheet) { // TODO: 16.10.2019
+        sheet.setColumnWidth(0, 12 * 256);
         sheet.setColumnWidth(1, 12 * 256);
         sheet.setColumnWidth(2, 10 * 256);
         sheet.setColumnWidth(3, 36 * 256);
         sheet.setColumnWidth(4, 36 * 256);
         sheet.setColumnWidth(5, 8 * 256);
-        sheet.setColumnWidth(6, 16 * 256);
+
+/*        sheet.setColumnWidth(0, 13 * 256);
+        sheet.setColumnWidth(1, 12 * 256);
+        sheet.setColumnWidth(2, 10 * 256);
+        sheet.setColumnWidth(3, 36 * 256);
+        sheet.setColumnWidth(4, 36 * 256);
+        sheet.setColumnWidth(5, 8 * 256);
+        sheet.setColumnWidth(6, 16 * 256);*/
     }
 
     private static byte[] writeToFile(Workbook workbook) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         workbook.write(baos);
         return baos.toByteArray();
+    }
+
+    private static CellStyle defaultCellStyle = null;
+
+    private static CellStyle getDefaultCellStyle(final Workbook wb) {
+        if (Objects.isNull(defaultCellStyle)) {
+            defaultCellStyle = wb.createCellStyle();
+            defaultCellStyle.setAlignment(HorizontalAlignment.GENERAL);
+            defaultCellStyle.setVerticalAlignment(VerticalAlignment.TOP);
+            defaultCellStyle.setWrapText(true);
+        }
+        return defaultCellStyle;
     }
 }

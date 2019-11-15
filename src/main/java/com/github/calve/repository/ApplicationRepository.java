@@ -25,6 +25,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     @Query("DELETE FROM Application a where a.id=:id")
     int delete(@Param("id") Integer id);
 
+    @Override
     Optional<Application> findById(Integer id);
 
     @Override

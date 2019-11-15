@@ -27,6 +27,7 @@ public interface RequestRepository extends JpaRepository<Request, Integer>, JpaS
     @Query("DELETE FROM Request r where r.id=:id")
     int delete(@Param("id") Integer id); // TODO: 26.09.2019 mb return id;
 
+    @Override
     Optional<Request> findById(Integer id);
 
     @Override

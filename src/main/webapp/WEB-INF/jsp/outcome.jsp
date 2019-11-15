@@ -16,7 +16,7 @@
             <table>
                 <tr>
                     <td></td>
-                    <td><img src="resources/images/excel.png"></td>
+                    <td><img src="resources/images/outgoing.png"></td>
                     <td><a href="outgoing/">Исходящие</a></td>
                 </tr>
                 <tr>

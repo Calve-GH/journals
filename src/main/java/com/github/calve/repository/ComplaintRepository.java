@@ -18,13 +18,14 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Integer>, 
 
     @Override
     @Transactional
-    <S extends Complaint> S save(S entity);
+    <C extends Complaint> C save(C entity);
 
     @Transactional
     @Modifying
     @Query("DELETE FROM Complaint c where c.id=:id")
     int delete(@Param("id") Integer id); // TODO: 26.09.2019 mb return id;
 
+    @Override
     Optional<Complaint> findById(Integer id);
 
     @Override
