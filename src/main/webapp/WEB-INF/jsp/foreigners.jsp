@@ -117,8 +117,8 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="description" class="col-form-label"><spring:message code="table.ds"/></label>
-									<input type="text" class="form-control" id="description" name="description">
+									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/></label>
+									<input type="text" class="form-control" id="correspondent" name="correspondent">
 								</div>
 							</td>
 							<td>
@@ -143,13 +143,11 @@
 							</td>
 						</tr>
 						<tr>
-							<td>
+							<td colspan = "2">
 								<div class="form-group">
-									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/></label>
-									<input type="text" class="form-control" id="correspondent" name="correspondent">
+									<label for="description" class="col-form-label"><spring:message code="table.ds"/></label>
+									<textarea class="form-control" rows="3" id="description" name="description"></textarea>
 								</div>
-							</td>
-							<td>
 							</td>
 						</tr>
                     </table>

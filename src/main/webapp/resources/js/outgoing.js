@@ -50,12 +50,12 @@ $(function () {
 					"data": "genIndex",
 				},
 				{
+					"data": "correspondent"
+				},
+				{
 				    "defaultContent": "",
 					"data": "description",
 					"orderable": false
-				},
-				{
-					"data": "correspondent"
 				},
 				{
 				    "searchable" : false,

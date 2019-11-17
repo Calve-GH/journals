@@ -108,16 +108,20 @@
 						</tr>
 						<tr>
 							<td>
-								<div class="form-group">
-									<label for="description" class="col-form-label"><spring:message code="table.ds"/></label>
-									<input type="text" class="form-control" id="description" name="description">
-								</div>
-							</td>
-							<td>
                                 <div class="form-group">
                                     <label for="executor" class="col-form-label"><spring:message code="table.ex"/></label>
                                     <select class="form-control" id="locality-dropdown" id="executor" name="executor"></select>
                                 </div>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td colspan = "2">
+								<div class="form-group">
+									<label for="description" class="col-form-label"><spring:message code="table.ds"/></label>
+									<textarea class="form-control" rows="3" id="description" name="description"></textarea>
+								</div>
 							</td>
 						</tr>
                     </table>

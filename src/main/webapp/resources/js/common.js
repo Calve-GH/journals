@@ -59,6 +59,9 @@ function updateRow(id) {
             if (key == 'executor') {
                 form.find("select[name='" + key + "']").val(value).attr('selected', 'selected');
             }
+            if (key == 'description') {
+                form.find("textarea[name='" + key + "']").val(value);
+            }
         });
 
         $('#editRow').modal();
@@ -141,16 +144,13 @@ function renderDeleteBtn(data, type, row) {
 }
 
 let dropdown = $('#locality-dropdown');
-
 dropdown.empty();
-
 dropdown.append('<option selected="true" disabled>Исполнитель</option>');
 dropdown.prop('selectedIndex', 0);
-
 const eurl = "rest/executors/enabled/";
-
 $.getJSON(eurl, function (data) {
   $.each(data, function (key, entry) {
     dropdown.append($('<option></option>').attr('value', entry.name).text(entry.name));
   })
 });
+

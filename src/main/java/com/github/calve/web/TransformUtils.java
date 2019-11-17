@@ -268,8 +268,8 @@ public final class TransformUtils {
     public static OutgoingMail getOutgoing(BaseMailTo mail, Executor executor) {
         return new MailBuilder().setId(mail.getId())
                 .setOuterDate(mail.getOuterDate())
+                .setOuterIndex(mail.getOuterIndex())
                 .setGenIndex(mail.getGenIndex())
-                .setProceedingNumber(mail.getOuterIndex())
                 .setCorrespondent(mail.getCorrespondent())
                 .setDescription(mail.getDescription())
                 .setExecutor(executor)

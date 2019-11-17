@@ -127,8 +127,8 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="description" class="col-form-label"><spring:message code="table.ds"/></label>
-									<input type="text" class="form-control" id="description" name="description">
+									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/></label>
+									<input type="text" class="form-control" id="correspondent" name="correspondent">
 								</div>
 							</td>
 							<td>
@@ -155,39 +155,38 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/></label>
-									<input type="text" class="form-control" id="correspondent" name="correspondent">
-								</div>
-							</td>
-							<td>
-								<div class="form-group">
 									<label for="proceedingNumber" class="col-form-label"><spring:message code="table.pn"/></label>
 									<input type="text" class="form-control" id="proceedingNumber" name="proceedingNumber">
 								</div>
 							</td>
-						</tr>
-						<tr>
 							<td>
 								<div class="form-group">
 									<label for="workDate" class="col-form-label"><spring:message code="table.wd"/></label>
 									<input type="date" class="form-control" id="workDate" name="workDate">
 								</div>
 							</td>
+						</tr>
+						<tr>
 							<td>
 								<div class="form-group">
 									<label for="workIndex" class="col-form-label"><spring:message code="table.wi"/></label>
 									<input type="text" class="form-control" id="workIndex" name="workIndex">
 								</div>
 							</td>
-						</tr>
-						<tr>
 							<td>
 								<div class="form-group">
 									<label for="authority" class="col-form-label"><spring:message code="table.au"/></label>
 									<input type="text" class="form-control" id="authority" name="authority">
 								</div>
 							</td>
-							<td></td>
+						</tr>
+						<tr>
+							<td colspan = "2">
+								<div class="form-group">
+									<label for="description" class="col-form-label"><spring:message code="table.ds"/></label>
+									<textarea class="form-control" rows="3" id="description" name="description"></textarea>
+								</div>
+							</td>
 						</tr>
                     </table>
                 </form>
