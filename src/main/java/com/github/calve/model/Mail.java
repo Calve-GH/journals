@@ -67,4 +67,8 @@ public interface Mail {
     default String getDebtor() {
         return "";
     }
+
+    default boolean getGenerics() {
+        return false;
+    }
 }

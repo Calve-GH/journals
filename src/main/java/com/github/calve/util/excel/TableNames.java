@@ -19,7 +19,7 @@ public enum TableNames {
         return name;
     }
 
-    public static TableNames getNAmeByIndex(int index) {
+    public static TableNames getNameByIndex(int index) {
         switch (index) {
             case 1 : return COMPLAINT;
             case 2 : return GENERIC;

@@ -50,7 +50,7 @@
                 <tr>
                     <td></td>
                     <td><img src="resources/images/excel.png"></td>
-                    <td><a href="excel/">Скачать журналы в формате Excel</span></a></td>
+                    <td><a href="excel/">Скачать журналы в формате excel</span></a></td>
                 </tr>
             </table>
         </div>

@@ -25,11 +25,12 @@ public class ToBuilder {
     private String proceedingNumber;
     private String debtor;
     private Integer genIndex;
+    private boolean generics = false;
 
     public MailTo getMailTo() {
         return new MailTo(this.id, this.incomeDate, this.incomeIndex, this.correspondent, this.outerDate,
                 this.outerIndex, this.description, this.executor, this.doneDate, this.doneIndex, this.doneResult,
-                this.proceedingNumber, this.debtor, this.workDate, this.workIndex, this.authority);
+                this.proceedingNumber, this.debtor, this.workDate, this.workIndex, this.authority, this.generics);
     }
 
     public BaseMailTo getBaseMailTo() {
@@ -37,11 +38,10 @@ public class ToBuilder {
                 this.correspondent, this.description, this.executor);
     }
 
-/*    public MailTo getRequest() {
-        return new MailTo(this.id, this.incomeDate, this.incomeIndex, this.correspondent,
-                this.outerDate, this.outerIndex, this.description, this.executor,
-                this.doneDate, this.doneIndex);
-    }*/
+    public ToBuilder setGenerics(boolean generics) {
+        this.generics = generics;
+        return this;
+    }
 
     public ToBuilder setGenIndex(Integer genIndex) {
         this.genIndex = genIndex;

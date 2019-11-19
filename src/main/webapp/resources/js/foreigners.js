@@ -13,7 +13,7 @@ $(".uploadDocumentOnboarding").on("click", function (evt) {
         processData: false,
         success: function (response) {
             successNoty("common.file.upload");
-            clearFilter();
+            updateTableDefault();
         }
     });
 

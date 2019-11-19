@@ -75,7 +75,7 @@
                     <td>${mail.proceedingNumber}</td>
                     <td>${fn:formatDateTime(mail.doneDate)}</td>
                     <td>${mail.doneIndex}</td>
-                    <td>${mail.remains}</td>
+                    <td>${mail.remain}</td>
                     <td><a onclick="updateRow(${mail.id})"><span class="fa fa-pencil"></span></a></td>
                     <td><a onclick="deleteRow(${mail.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>

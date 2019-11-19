@@ -19,4 +19,4 @@ public enum Journals {
     public String getName() {
         return name;
     }
-    }
+}

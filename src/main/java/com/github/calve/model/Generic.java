@@ -30,6 +30,7 @@ public class Generic extends AbstractMail {
         this.doneIndex = doneIndex;
     }
 
+    @Override
     public LocalDate getDoneDate() {
         return doneDate;
     }
@@ -38,11 +39,17 @@ public class Generic extends AbstractMail {
         this.doneDate = doneDate;
     }
 
+    @Override
     public String getDoneIndex() {
         return doneIndex;
     }
 
     public void setDoneIndex(String doneIndex) {
         this.doneIndex = doneIndex;
+    }
+
+    @Override
+    public boolean getGenerics() {
+        return true;
     }
 }

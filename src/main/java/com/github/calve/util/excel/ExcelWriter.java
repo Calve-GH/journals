@@ -1,8 +1,8 @@
 package com.github.calve.util.excel;
 
-import com.github.calve.model.Mail;
-import com.github.calve.model.OutgoingMail;
+import com.github.calve.model.*;
 import com.github.calve.util.DateTimeUtil;
+import com.github.calve.util.Journals;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -10,13 +10,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.github.calve.util.excel.Columns.*;
+import static com.github.calve.util.excel.DataTemplates.*;
 
 public class ExcelWriter {
     private static final EnumSet<Columns> DEFAULT_COLUMNS = EnumSet.of(ID, II, COR, OD, OI, DES, EX, DD, DI, REM);
@@ -31,7 +29,7 @@ public class ExcelWriter {
         Workbook workbook = new XSSFWorkbook();
         int count = 0;
         for (List<? extends Mail> table : tables) {
-            createSheet(workbook, table, TableNames.getNAmeByIndex(count++).getName());
+            createSheet(workbook, table, TableNames.getNameByIndex(count++).getName());
         }
         return writeToFile(workbook);
     }
@@ -44,7 +42,6 @@ public class ExcelWriter {
     // TODO: 12.11.2019 need new column writer; last upd 
     public static byte[] getExcelOutFile(List<OutgoingMail> outgoings) throws IOException {//refactoring name mb get byte array
         Workbook workbook = new XSSFWorkbook();
-        int count = 0;
 
         Map<String, List<OutgoingMail>> mappedMails = outgoings.stream().collect(Collectors.groupingBy(ExcelWriter::getSortedYear));
 
@@ -137,7 +134,7 @@ public class ExcelWriter {
                 if (Objects.nonNull(mail.getDoneDate())) {
                     row.createCell(colNum++).setCellValue(0);
                 } else {
-                    row.createCell(colNum++).setCellValue(DateTimeUtil.initRemains(mail.getIncomeDate()));
+                    row.createCell(colNum++).setCellValue(DateTimeUtil.initRemains(mail.getIncomeDate(), DateTimeUtil.getLastDay(mail.getIncomeDate(), false)).getRemains()); // TODO: 18.11.2019 bug without generic mails;
                 }
             }
             if (columns.contains(DR)) {
@@ -184,7 +181,7 @@ public class ExcelWriter {
 
     private static CellStyle defaultCellStyle = null;
 
-    private static CellStyle getDefaultCellStyle(final Workbook wb) {
+    private static CellStyle getDefaultCellStyle(Workbook wb) {
         if (Objects.isNull(defaultCellStyle)) {
             defaultCellStyle = wb.createCellStyle();
             defaultCellStyle.setAlignment(HorizontalAlignment.GENERAL);
@@ -192,5 +189,44 @@ public class ExcelWriter {
             defaultCellStyle.setWrapText(true);
         }
         return defaultCellStyle;
+    }
+
+    public static byte[] getTemplate(Journals journals) {
+        Workbook workbook = new XSSFWorkbook();
+        try {
+            switch (journals) {
+                case REQUESTS:
+                case GENERICS: {
+                    createSheet(workbook, Collections.singletonList(REQUEST_TEMPLATE), EXAMPLE);
+                    break;
+                }
+                case COMPLAINTS:
+                case INFO: {
+                    createSheet(workbook, Collections.singletonList(INFO_TEMPLATE), EXAMPLE);
+                    break;
+                }
+                case FOREIGNERS: {
+                    createSheet(workbook, Collections.singletonList(FOREIGNER_TEMPLATE), EXAMPLE);
+                    break;
+                }
+                case APPLICATIONS: {
+                    createSheet(workbook, Collections.singletonList(APPLICATION_TEMPLATE), EXAMPLE);
+                    break;
+                }
+                case OUTGOING: {
+                    createOutcomeSheet(workbook, Collections.singletonList(OUTGOING_TEMPLATE), EXAMPLE);
+                    break;
+                }
+//            default:{}
+            }
+        } catch (Exception e) {
+            //empty body exception
+        }
+
+        try {
+            return writeToFile(workbook);
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

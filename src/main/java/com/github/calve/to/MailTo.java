@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import static com.github.calve.util.DateTimeUtil.*;
+
 public class MailTo extends BaseMailTo {
 
     @NotNull(message = "должна быть задана")
@@ -22,7 +24,8 @@ public class MailTo extends BaseMailTo {
     private LocalDate workDate;
     private String workIndex;
     private String authority;
-    private long remains = 0;
+
+    private Remain remain;
 
     public MailTo() {
     }
@@ -30,13 +33,16 @@ public class MailTo extends BaseMailTo {
     public MailTo(Integer id, LocalDate incomeDate, String incomeIndex, String correspondent,
                   LocalDate outerDate, String outerIndex, String description, String executor,
                   LocalDate doneDate, String doneIndex, String doneResult, String proceedingNumber,
-                  String debtor, LocalDate workDate, String workIndex, String authority) {
-        this(id, incomeDate, incomeIndex, correspondent, outerDate, outerIndex, description, executor, doneDate, doneIndex, proceedingNumber, workDate, workIndex, authority);
+                  String debtor, LocalDate workDate, String workIndex, String authority, boolean generics) {
+        this(id, incomeDate, incomeIndex, correspondent, outerDate, outerIndex, description, executor, doneDate,
+                doneIndex, proceedingNumber, workDate, workIndex, authority, generics);
         this.doneResult = doneResult;
         this.debtor = debtor;
     }
 
-    public MailTo(Integer id, LocalDate incomeDate, String incomeIndex, String correspondent, LocalDate outerDate, String outerIndex, String description, String executor, LocalDate doneDate, String doneIndex) {
+    public MailTo(Integer id, LocalDate incomeDate, String incomeIndex, String correspondent, LocalDate outerDate,
+                  String outerIndex, String description, String executor, LocalDate doneDate, String doneIndex,
+                  boolean generics) {
         super.setId(id);
         this.incomeDate = incomeDate;
         this.incomeIndex = incomeIndex;
@@ -47,16 +53,26 @@ public class MailTo extends BaseMailTo {
         this.executor = executor;
         this.doneDate = doneDate;
         this.doneIndex = doneIndex;
+        //boilerplate code
+        //refactoring
         if (Objects.nonNull(this.incomeDate) && Objects.isNull(this.doneDate)) {
-            this.remains = DateTimeUtil.initRemains(this.incomeDate);
-            this.excess = DateTimeUtil.initExcess(this.incomeDate);
+            if (!generics) {
+                this.remain = initRemains(this.incomeDate, getLastDay(this.incomeDate, false));
+                this.excess = initExcess(this.incomeDate, getLastDay(this.incomeDate, false));
+            } else {
+                this.remain = initRemains(this.incomeDate, getLastDay(this.incomeDate, true));
+                this.excess = initExcess(this.incomeDate, getLastDay(this.incomeDate, true));
+            }
+        } else {
+            this.remain = Remain.DONE_REMAIN;
         }
     }
 
     public MailTo(Integer id, LocalDate incomeDate, String incomeIndex, String correspondent, LocalDate outerDate,
                   String outerIndex, String description, String executor, LocalDate doneDate, String doneIndex,
-                  String doneResult) {
-        this(id, incomeDate, incomeIndex, correspondent, outerDate, outerIndex, description, executor, doneDate, doneIndex);
+                  String doneResult, boolean generics) {
+        this(id, incomeDate, incomeIndex, correspondent, outerDate, outerIndex, description, executor, doneDate,
+                doneIndex, generics);
         this.doneResult = doneResult;
     }
 
@@ -76,21 +92,21 @@ public class MailTo extends BaseMailTo {
 
     public MailTo(Integer id, LocalDate incomeDate, String incomeIndex, String correspondent, LocalDate outerDate,
                   String outerIndex, String description, String executor, LocalDate doneDate, String doneIndex,
-                  String proceedingNumber, LocalDate workDate, String workIndex, String authority) {
+                  String proceedingNumber, LocalDate workDate, String workIndex, String authority, boolean generics) {
         this(id, incomeDate, incomeIndex, correspondent, outerDate, outerIndex, description, executor, doneDate,
-                doneIndex);
+                doneIndex, generics);
         this.proceedingNumber = proceedingNumber;
         this.workDate = workDate;
         this.workIndex = workIndex;
         this.authority = authority;
     }
 
-    public long getRemains() {
-        return remains;
+    public Remain getRemain() {
+        return remain;
     }
 
-    public void setRemains(long remains) {
-        this.remains = remains;
+    public void setRemain(Remain remain) {
+        this.remain = remain;
     }
 
     public boolean isExcess() {

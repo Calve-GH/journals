@@ -13,7 +13,7 @@ $(".uploadDocumentOnboarding").on("click", function (evt) {
         processData: false,
         success: function (response) {
             successNoty("common.file.upload");
-            clearFilter();
+            updateTableDefault();
         }
     });
 
@@ -79,7 +79,10 @@ $(function () {
 				},
 			    {
 			        "searchable" : false,
-					"data": "remains",
+					"data": "remain",
+					"render": function (data, type, full, meta) {
+                        return '<span data-toggle="tooltip" title="' + data.remainDate + '">' + data.remains + '</span>';
+                    }
 				},
                 {
                     "searchable" : false,

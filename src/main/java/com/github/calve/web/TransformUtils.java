@@ -205,6 +205,7 @@ public final class TransformUtils {
                 .setWorkDate(mail.getWorkDate())
                 .setWorkIndex(mail.getWorkIndex())
                 .setAuthority(mail.getAuthority())
+                .setGenerics(mail.getGenerics())
                 .getMailTo();
     }
 

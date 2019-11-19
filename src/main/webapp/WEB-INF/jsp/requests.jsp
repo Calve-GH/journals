@@ -22,9 +22,13 @@
                                 <span class="fa fa-plus"></span>
                                     <spring:message code="common.add"/>
                             </button>
+                            <button class="btn btn-primary" onclick="location.href='template/?type=requests'">
+                                <span class="fa fa-cloud-download"></span>
+                                    <spring:message code="common.add"/>
+                            </button>
                             <input type="button" value=<spring:message code="common.upload"/> class="btn btn-xs btn-primary uploadDocumentOnboarding">
                             <input id="file" type="file" class="findDocumentOnboarding">
-                            <label for="file" /><spring:message code="common.choose.file"/></label>
+                            <label for="file" /><span class="fa fa-folder-open"></span><spring:message code="common.choose.file"/></label>
                         </div>
                     </td>
                 </tr>
@@ -67,7 +71,7 @@
                     <td>${mail.executor}</td>
                     <td>${fn:formatDateTime(mail.doneDate)}</td>
                     <td>${mail.doneIndex}</td>
-                    <td>${mail.remains}</td>
+                    <td>${mail.remain}</td>
                     <td><a onclick="updateRow(${mail.id})"><span class="fa fa-pencil"></span></a></td>
                     <td><a onclick="deleteRow(${mail.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>

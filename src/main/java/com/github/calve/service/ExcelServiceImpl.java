@@ -2,6 +2,7 @@ package com.github.calve.service;
 
 import com.github.calve.model.Mail;
 import com.github.calve.repository.*;
+import com.github.calve.util.Journals;
 import com.github.calve.util.excel.ExcelWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,12 +53,19 @@ public class ExcelServiceImpl implements ExcelService {
         return null;
     }
 
-    public byte[] getOutgoingExcelRepresentation(){
+    //refactoring тут вопросы по логике зачем внурть сувать булеан и спрашивать о его значении
+    public byte[] getOutgoingExcelRepresentation() {
         try {
             return ExcelWriter.getExcelOutFile(outgoingMailsRepository.findAll());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    @Override
+    public byte[] getTemplate(Journals journals) {
+        return ExcelWriter.getTemplate(journals);
     }
 }

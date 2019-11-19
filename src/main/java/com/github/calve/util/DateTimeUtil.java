@@ -1,5 +1,6 @@
 package com.github.calve.util;
 
+import com.github.calve.to.Remain;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
@@ -22,8 +23,8 @@ public class DateTimeUtil {
     }
 
     //hardcode
-    public static boolean initExcess(LocalDate incomeDate) {
-        LocalDate lastDay = getLastDay(incomeDate);
+    public static boolean initExcess(LocalDate incomeDate, LocalDate lastDay) {
+//        LocalDate lastDay = getLastDay(incomeDate);
         LocalDate now = LocalDate.now();                               //boilerplate code
         if (lastDay.compareTo(now) >= 0) {
             return now.datesUntil(lastDay).count() <= 3;
@@ -31,18 +32,19 @@ public class DateTimeUtil {
         return true;
     }
 
-    public static long initRemains(LocalDate incomeDate) {
-        if (Objects.isNull(incomeDate)) return 0;
-        LocalDate lastDay = getLastDay(incomeDate);
+    public static Remain initRemains(LocalDate incomeDate, LocalDate lastDay) {
+        if (Objects.isNull(incomeDate)) return Remain.DONE_REMAIN;
+        //LocalDate lastDay = getLastDay(incomeDate);
         LocalDate now = LocalDate.now();                               //boilerplate code
         if (lastDay.compareTo(now) >= 0) {
-            return now.datesUntil(lastDay).count();
+            return new Remain(now.datesUntil(lastDay).count(), lastDay);
         }
-        return (lastDay.datesUntil(now).count()) * (-1L);
+        return new Remain((lastDay.datesUntil(now).count()) * (-1L), lastDay);
     }
 
-    private static LocalDate getLastDay(LocalDate incomeDate) {
-        return incomeDate.plusDays(incomeDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? 15 : 14);
+    public static LocalDate getLastDay(LocalDate incomeDate, boolean generics) {
+        return generics ? incomeDate.plusDays(incomeDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? 20 : 19) :
+        incomeDate.plusDays(incomeDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? 15 : 14);
     }
 
     public static LocalDateTime adjustStartDateTime(LocalDate localDate) {

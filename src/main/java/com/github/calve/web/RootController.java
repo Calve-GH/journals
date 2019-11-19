@@ -1,10 +1,11 @@
 package com.github.calve.web;
 
 import com.github.calve.service.ExcelService;
+import com.github.calve.util.Journals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -90,11 +91,23 @@ public class RootController {
     public void getOutgoingExcelRepresentation(HttpServletResponse response) {
         try {
             response.setContentType("application/vnd.ms-excel");
-            response.setHeader("Content-disposition",
-                    "attachment; filename=EXCEL_OUTGOING_DB.xls");
+            response.setHeader("Content-disposition", "attachment; filename=EXCEL_OUTGOING_DB.xls");
             response.getOutputStream().write(excelService.getOutgoingExcelRepresentation());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    @GetMapping(value = "/template/")
+    public void getTemplate(HttpServletResponse response, @RequestParam(value = "type") String type) {
+        try {
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition", "attachment; filename=TEMPLATE_" + type.toUpperCase() + ".xls");
+            response.getOutputStream().write(excelService.getTemplate(Journals.valueOf(type.toUpperCase())));
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

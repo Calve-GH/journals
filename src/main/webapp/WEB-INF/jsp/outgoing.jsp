@@ -22,9 +22,14 @@
                                 <span class="fa fa-plus"></span>
                                     <spring:message code="common.add"/>
                             </button>
+                            <button class="btn btn-primary" onclick="location.href='template/?type=outgoing'">
+                                <span class="fa fa-cloud-download"></span>
+                                    <spring:message code="common.add"/>
+                            </button>
+
                             <input type="button" value=<spring:message code="common.upload"/> class="btn btn-xs btn-primary uploadDocumentOnboarding">
                             <input id="file" type="file" class="findDocumentOnboarding">
-                            <label for="file" /><spring:message code="common.choose.file"/></label>
+                            <label for="file" /><span class="fa fa-folder-open"></span><spring:message code="common.choose.file"/></label>
                         </div>
                     </td>
                 </tr>
@@ -72,7 +77,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"><spring:message code="meal.add"/></h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <span class="fa fa-close"></span>
+                <spring:message code="common.cancel"/>
+            </button>
+            <button type="button" class="btn btn-primary" onclick="save()">
+                <span class="fa fa-check"></span>
+                <spring:message code="common.save"/>
+            </button>
             </div>
             <div class="modal-body">
                 <form id="detailsForm">
@@ -126,16 +138,6 @@
 						</tr>
                     </table>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <span class="fa fa-close"></span>
-                    <spring:message code="common.cancel"/>
-                </button>
-                <button type="button" class="btn btn-primary" onclick="save()">
-                    <span class="fa fa-check"></span>
-                    <spring:message code="common.save"/>
-                </button>
             </div>
         </div>
     </div>
