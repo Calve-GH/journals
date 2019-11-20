@@ -17,14 +17,25 @@
 			<table>
                 <tr>
                     <td>
+                        <div class="card-footer text-left">
+                            <button class="btn btn-primary" onclick="location.href='template/?type=complaints'">
+                                <span class="fa fa-cloud-download"></span>
+                                    <spring:message code="common.template"/>
+                            </button>
+                            <button class="btn btn-primary" onclick="fileUpload()">
+                                <span class="fa fa-cloud-upload"></span>
+                                    <spring:message code="common.upload"/>
+                            </button>
+                            <input id="file" type="file" class="findDocumentOnboarding">
+                            <label for="file" /><span class="fa fa-folder-open"></span><spring:message code="common.choose.file"/></label>
+                        </div>
+                    </td>
+                    <td>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary" onclick="add()">
                                 <span class="fa fa-plus"></span>
                                     <spring:message code="common.add"/>
                             </button>
-                            <input type="button" value=<spring:message code="common.upload"/> class="btn btn-xs btn-primary uploadDocumentOnboarding">
-                            <input id="file" type="file" class="findDocumentOnboarding">
-                            <label for="file" /><spring:message code="common.choose.file"/></label>
                         </div>
                     </td>
                 </tr>

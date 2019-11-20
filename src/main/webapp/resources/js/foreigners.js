@@ -1,6 +1,6 @@
 const mailAjaxUrl = "rest/foreigners/";
 
-$(".uploadDocumentOnboarding").on("click", function (evt) {
+function fileUpload() {
     var documentData = new FormData();
     documentData.append('file', $('input#file.findDocumentOnboarding')[0].files[0]);
 
@@ -18,7 +18,7 @@ $(".uploadDocumentOnboarding").on("click", function (evt) {
     });
 
     return false;
-});
+};
 
 function updateFilteredTable() {
     $.ajax({

@@ -5,4 +5,4 @@ todo list:
 4) Exceptions review;
 
 Optional spring gen util;
-Optional format excel download + add templates;
+Optional format excel download;
