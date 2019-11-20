@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.StreamSupport;
 
 import static com.github.calve.util.excel.MailCreatorUtil.parseRowTo;
 import static com.github.calve.util.excel.MailCreatorUtil.parseRowToBase;
@@ -147,11 +148,13 @@ public class StorageServiceImpl implements StorageService {
     }
 
     private static void fromSheetToListBasic(List<BaseMailTo> saveList, Sheet sheet) {
-        sheet.forEach(row -> saveList.add(parseRowToBase(row)));
+        StreamSupport.stream(sheet.spliterator(), false).skip(1).forEach(row -> saveList.add(parseRowToBase(row)));
+//        sheet.forEach(row -> saveList.add(parseRowToBase(row)));
     }
 
     private static void fromSheetToList(List<MailTo> saveList, Sheet sheet, Journals type) {
-        sheet.forEach(row -> saveList.add(parseRowTo(type, row)));
+        StreamSupport.stream(sheet.spliterator(), false).skip(1).forEach(row -> saveList.add(parseRowTo(type, row)));
+//        sheet.forEach(row -> saveList.add(parseRowTo(type, row)));
     }
 
     private void saveWithService(Journals type, List<MailTo> list) throws SQLException {

@@ -1,7 +1,5 @@
 package com.github.calve.to;
 
-import com.github.calve.util.DateTimeUtil;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -260,16 +258,25 @@ public class MailTo extends BaseMailTo {
 
     @Override
     public String toString() {
-        return new StringJoiner(", \n", MailTo.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", MailTo.class.getSimpleName() + "[", "]")
                 .add("incomeDate=" + incomeDate)
                 .add("incomeIndex='" + incomeIndex + "'")
-                .add("correspondent='" + correspondent + "'")
-                .add("outerDate=" + outerDate)
-                .add("outerIndex='" + outerIndex + "'")
-                .add("description='" + description + "'")
-                .add("executor='" + executor + "'")
                 .add("doneDate=" + doneDate)
                 .add("doneIndex='" + doneIndex + "'")
+                .add("doneResult='" + doneResult + "'")
+                .add("proceedingNumber='" + proceedingNumber + "'")
+                .add("debtor='" + debtor + "'")
+                .add("workDate=" + workDate)
+                .add("workIndex='" + workIndex + "'")
+                .add("authority='" + authority + "'")
+                .add("remain=" + remain)
+                .add("outerDate=" + outerDate)
+                .add("outerIndex='" + outerIndex + "'")
+                .add("correspondent='" + correspondent + "'")
+                .add("description='" + description + "'")
+                .add("executor='" + executor + "'")
+                .add("excess=" + excess)
+                .add("id=" + id)
                 .toString();
     }
 }

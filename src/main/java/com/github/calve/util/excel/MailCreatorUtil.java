@@ -36,7 +36,9 @@ public final class MailCreatorUtil {
         constructMiddleFields(type, builder, cellIterator);
         constructExecutorField(type, builder, cellIterator);
         constructTail(type, builder, cellIterator);
-        return builder.getMailTo();
+        MailTo mailTo = builder.getMailTo();
+        System.out.println(mailTo); //todo sout
+        return mailTo;
     }
 
     private static void constructTail(Journals type, ToBuilder builder, Iterator<Cell> cellIterator) {

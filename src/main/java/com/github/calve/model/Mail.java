@@ -45,7 +45,7 @@ public interface Mail {
     }
 
     default String getDoneResult() {
-        return "";
+        return null;
     }
 
     default LocalDate getWorkDate() {
@@ -65,7 +65,7 @@ public interface Mail {
     }
 
     default String getDebtor() {
-        return "";
+        return null;
     }
 
     default boolean getGenerics() {

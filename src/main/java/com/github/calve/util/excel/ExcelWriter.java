@@ -17,11 +17,11 @@ import static com.github.calve.util.excel.Columns.*;
 import static com.github.calve.util.excel.DataTemplates.*;
 
 public class ExcelWriter {
-    private static final EnumSet<Columns> DEFAULT_COLUMNS = EnumSet.of(ID, II, COR, OD, OI, DES, EX, DD, DI, REM);
-    private static final EnumSet<Columns> RES_COLUMNS = EnumSet.of(ID, II, COR, OD, OI, DES, EX, DD, DI, DR, REM);
-    private static final EnumSet<Columns> FOREIGNERS_COLUMNS = EnumSet.of(ID, II, COR, OD, OI, EX, DEB, PC);
-    private static final EnumSet<Columns> APPLICATIONS_COLUMNS = EnumSet.of(ID, II, COR, OD, OI, WD, WI, AU, EX, DD, DI, REM);
-    private static final EnumSet<Columns> OUTGOING_COLUMNS = EnumSet.of(SD, PN, IO, CORR, CN, EFIO);
+    private static final List<Columns> DEFAULT_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, DES, EX, DD, DI, REM));
+    private static final List<Columns> RES_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, DES, EX, DD, DI, DR, REM));
+    private static final List<Columns> FOREIGNERS_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, DEB, PC, EX));
+    private static final List<Columns> APPLICATIONS_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, WD, WI, AU, PN, EX, DD, DI, REM));
+    private static final List<Columns> OUTGOING_COLUMNS = new ArrayList<>(Arrays.asList(SD, PN, IO, CORR, CN, EFIO));
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -78,24 +78,27 @@ public class ExcelWriter {
         }
     }
 
-
+//refactoring 
+// TODO: 20.11.2019 problem with type of mail identification; 
     private static void createSheet(Workbook workbook, List<? extends Mail> table, String sheetName) throws IOException {
-        EnumSet<Columns> columns = DEFAULT_COLUMNS;
-        if (table.stream().anyMatch(m -> Objects.nonNull(m.getDoneResult()))) {
-            columns = RES_COLUMNS;
+        List<Columns> columns = DEFAULT_COLUMNS;
+
+        if (table.stream().anyMatch(m -> Objects.nonNull(m.getWorkDate()))) {
+            columns = APPLICATIONS_COLUMNS;
         } else if (table.stream().anyMatch(m -> Objects.nonNull(m.getDebtor()))) {
             columns = FOREIGNERS_COLUMNS;
-        } else if (table.stream().anyMatch(m -> Objects.nonNull(m.getWorkDate()))) {
-            columns = APPLICATIONS_COLUMNS;
+        } else if (table.stream().anyMatch(m -> Objects.nonNull(m.getDoneResult()))) {
+            columns = RES_COLUMNS;
         }
-
         Sheet sheet = workbook.createSheet(sheetName);
 
         int colNum = 0;
         int rowNum = 0;
         Row row1 = sheet.createRow(rowNum++);
+        System.out.println(columns); //todo sout
         for (Columns column : columns) {
             row1.createCell(colNum++).setCellValue(column.getName());
+            System.out.println(column.getName()); //todo sout
         }
 
         for (Mail mail : table) { //refactoring sheet
@@ -110,15 +113,16 @@ public class ExcelWriter {
             row.createCell(colNum++).setCellValue(mail.getOuterIndex());
             if (columns.contains(WD)) {
                 row.createCell(colNum++).setCellValue(wrapDateCell(mail.getWorkDate()));
-            }
-            if (columns.contains(WI)) {
                 row.createCell(colNum++).setCellValue(mail.getWorkIndex());
-            }
-            if (columns.contains(AU)) {
                 row.createCell(colNum++).setCellValue(mail.getAuthority());
+                row.createCell(colNum++).setCellValue(mail.getProceedingNumber());
             }
             if (columns.contains(DES)) {
                 row.createCell(colNum++).setCellValue(mail.getDescription());
+            }
+            if (columns.contains(DEB)) {
+                row.createCell(colNum++).setCellValue(mail.getDebtor());
+                row.createCell(colNum++).setCellValue(mail.getProceedingNumber());
             }
             row.createCell(colNum++).setCellValue(mail.getExecutor().getName());
             if (columns.contains(DD)) {
@@ -136,12 +140,6 @@ public class ExcelWriter {
                 } else {
                     row.createCell(colNum++).setCellValue(DateTimeUtil.initRemains(mail.getIncomeDate(), DateTimeUtil.getLastDay(mail.getIncomeDate(), false)).getRemains()); // TODO: 18.11.2019 bug without generic mails;
                 }
-            }
-            if (columns.contains(DR)) {
-                row.createCell(colNum++).setCellValue(mail.getDebtor());
-            }
-            if (columns.contains(DR)) {
-                row.createCell(colNum).setCellValue(mail.getProceedingNumber());
             }
         }
         //setArchiveTableColumnsWidth(sheet);

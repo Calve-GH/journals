@@ -71,7 +71,9 @@ $(function () {
 				    "searchable" : false,
 				    "defaultContent": "",
 					"data": "doneDate",
-                    "render": function(data, type, row) { return moment(data).format("DD-MM-YYYY"); }
+					"render": function(data, type, row) {
+					    if(data == null) return '';
+					    return moment(data).format("DD-MM-YYYY"); }
 				},
 				{
 				    "defaultContent": "",

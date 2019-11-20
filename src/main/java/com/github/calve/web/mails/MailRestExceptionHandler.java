@@ -17,7 +17,7 @@ public class MailRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {SQLException.class, IllegalStateException.class})
     protected ResponseEntity<ErrorInfo> handleConflict(RuntimeException ex, WebRequest request) {
-        ex.printStackTrace();
+//        ex.printStackTrace();
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
         return ResponseEntity.unprocessableEntity().body(getErrorInfo(rootCause));
     }
@@ -29,7 +29,7 @@ public class MailRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<ErrorInfo> handleOthersConflict(RuntimeException ex, WebRequest request) {
-        ex.printStackTrace();
+//        ex.printStackTrace();
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
         return ResponseEntity.unprocessableEntity().body(getErrorInfo(rootCause));
     }
