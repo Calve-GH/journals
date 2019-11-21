@@ -43,7 +43,8 @@ $(function () {
                     "render": function(data, type, row) { return moment(data).format("DD-MM-YYYY"); }
 				},
 				{
-					"data": "incomeIndex"
+					"data": "incomeIndex",
+					"className": "center-td"
 				},
 				{
 					"data": "correspondent"
@@ -55,12 +56,17 @@ $(function () {
 				},
 				{
 					"data": "outerIndex",
+					"className": "center-td",
 					"orderable": false
 				},
 				{
 				    "defaultContent": "",
-					"data": "description",
-					"orderable": false
+					"data": "debtor",
+				},
+				{
+				    "defaultContent": "",
+					"data": "proceedingNumber",
+					"className": "center-td"
 				},
 				{
 				    "searchable" : false,
@@ -68,11 +74,8 @@ $(function () {
 				},
 				{
 				    "defaultContent": "",
-					"data": "proceedingNumber"
-				},
-				{
-				    "defaultContent": "",
-					"data": "debtor",
+					"data": "description",
+					"orderable": false
 				},
                 {
                     "searchable" : false,

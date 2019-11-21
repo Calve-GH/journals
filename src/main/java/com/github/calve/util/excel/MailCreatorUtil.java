@@ -22,7 +22,7 @@ public final class MailCreatorUtil {
         Iterator<Cell> cellIterator = row.cellIterator();
         builder.setOuterDate(getDateValueRequired(cellIterator))
                 .setOuterIndex(getStringValueRequired(cellIterator))
-                .setGenIndex(getNumericValueDefault(cellIterator, 0))
+                .setGenIndex(getNumericValueDefault(cellIterator, -1))
                 .setCorrespondent(getStringValueRequired(cellIterator))
                 .setDescription(getStringValue(cellIterator))
                 .setExecutor(getStringValueRequired(cellIterator));
@@ -36,9 +36,7 @@ public final class MailCreatorUtil {
         constructMiddleFields(type, builder, cellIterator);
         constructExecutorField(type, builder, cellIterator);
         constructTail(type, builder, cellIterator);
-        MailTo mailTo = builder.getMailTo();
-        System.out.println(mailTo); //todo sout
-        return mailTo;
+        return builder.getMailTo();
     }
 
     private static void constructTail(Journals type, ToBuilder builder, Iterator<Cell> cellIterator) {

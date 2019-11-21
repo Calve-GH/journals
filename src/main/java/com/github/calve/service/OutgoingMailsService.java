@@ -22,8 +22,4 @@ public interface OutgoingMailsService extends FilteredSortedData {
     int delete(Integer id);
 
     OutgoingMail findById(Integer id);
-
-    int count(); // TODO: 28.10.2019
-
-
 }

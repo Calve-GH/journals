@@ -51,19 +51,20 @@ public class OutgoingMailsServiceImpl implements OutgoingMailsService {
         return outgoingMailsRepository.findById(id).orElse(null);
     }
 
-    public int count() { // TODO: 28.10.2019  
-        return outgoingMailsRepository.countByYear(LocalDate.now().getYear()) + 1;
-    }
-
     //refactoring add Spring gen;
     @Override
     public OutgoingMail save(BaseMailTo mail) { // TODO: 28.10.2019 а как же 2й TO
         Executor executor = executorService.findExecutorByName(mail.getExecutor());
         if (Objects.isNull(mail.getGenIndex())) {
-            int index = outgoingMailsRepository.countByYear(LocalDate.now().getYear()) + 1;
+            int index = getLastGenIndex();
             mail.setGenIndex(index);
         }
         return outgoingMailsRepository.save(TransformUtils.getOutgoing(mail, executor));
+    }
+
+    // TODO: 21.11.2019 Spring context listener, need as bean tha can be used in excel parser;
+    private int getLastGenIndex() {
+        return outgoingMailsRepository.maxByYear(LocalDate.now().getYear()) + 1;
     }
 
     @Override

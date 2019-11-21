@@ -44,10 +44,12 @@ $(function () {
 				},
 				{
                     "defaultContent": "",
-					"data": "outerIndex"
+					"data": "outerIndex",
+				    "className": "center-td"
 				},
 				{
 					"data": "genIndex",
+				    "className": "center-td"
 				},
 				{
 					"data": "correspondent"

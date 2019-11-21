@@ -13,6 +13,10 @@
 <div class="jumbotron pt-4">
     <div class="container-fluid">
         <%--https://getbootstrap.com/docs/4.0/components/card/--%>
+        <div align="center">
+            <h5><spring:message code="complaints.header.first"/></hr></br>
+            <hr><spring:message code="complaints.header.second"/></h5>
+        </div>
         <div class="card border-dark">
 			<table>
                 <tr>
@@ -42,28 +46,27 @@
 			</table>
         </div>
         <br/>
-        <div class="container">
-        </div>
-        <div align="center">
-        <h3><spring:message code="complaints.header.first"/></hr></br>
-        <hr><spring:message code="complaints.header.second"/></h3>
         <table class="table table-striped table-bordered table-sm" id="datatable" width = "100%" style = "margin: 0px;">
             <thead>
-            <tr>
-                <th width="70px"><spring:message code="table.id"/></th>
-                <th><spring:message code="table.ii"/></th>
-                <th><spring:message code="table.cor"/></th>
-                <th width="70px"><spring:message code="table.od"/></th>
-                <th><spring:message code="table.oi"/></th>
-                <th><spring:message code="table.ds"/></th>
-                <th><spring:message code="table.ex"/></th>
-                <th width="70px"><spring:message code="table.dd"/></th>
-                <th><spring:message code="table.di"/></th>
-                <th><spring:message code="table.dr"/></th>
-                <th><spring:message code="table.rm"/></th>
-                <th></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th rowspan="2" width="70px"><spring:message code="table.id"/></th>
+                    <th rowspan="2"><spring:message code="table.i"/></th>
+                    <th rowspan="2"><spring:message code="table.cor"/></th>
+                    <th colspan="2"><spring:message code="table.rid"/></th>
+                    <th rowspan="2"><spring:message code="table.ds"/></th>
+                    <th rowspan="2"><spring:message code="table.ex"/></th>
+                    <th colspan="3"><spring:message code="table.mod"/></th>
+                    <th rowspan="2"><spring:message code="table.rm"/></th>
+                    <th rowspan="2"></th>
+                    <th rowspan="2"></th>
+                </tr>
+                <tr>
+                    <th width="70px"><spring:message code="table.d"/></th>
+                    <th><spring:message code="table.i"/></th>
+                    <th width="70px"><spring:message code="table.d"/></th>
+                    <th><spring:message code="table.i"/></th>
+                    <th><spring:message code="table.r"/></th>
+                </tr>
             </thead>
             <tbody>
             <c:forEach items="${mails}" var="mail">
@@ -93,7 +96,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"><spring:message code="meal.add"/></h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="btn btn-primary" onclick="save()">
+                    <span class="fa fa-check"></span>
+                    <spring:message code="common.save"/>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="detailsForm">
@@ -176,16 +182,6 @@
 						</tr>
                     </table>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <span class="fa fa-close"></span>
-                    <spring:message code="common.cancel"/>
-                </button>
-                <button type="button" class="btn btn-primary" onclick="save()">
-                    <span class="fa fa-check"></span>
-                    <spring:message code="common.save"/>
-                </button>
             </div>
         </div>
     </div>

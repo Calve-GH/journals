@@ -13,6 +13,9 @@
 <div class="jumbotron pt-4">
     <div class="container-fluid">
         <%--https://getbootstrap.com/docs/4.0/components/card/--%>
+        <div align="center">
+            <h5><spring:message code="outgoing.header.first"/></h5>
+        </div>
         <div class="card border-dark">
 			<table>
                 <tr>
@@ -42,20 +45,15 @@
 			</table>
         </div>
         <br/>
-        <div class="container">
-        </div>
-        <div align="center">
-        <h3><spring:message code="outgoing.header.first"/></h3>
-        </div>
         <table class="table table-striped table-bordered table-sm" id="datatable" width = "100%" style = "margin: 0px;">
             <thead>
             <tr>
-                <th width="70px"><spring:message code="table.od"/></th>
-                <th><spring:message code="table.pn"/></th>
-                <th><spring:message code="table.oi"/></th>
+                <th width="70px"><spring:message code="table.sd"/></th>
+                <th><spring:message code="table.nii"/></th>
+                <th><spring:message code="table.i"/></th>
                 <th><spring:message code="table.cor"/></th>
-                <th><spring:message code="table.ds"/></th>
-                <th><spring:message code="table.ex"/></th>
+                <th><spring:message code="table.nc"/></th>
+                <th><spring:message code="table.fio"/></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -83,14 +81,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalTitle"><spring:message code="meal.add"/></h4>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                <span class="fa fa-close"></span>
-                <spring:message code="common.cancel"/>
-            </button>
-            <button type="button" class="btn btn-primary" onclick="save()">
-                <span class="fa fa-check"></span>
-                <spring:message code="common.save"/>
-            </button>
+                <button type="button" class="btn btn-primary" onclick="save()">
+                    <span class="fa fa-check"></span>
+                    <spring:message code="common.save"/>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="detailsForm">

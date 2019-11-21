@@ -43,7 +43,8 @@ $(function () {
                     "render": function(data, type, row) { return moment(data).format("DD-MM-YYYY"); }
 				},
 				{
-					"data": "incomeIndex"
+					"data": "incomeIndex",
+					"className": "center-td"
 				},
 				{
 					"data": "correspondent"
@@ -55,6 +56,7 @@ $(function () {
 				},
 				{
 					"data": "outerIndex",
+					"className": "center-td",
 					"orderable": false
 				},
 				{
@@ -77,6 +79,7 @@ $(function () {
 				{
 				    "defaultContent": "",
 					"data": "doneIndex",
+					"className": "center-td",
 					"orderable": false
 				},
 				{
@@ -87,9 +90,11 @@ $(function () {
 			    {
 			        "searchable" : false,
 					"data": "remain",
+					"className": "center-td",
 					"render": function (data, type, full, meta) {
                         return '<span data-toggle="tooltip" title="' + data.remainDate + '">' + data.remains + '</span>';
-                    }
+                    },
+                	"orderable": false
 				},
                 {
                     "searchable" : false,

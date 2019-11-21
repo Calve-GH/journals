@@ -8,7 +8,6 @@ drop table IF EXISTS executors;
 drop sequence IF EXISTS global_seq;
 
 create sequence global_seq start with 100000;
-create sequence outgoing_seq start with 1;
 
 create TABLE executors
 (
@@ -125,7 +124,7 @@ create TABLE outgoing
   id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   sent_date        TIMESTAMP               NOT NULL,
   proceeding       VARCHAR                 NOT NULL,
-  index            INTEGER   			   DEFAULT nextval('outgoing_seq'),
+  index            INTEGER   			   NOT NULL,
   correspondent    VARCHAR                 NOT NULL,
   description      VARCHAR                 ,
   executor_id      INTEGER   			   NOT NULL,

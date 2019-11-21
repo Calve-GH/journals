@@ -17,8 +17,8 @@ public interface OutgoingMailsRepository extends JpaRepository<OutgoingMail, Int
     @Transactional
     <O extends OutgoingMail> O save(O entity);
 
-    @Query("SELECT count(*) FROM OutgoingMail m where year(m.outerDate)=:year")
-    int countByYear(@Param("year") Integer year);
+    @Query("SELECT max(m.genIndex) FROM OutgoingMail m where year(m.outerDate)=:year")
+    int maxByYear(@Param("year") Integer year);
 
     @Transactional
     @Modifying
