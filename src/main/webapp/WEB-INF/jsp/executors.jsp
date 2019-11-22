@@ -22,39 +22,39 @@
 			</div>
         </div>
         <br/>
-        <div class="container">
-        </div>
         <div align="center">
         <h3>Исполнители:</h3>
         </div>
-        <table class="table table-striped" id="datatable" width = "100%" style = "margin: 0px;">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Status</th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${executors}" var="executor">
-                <jsp:useBean id="executor" type="com.github.calve.to.ExecutorTo"/>
-                <tr data-mealExcess="${executor.enabled}">
-                    <td>${executor.name}</td>
-                    <td>${executor.enabled}</td>
-                    <td><a onclick="updateRow(${executor.id})"><span class="fa fa-pencil"></span></a></td>
-                    <td><a onclick="deleteRow(${executor.id})"><span class="fa fa-remove"></span></a></td>
+        <div class="container">
+            <table class="table table-striped" id="datatable" width = "100%" style = "margin: 0px;">
+                <thead>
+                <tr>
+                    <th><spring:message code="table.fio"/></th>
+                    <th><spring:message code="table.enable"/></th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach items="${executors}" var="executor">
+                    <jsp:useBean id="executor" type="com.github.calve.to.ExecutorTo"/>
+                    <tr data-mealExcess="${executor.enabled}">
+                        <td>${executor.name}</td>
+                        <td>${executor.enabled}</td>
+                        <td><a onclick="updateRow(${executor.id})"><span class="fa fa-pencil"></span></a></td>
+                        <td><a onclick="deleteRow(${executor.id})"><span class="fa fa-remove"></span></a></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <div class="modal fade" tabindex="-1" id="editRow">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="modalTitle"><spring:message code="meal.add"/></h4>
+                <h4 class="modal-title" id="modalTitle"><spring:message code="user.add"/></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -85,8 +85,8 @@
 </body>
 <script type="text/javascript">
     const i18n = [];
-    i18n["addTitle"] = '<spring:message code="meal.add"/>';
-    i18n["editTitle"] = '<spring:message code="meal.edit"/>';
+    i18n["addTitle"] = '<spring:message code="user.add"/>';
+    i18n["editTitle"] = '<spring:message code="user.edit"/>';
 
     <c:forEach var="key" items='<%=new String[]{"common.empty.table","common.info","common.info.empty","common.info.filtered",
     "common.processing","common.zero.records","common.previous", "common.next", "common.length.menu",

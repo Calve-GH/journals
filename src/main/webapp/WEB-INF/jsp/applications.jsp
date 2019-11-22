@@ -115,13 +115,13 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="incomeDate" class="col-form-label"><spring:message code="table.id"/></label>
+									<label for="incomeDate" class="col-form-label"><spring:message code="modal.id"/></label>
 									<input type="date" class="form-control" id="incomeDate" name="incomeDate">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="incomeIndex" class="col-form-label"><spring:message code="table.ii"/></label>
+									<label for="incomeIndex" class="col-form-label"><spring:message code="modal.ii"/></label>
 									<input type="text" class="form-control" id="incomeIndex" name="incomeIndex">
 								</div>
 							</td>
@@ -130,13 +130,13 @@
 							<td>
 
 								<div class="form-group">
-									<label for="outerDate" class="col-form-label"><spring:message code="table.od"/></label>
+									<label for="outerDate" class="col-form-label"><spring:message code="modal.od"/></label>
 									<input type="date" class="form-control" id="outerDate" name="outerDate">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="outerIndex" class="col-form-label"><spring:message code="table.oi"/></label>
+									<label for="outerIndex" class="col-form-label"><spring:message code="modal.oi"/></label>
 									<input type="text" class="form-control" id="outerIndex" name="outerIndex">
 								</div>
 							</td>
@@ -144,13 +144,13 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="correspondent" class="col-form-label"><spring:message code="table.cor"/></label>
+									<label for="correspondent" class="col-form-label"><spring:message code="modal.cor"/></label>
 									<input type="text" class="form-control" id="correspondent" name="correspondent">
 								</div>
 							</td>
 							<td>
                                 <div class="form-group">
-                                    <label for="executor" class="col-form-label"><spring:message code="table.ex"/></label>
+                                    <label for="executor" class="col-form-label"><spring:message code="modal.ex"/></label>
                                     <select class="form-control" id="locality-dropdown" id="executor" name="executor"></select>
                                 </div>
 							</td>
@@ -158,13 +158,13 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="doneDate" class="col-form-label"><spring:message code="table.dd"/></label>
+									<label for="doneDate" class="col-form-label"><spring:message code="modal.dd"/></label>
 									<input type="date" class="form-control" id="doneDate" name="doneDate">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="doneIndex" class="col-form-label"><spring:message code="table.di"/></label>
+									<label for="doneIndex" class="col-form-label"><spring:message code="modal.di"/></label>
 									<input type="text" class="form-control" id="doneIndex" name="doneIndex">
 								</div>
 							</td>
@@ -172,13 +172,13 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="proceedingNumber" class="col-form-label"><spring:message code="table.pn"/></label>
+									<label for="proceedingNumber" class="col-form-label"><spring:message code="modal.pn"/></label>
 									<input type="text" class="form-control" id="proceedingNumber" name="proceedingNumber">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="workDate" class="col-form-label"><spring:message code="table.wd"/></label>
+									<label for="workDate" class="col-form-label"><spring:message code="modal.wd"/></label>
 									<input type="date" class="form-control" id="workDate" name="workDate">
 								</div>
 							</td>
@@ -186,13 +186,13 @@
 						<tr>
 							<td>
 								<div class="form-group">
-									<label for="workIndex" class="col-form-label"><spring:message code="table.wi"/></label>
+									<label for="workIndex" class="col-form-label"><spring:message code="modal.wi"/></label>
 									<input type="text" class="form-control" id="workIndex" name="workIndex">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="authority" class="col-form-label"><spring:message code="table.au"/></label>
+									<label for="authority" class="col-form-label"><spring:message code="modal.au"/></label>
 									<input type="text" class="form-control" id="authority" name="authority">
 								</div>
 							</td>
@@ -200,7 +200,7 @@
 						<tr>
 							<td colspan = "2">
 								<div class="form-group">
-									<label for="description" class="col-form-label"><spring:message code="table.ds"/></label>
+									<label for="description" class="col-form-label"><spring:message code="modal.descr"/></label>
 									<textarea class="form-control" rows="3" id="description" name="description"></textarea>
 								</div>
 							</td>
