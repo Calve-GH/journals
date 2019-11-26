@@ -1,7 +1,7 @@
 package com.github.calve.web.mails;
 
-import com.github.calve.service.OutgoingMailsService;
-import com.github.calve.service.StorageService;
+import com.github.calve.service.common.OutgoingService;
+import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.util.Util;
@@ -14,22 +14,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping(value = OutgoingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class OutgoingController {
     static final String REST_URL = "/rest/outgoing/";
 
-    private OutgoingMailsService service;
+    private OutgoingService service;
     private StorageService storageService;
 
     @Autowired
-    public OutgoingController(OutgoingMailsService service, StorageService storageService) {
+    public OutgoingController(OutgoingService service, StorageService storageService) {
         this.service = service;
         this.storageService = storageService;
     }

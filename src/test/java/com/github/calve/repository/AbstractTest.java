@@ -1,6 +1,13 @@
 package com.github.calve.repository;
 
-import com.github.calve.service.*;
+import com.github.calve.service.common.IncomingService;
+import com.github.calve.service.common.OutgoingService;
+import com.github.calve.service.email.InboxService;
+import com.github.calve.service.email.SentService;
+import com.github.calve.service.etc.ContactService;
+import com.github.calve.service.etc.ExecutorService;
+import com.github.calve.service.journal.ApplicationService;
+import com.github.calve.service.journal.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -25,9 +32,16 @@ public abstract class AbstractTest {
 
     @Autowired
     private Environment env;
-
     @Autowired
-    protected OutgoingMailsService outgoingMailsService;
+    protected IncomingService incomingService;
+    @Autowired
+    protected ContactService contactService;
+    @Autowired
+    protected SentService sentService;
+    @Autowired
+    protected InboxService inboxService;
+    @Autowired
+    protected OutgoingService outgoingMailsService;
     @Autowired
     protected RequestRepository requestRepository;
     @Autowired

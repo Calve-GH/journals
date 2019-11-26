@@ -1,6 +1,11 @@
 package com.github.calve.util.excel;
 
-import com.github.calve.model.*;
+import com.github.calve.model.common.Outgoing;
+import com.github.calve.model.etc.Executor;
+import com.github.calve.model.journal.Application;
+import com.github.calve.model.journal.Foreigner;
+import com.github.calve.model.journal.Info;
+import com.github.calve.model.journal.Request;
 
 import java.time.LocalDate;
 
@@ -8,7 +13,7 @@ public class DataTemplates {
     private static final LocalDate NOW = LocalDate.now();
     private static final Executor EXECUTOR = new Executor("Сапожников В.С.");
     public static final String EXAMPLE = "образец";
-    public static final OutgoingMail OUTGOING_TEMPLATE = new OutgoingMail(0, NOW, "Номер исполнительного производства или наряда",
+    public static final Outgoing OUTGOING_TEMPLATE = new Outgoing(0, NOW, "Номер исполнительного производства или наряда",
             1234567, "Корреспондент", "Наименование корреспонденции", EXECUTOR);
     public static final Request REQUEST_TEMPLATE = new Request(0, NOW, "1234567", "Корреспондент",
             NOW, "1234567", "Описанеи корреспонденции", EXECUTOR, NOW, "1234567");

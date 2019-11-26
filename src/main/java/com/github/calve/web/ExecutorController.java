@@ -1,10 +1,7 @@
 package com.github.calve.web;
 
-import com.github.calve.model.Executor;
-import com.github.calve.service.ExecutorService;
-import com.github.calve.service.GenericService;
+import com.github.calve.service.etc.ExecutorService;
 import com.github.calve.to.ExecutorTo;
-import com.github.calve.to.MailTo;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = ExecutorController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

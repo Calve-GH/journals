@@ -1,6 +1,6 @@
 package com.github.calve.service;
 
-import com.github.calve.model.Executor;
+import com.github.calve.model.etc.Executor;
 import com.github.calve.model.Mail;
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.DataTable;

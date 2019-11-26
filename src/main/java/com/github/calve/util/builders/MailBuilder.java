@@ -1,6 +1,9 @@
 package com.github.calve.util.builders;
 
-import com.github.calve.model.*;
+import com.github.calve.model.common.Incoming;
+import com.github.calve.model.common.Outgoing;
+import com.github.calve.model.etc.Executor;
+import com.github.calve.model.journal.*;
 
 import java.time.LocalDate;
 
@@ -57,9 +60,14 @@ public class MailBuilder {
                 this.outerIndex, this.description, this.executor, this.doneDate, this.doneIndex, this.doneResult);
     }
 
-    public OutgoingMail getOutgoing() {
-        return new OutgoingMail(this.id, outerDate, this.outerIndex, this.genIndex,
+    public Outgoing getOutgoing() {
+        return new Outgoing(this.id, outerDate, this.outerIndex, this.genIndex,
                 this.correspondent, this.description, this.executor);
+    }
+
+    public Incoming getIncoming() {
+        return new Incoming(this.id, this.genIndex, this.outerDate,
+                this.description, this.correspondent, this.executor);
     }
 
     public MailBuilder setGenIndex(Integer genIndex) {

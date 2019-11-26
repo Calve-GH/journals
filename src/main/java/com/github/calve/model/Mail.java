@@ -1,5 +1,8 @@
 package com.github.calve.model;
 
+import com.github.calve.model.etc.Contact;
+import com.github.calve.model.etc.Executor;
+
 import java.time.LocalDate;
 
 public interface Mail {
@@ -71,4 +74,17 @@ public interface Mail {
     default boolean getGenerics() {
         return false;
     }
+
+    default Contact getContact() {
+        return null;
+    }
+
+    default Boolean getAnswer() {
+        return null;
+    }
+
+    default Integer getGenIndex() {
+        return 0;
+    }
+
 }

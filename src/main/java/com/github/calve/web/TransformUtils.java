@@ -1,9 +1,18 @@
 package com.github.calve.web;
 
-import com.github.calve.model.*;
+import com.github.calve.model.Mail;
+import com.github.calve.model.common.Incoming;
+import com.github.calve.model.common.Outgoing;
+import com.github.calve.model.email.Inbox;
+import com.github.calve.model.email.Sent;
+import com.github.calve.model.etc.Contact;
+import com.github.calve.model.etc.Executor;
+import com.github.calve.model.journal.*;
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.EmailTo;
 import com.github.calve.to.ExecutorTo;
 import com.github.calve.to.MailTo;
+import com.github.calve.util.builders.EmailBuilder;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
 import com.github.calve.util.to.*;
@@ -14,7 +23,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +90,6 @@ public final class TransformUtils {
         }
         return getCurrentYearSpecification(dti);
     }
-
 
 
     private static boolean isDateRange(DataTablesInput dti) {
@@ -153,9 +160,17 @@ public final class TransformUtils {
         return result;
     }
 
-    public static List<BaseMailTo> getBaseToList(List<? extends OutgoingMail> list) {
+    public static List<EmailTo> getEmailTos(List<? extends Mail> list) {
+        List<EmailTo> result = new ArrayList<>();
+        for (Mail mail : list) {
+            result.add(getEmailTo(mail));
+        }
+        return result;
+    }
+
+    public static List<BaseMailTo> getBaseToList(List<? extends Outgoing> list) {
         List<BaseMailTo> result = new ArrayList<>();
-        for (OutgoingMail mail : list) {
+        for (Outgoing mail : list) {
             result.add(getBaseMailTo(mail));
         }
         return result;
@@ -185,7 +200,17 @@ public final class TransformUtils {
                 .setExecutor(mail.getExecutor().getName());
     }
 
-    public static BaseMailTo getBaseMailTo(OutgoingMail mail) {
+    public static EmailTo getEmailTo(Mail mail) {
+        return new ToBuilder().setId(mail.getId())
+                .setGenIndex(mail.getGenIndex())
+                .setContact(mail.getContact().getAlias())
+                .setIncomeDate(mail.getIncomeDate())
+                .setAnswer(mail.getAnswer())
+                .setDescription(mail.getDescription())
+                .getEmailTo();
+    }
+
+    public static BaseMailTo getBaseMailTo(Outgoing mail) {
         return getBaseToBuilder(mail)
                 .setOuterIndex(mail.getOuterIndex())
                 .setGenIndex(mail.getGenIndex())
@@ -266,7 +291,7 @@ public final class TransformUtils {
                 .getInfo();
     }
 
-    public static OutgoingMail getOutgoing(BaseMailTo mail, Executor executor) {
+    public static Outgoing getOutgoing(BaseMailTo mail, Executor executor) {
         return new MailBuilder().setId(mail.getId())
                 .setOuterDate(mail.getOuterDate())
                 .setOuterIndex(mail.getOuterIndex())
@@ -275,5 +300,32 @@ public final class TransformUtils {
                 .setDescription(mail.getDescription())
                 .setExecutor(executor)
                 .getOutgoing();
+    }
+
+    public static Incoming getIncoming(BaseMailTo mail, Executor executor) {
+        return new MailBuilder().setId(mail.getId())
+                .setGenIndex(mail.getGenIndex())
+                .setOuterDate(mail.getOuterDate())
+                .setDescription(mail.getDescription())
+                .setExecutor(executor)
+                .getIncoming();
+    }
+
+    public static Inbox getInbox(EmailTo email, Contact contact) {
+        return new EmailBuilder().setId(email.getId())
+                .setGenIndex(email.getGenIndex())
+                .setContact(contact)
+                .setDate(email.getDate())
+                .setAnswer(email.getAnswer())
+                .setDescription(email.getDescription())
+                .getInbox();
+    }
+
+    public static Sent getSent(EmailTo email, Contact contact) {
+        return new EmailBuilder().setId(email.getId())
+                .setDate(email.getDate())
+                .setContact(contact)
+                .setDescription(email.getDescription())
+                .getSent();
     }
 }

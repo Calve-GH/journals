@@ -1,6 +1,7 @@
 package com.github.calve.util.builders;
 
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.EmailTo;
 import com.github.calve.to.MailTo;
 
 import java.time.LocalDate;
@@ -26,6 +27,9 @@ public class ToBuilder {
     private String debtor;
     private Integer genIndex;
     private boolean generics = false;
+    private String contact;
+    private Boolean answer;
+
 
     public MailTo getMailTo() {
         return new MailTo(this.id, this.incomeDate, this.incomeIndex, this.correspondent, this.outerDate,
@@ -36,6 +40,20 @@ public class ToBuilder {
     public BaseMailTo getBaseMailTo() {
         return new BaseMailTo(this.id, this.outerDate, this.outerIndex, this.genIndex,
                 this.correspondent, this.description, this.executor);
+    }
+
+    public EmailTo getEmailTo() {
+        return new EmailTo(this.id, this.genIndex, this.contact, this.incomeDate, this.answer, this.description);
+    }
+
+    public ToBuilder setContact(String contact) {
+        this.contact = contact;
+        return this;
+    }
+
+    public ToBuilder setAnswer(Boolean answer) {
+        this.answer = answer;
+        return this;
     }
 
     public ToBuilder setGenerics(boolean generics) {

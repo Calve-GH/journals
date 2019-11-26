@@ -1,6 +1,6 @@
 package com.github.calve.web;
 
-import com.github.calve.service.NotificationService;
+import com.github.calve.service.sys.NotificationService;
 import com.github.calve.to.MailNotificationTo;
 import com.github.calve.to.NotificationTo;
 import org.springframework.beans.factory.annotation.Autowired;

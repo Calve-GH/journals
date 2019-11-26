@@ -1,6 +1,7 @@
 package com.github.calve.util.excel;
 
 import com.github.calve.model.*;
+import com.github.calve.model.common.Outgoing;
 import com.github.calve.util.DateTimeUtil;
 import com.github.calve.util.Journals;
 import org.apache.poi.ss.usermodel.*;
@@ -35,23 +36,23 @@ public class ExcelWriter {
     }
 
     //refactoring thinking mb memory leak
-    private static String getSortedYear(OutgoingMail mail) {
+    private static String getSortedYear(Outgoing mail) {
         return Integer.toString(mail.getOuterDate().getYear());
     }
 
     // TODO: 12.11.2019 need new column writer; last upd 
-    public static byte[] getExcelOutFile(List<OutgoingMail> outgoings) throws IOException {//refactoring name mb get byte array
+    public static byte[] getExcelOutFile(List<Outgoing> outgoings) throws IOException {//refactoring name mb get byte array
         Workbook workbook = new XSSFWorkbook();
 
-        Map<String, List<OutgoingMail>> mappedMails = outgoings.stream().collect(Collectors.groupingBy(ExcelWriter::getSortedYear));
+        Map<String, List<Outgoing>> mappedMails = outgoings.stream().collect(Collectors.groupingBy(ExcelWriter::getSortedYear));
 
-        for (Map.Entry<String, List<OutgoingMail>> entry : mappedMails.entrySet()) {
+        for (Map.Entry<String, List<Outgoing>> entry : mappedMails.entrySet()) {
             createOutcomeSheet(workbook, entry.getValue(), entry.getKey());
         }
         return writeToFile(workbook);
     }
 
-    private static void createOutcomeSheet(Workbook workbook, List<OutgoingMail> table, String sheetName) throws IOException {
+    private static void createOutcomeSheet(Workbook workbook, List<Outgoing> table, String sheetName) throws IOException {
         Sheet sheet = workbook.createSheet(sheetName);
         setOutgoingTableColumnsWidth(sheet);
         int colNum = 0;
@@ -62,7 +63,7 @@ public class ExcelWriter {
             headCell.setCellValue(column.getName());
             headCell.setCellStyle(getDefaultCellStyle(workbook));
         }
-        for (OutgoingMail mail : table) { //refactoring sheet
+        for (Outgoing mail : table) { //refactoring sheet
             colNum = 0;
             Row row = sheet.createRow(rowNum++);
             row.createCell(colNum++).setCellValue(wrapDateCell(mail.getOuterDate()));

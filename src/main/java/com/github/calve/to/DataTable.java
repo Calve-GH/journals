@@ -1,6 +1,5 @@
 package com.github.calve.to;
 
-import com.github.calve.model.Executor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.github.calve.web.mails;
 
-import com.github.calve.service.InfoService;
-import com.github.calve.service.StorageService;
+import com.github.calve.service.journal.InfoService;
+import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.MailTo;
 import com.github.calve.util.Util;
 import com.github.calve.util.to.DataTablesInput;

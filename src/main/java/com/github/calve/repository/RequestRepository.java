@@ -1,6 +1,6 @@
 package com.github.calve.repository;
 
-import com.github.calve.model.Request;
+import com.github.calve.model.journal.Request;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
 package com.github.calve.repository;
 
-import com.github.calve.model.Foreigner;
+import com.github.calve.model.journal.Foreigner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
