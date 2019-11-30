@@ -14,7 +14,7 @@ public interface ForeignerService extends MailSaver {
 
     Page<Foreigner> findMails(Pageable pageable);
 
-    Foreigner save(MailTo mail);
+    Foreigner save(Foreigner mail);
 
     Foreigner save(MailTo mail, Map<String, Executor> cache);
 

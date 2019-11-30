@@ -1,4 +1,4 @@
-package com.github.calve.web.mails;
+package com.github.calve.web;
 
 import com.github.calve.util.exception.ErrorInfo;
 import com.github.calve.util.exception.NotFoundException;

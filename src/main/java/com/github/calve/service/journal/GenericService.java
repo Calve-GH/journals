@@ -14,7 +14,7 @@ public interface GenericService extends MailSaver {
 
     Page<Generic> findMails(Pageable pageable);
 
-    Generic save(MailTo mail);
+    Generic save(Generic mail);
 
     Generic save(MailTo mail, Map<String, Executor> cache);
 

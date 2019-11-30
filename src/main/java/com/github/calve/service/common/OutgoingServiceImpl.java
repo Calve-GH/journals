@@ -5,7 +5,7 @@ import com.github.calve.model.common.Outgoing;
 import com.github.calve.repository.OutgoingRepository;
 import com.github.calve.service.etc.ExecutorService;
 import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.DataTable;
+import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,13 +98,13 @@ public class OutgoingServiceImpl implements OutgoingService {
 
     //refactoring mb generics
     private static DataTable constructPage(DataTablesInput dti, Page<? extends Outgoing> mails) {
-        return DataTable.builder()
+        return null;/*DataTable.builder()
                 .data(getBaseTos(mails))
                 .recordsTotal(mails.getTotalElements())
                 .recordsFiltered(mails.getTotalElements())
                 .draw(dti.getDraw())
                 .start(dti.getStart())
-                .build();
+                .build();*/
     }
 
     private static List<BaseMailTo> getBaseTos(Page<? extends Outgoing> mails) {

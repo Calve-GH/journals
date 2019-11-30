@@ -1,10 +1,10 @@
-package com.github.calve.web.mails;
+package com.github.calve.web.common;
 
 import com.github.calve.service.common.OutgoingService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.BaseMailTo;
-import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.util.Util;
+import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,15 +18,16 @@ import javax.validation.Valid;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping(value = OutgoingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class OutgoingController {
-    static final String REST_URL = "/rest/outgoing/";
+@RequestMapping(value = IncomingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class IncomingController {
+    static final String REST_URL = "/rest/incoming/";
 
+    //refactoring too dirty;
     private OutgoingService service;
     private StorageService storageService;
 
     @Autowired
-    public OutgoingController(OutgoingService service, StorageService storageService) {
+    public IncomingController(OutgoingService service, StorageService storageService) {
         this.service = service;
         this.storageService = storageService;
     }

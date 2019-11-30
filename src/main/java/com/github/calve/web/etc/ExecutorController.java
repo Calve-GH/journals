@@ -1,7 +1,7 @@
-package com.github.calve.web;
+package com.github.calve.web.etc;
 
 import com.github.calve.service.etc.ExecutorService;
-import com.github.calve.to.ExecutorTo;
+import com.github.calve.to.etc.ContactTo;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.github.calve.to.etc.ContactTransformUtil.*;
 
 @RestController
 @RequestMapping(value = ExecutorController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,18 +29,18 @@ public class ExecutorController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void create(ExecutorTo executor) {
-        service.save(TransformUtils.getExecutorFromTo(executor));
-    } //hardcode add converter
+    public void save(ContactTo executor) {
+        service.save(unpackExecutor(executor));
+    }
 
     @GetMapping("{id}/")
-    public ExecutorTo getExecutor(@PathVariable Integer id) {
-        return TransformUtils.getExecutorTo(service.findById(id));
+    public ContactTo getExecutor(@PathVariable Integer id) {
+        return packExecutor(service.findById(id));
     }
 
     @DeleteMapping("{id}/")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteMailById(@PathVariable Integer id) {
+    public void deleteByID(@PathVariable Integer id) {
         service.delete(id);
     }
 
@@ -48,8 +50,8 @@ public class ExecutorController {
     }
 
     @GetMapping("enabled/")
-    public List<ExecutorTo> getExecutorsEnabled() {
-        return TransformUtils.getExecutorsToList(service.findAllEnabled());
+    public List<ContactTo> getExecutorsEnabled() {
+        return packExecutorList(service.findAllEnabled());
     }
 
     @PostMapping("/{id}/")

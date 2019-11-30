@@ -1,7 +1,7 @@
 package com.github.calve.service.journal;
 
-import com.github.calve.model.journal.Application;
 import com.github.calve.model.etc.Executor;
+import com.github.calve.model.journal.Application;
 import com.github.calve.to.MailTo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ public interface ApplicationService extends MailSaver {
 
     Page<Application> findMails(Pageable pageable);
 
-    Application save(MailTo mail);
+    Application save(Application mail);
 
     Application save(MailTo mail, Map<String, Executor> cache) throws SQLException;
 

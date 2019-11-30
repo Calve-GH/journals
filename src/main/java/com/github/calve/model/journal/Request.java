@@ -51,9 +51,10 @@ public class Request extends IncomingMail {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Request.class.getSimpleName() + "[", "]")
-                .add("doneDate=" + super.getId())
-                .add("doneIndex='" + super.getOuterDate())
-                .toString();
+        return "Request{" +
+                "im=" + super.toString() +
+                "doneDate=" + doneDate +
+                ", doneIndex='" + doneIndex + '\'' +
+                '}';
     }
 }

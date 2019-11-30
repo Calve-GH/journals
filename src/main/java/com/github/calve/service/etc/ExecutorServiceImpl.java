@@ -2,9 +2,8 @@ package com.github.calve.service.etc;
 
 import com.github.calve.model.etc.Executor;
 import com.github.calve.repository.ExecutorRepository;
-import com.github.calve.to.DataTable;
+import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.calve.service.ServiceUtils.constructExecutorsPage;
+import static com.github.calve.service.ServiceUtils.constructPage;
+import static com.github.calve.to.etc.ContactTransformUtil.packExecutorList;
+import static com.github.calve.web.TransformUtils.getPageable;
 
 @Service
 public class ExecutorServiceImpl implements ExecutorService {
@@ -63,8 +64,8 @@ public class ExecutorServiceImpl implements ExecutorService {
 
     @Override
     public DataTable findFilteredAndSort(DataTablesInput dti) {
-        Pageable pageable = TransformUtils.getPageable(dti);
-        return constructExecutorsPage(dti, findAll(pageable));
+        Page<Executor> page = findAll(getPageable(dti));
+        return constructPage(dti, page, packExecutorList(page.getContent()));
     }
 
     @Override

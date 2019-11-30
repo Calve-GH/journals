@@ -1,12 +1,10 @@
-package com.github.calve.to;
+package com.github.calve.to.etc;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-// TODO: 04.11.2019  friendly with lombok annotations
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +14,7 @@ public class DataTable {
     private long recordsTotal;
     private long recordsFiltered;
 
-    private List<? extends BaseTo> data;
+    private List<?> data;
 
     public int getDraw() {
         return draw;
@@ -50,11 +48,11 @@ public class DataTable {
         this.recordsFiltered = recordsFiltered;
     }
 
-    public List<? extends BaseTo> getData() {
+    public List<?> getData() {
         return data;
     }
 
-    public void setData(List<? extends BaseTo> data) {
+    public void setData(List<?> data) {
         this.data = data;
     }
 }

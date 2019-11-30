@@ -14,7 +14,7 @@ public interface InfoService extends MailSaver {
 
     Page<Info> findMails(Pageable pageable);
 
-    Info save(MailTo mail);
+    Info save(Info mail);
 
     Info save(MailTo mail, Map<String, Executor> cache);
 

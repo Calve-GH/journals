@@ -18,6 +18,12 @@ public class Contact extends AbstractEntity {
     public Contact() {
     }
 
+    public Contact(Integer id, String alias, String email) {
+        super.setId(id);
+        this.alias = alias;
+        this.email = email;
+    }
+
     public Contact(String alias, String email) {
         this.alias = alias;
         this.email = email;

@@ -1,7 +1,7 @@
 package com.github.calve.util.builders;
 
 import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.EmailTo;
+import com.github.calve.to.email.EmailTo;
 import com.github.calve.to.MailTo;
 
 import java.time.LocalDate;

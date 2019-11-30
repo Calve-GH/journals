@@ -1,23 +1,7 @@
 package com.github.calve.repository;
 
-import com.github.calve.model.common.Outgoing;
-import com.github.calve.model.email.Inbox;
-import com.github.calve.model.etc.Contact;
 import com.github.calve.model.etc.Executor;
-import com.github.calve.model.journal.Application;
-import com.github.calve.model.journal.Info;
-import com.github.calve.model.journal.Request;
-import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.EmailTo;
-import com.github.calve.to.MailTo;
-import com.github.calve.web.TransformUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class DataJpaTest extends AbstractTest {
 

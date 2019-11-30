@@ -14,7 +14,7 @@ public interface RequestService extends MailSaver {
 
     Page<Request> findMails(Pageable pageable);
 
-    Request save(MailTo mail);
+    Request save(Request mail);
 
     Request save(MailTo mail, Map<String, Executor> cache);
 

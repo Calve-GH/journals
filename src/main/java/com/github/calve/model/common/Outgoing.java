@@ -11,7 +11,6 @@ import java.util.StringJoiner;
 @Entity()
 @Table(name = "outgoing")
 public class Outgoing extends AbstractEntity implements Mail {
-
     @Column(name = "sent_date", nullable = false)
     private LocalDate outerDate;
     @Column(name = "proceeding", nullable = false)

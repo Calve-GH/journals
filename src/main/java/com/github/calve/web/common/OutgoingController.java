@@ -1,10 +1,10 @@
-package com.github.calve.web.mails;
+package com.github.calve.web.common;
 
-import com.github.calve.service.journal.ForeignerService;
+import com.github.calve.service.common.OutgoingService;
 import com.github.calve.service.etc.StorageService;
-import com.github.calve.to.MailTo;
-import com.github.calve.util.Util;
+import com.github.calve.to.BaseMailTo;
 import com.github.calve.util.to.DataTablesInput;
+import com.github.calve.util.Util;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,29 +18,28 @@ import javax.validation.Valid;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping(value = ForeignerController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class ForeignerController {
+@RequestMapping(value = OutgoingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class OutgoingController {
+    static final String REST_URL = "/rest/outgoing/";
 
-    static final String REST_URL = "/rest/foreigners/";
-
-    private ForeignerService service;
+    private OutgoingService service;
     private StorageService storageService;
 
     @Autowired
-    public ForeignerController(ForeignerService service, StorageService storageService) {
+    public OutgoingController(OutgoingService service, StorageService storageService) {
         this.service = service;
         this.storageService = storageService;
     }
 
-    @PostMapping
+    @PostMapping //refactoring add validation
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(@Valid MailTo mail, BindingResult validation) {
+    public ResponseEntity createMail(BaseMailTo mail, BindingResult validation) {
         return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")
-    public MailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getTo(service.findById(id));
+    public BaseMailTo getMail(@PathVariable Integer id) {
+        return TransformUtils.getBaseMailTo(service.findById(id));
     }
 
     @GetMapping
@@ -57,11 +56,10 @@ public class ForeignerController {
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
-        storageService.storeForeigners(file);
+        storageService.storeOutgoing(file);
     }
 
-    //boilerplate code
-    private ResponseEntity getResponseOnSave(MailTo mail) {
+    private ResponseEntity getResponseOnSave(BaseMailTo mail) {
         service.save(mail);
         return ResponseEntity.ok().build();
     }

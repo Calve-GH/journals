@@ -1,11 +1,10 @@
-package com.github.calve.web.mails;
+package com.github.calve.web.journal;
 
-import com.github.calve.service.journal.ComplaintService;
 import com.github.calve.service.etc.StorageService;
-import com.github.calve.to.MailTo;
+import com.github.calve.service.journal.RequestService;
+import com.github.calve.to.journal.DefaultTo;
 import com.github.calve.util.Util;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,31 +16,32 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.sql.SQLException;
 
+import static com.github.calve.to.journal.MailTransformUtil.packRequest;
+import static com.github.calve.to.journal.MailTransformUtil.unpackRequest;
+
 @RestController
-@RequestMapping(value = ComplaintController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class ComplaintController {
+@RequestMapping(value = RequestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class RequestController {
+    static final String REST_URL = "/rest/requests/";
 
-    static final String REST_URL = "/rest/complaints/";
-
-    private ComplaintService service;
+    private RequestService service;
     private StorageService storageService;
 
     @Autowired
-    public ComplaintController(ComplaintService service, StorageService storageService) {
+    public RequestController(RequestService service, StorageService storageService) {
         this.service = service;
         this.storageService = storageService;
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(@Valid MailTo mail, BindingResult validation) {
+    public ResponseEntity saveMail(@Valid DefaultTo mail, BindingResult validation) {
         return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
-
     }
 
     @GetMapping("{id}/")
-    public MailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getTo(service.findById(id));
+    public DefaultTo getMail(@PathVariable Integer id) {
+        return packRequest(service.findById(id));
     }
 
     @GetMapping
@@ -58,12 +58,12 @@ public class ComplaintController {
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
-        storageService.storeComplaints(file);
+        storageService.storeRequests(file);
     }
 
     //boilerplate code
-    private ResponseEntity getResponseOnSave(MailTo mail) {
-        service.save(mail);
+    private ResponseEntity getResponseOnSave(DefaultTo mail) {
+        service.save(unpackRequest(mail));
         return ResponseEntity.ok().build();
     }
 }

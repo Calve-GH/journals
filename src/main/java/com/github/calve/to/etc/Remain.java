@@ -1,4 +1,4 @@
-package com.github.calve.to;
+package com.github.calve.to.etc;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -31,5 +31,13 @@ public class Remain implements Serializable {
 
     public String getRemainDate() {
         return remainDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Remain{" +
+                "remains=" + remains +
+                ", remainDate='" + remainDate + '\'' +
+                '}';
     }
 }

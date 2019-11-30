@@ -4,14 +4,16 @@ import com.github.calve.model.journal.Application;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.repository.ApplicationRepository;
 import com.github.calve.service.etc.ExecutorService;
-import com.github.calve.to.DataTable;
+import com.github.calve.to.etc.DataTable;
 import com.github.calve.to.MailTo;
+import com.github.calve.util.exception.NotFoundException;
 import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -20,6 +22,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
+import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
+import static com.github.calve.to.journal.MailTransformUtil.packApplicationList;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -37,9 +41,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Application save(MailTo mail) {
-        Executor executor = service.findExecutorByName(mail.getExecutor());
-        return repo.save(TransformUtils.getApplication(mail, executor));
+    public Application save(Application mail) {
+        Executor executor = service.findExecutorByName(mail.getExecutor().getName());
+        if (executor == null) throw new NotFoundException("Исполнителя не существует в БД");
+        mail.setExecutor(executor);
+        return repo.save(mail);
     }
 
     @Override
@@ -63,24 +69,19 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public DataTable findFilteredAndSort(DataTablesInput dti) {
-
-        Pageable pageable = TransformUtils.getPageable(dti);
-        Specification<Application> spec = TransformUtils.getSpecification(dti);
-
-        if (Objects.isNull(spec)) {
-            return constructPage(dti, findMails(pageable));
-        } else {
-            return constructPage(dti, findSearchable(pageable, spec));
-        }
-    }
-
-    @Override
     public Page<Application> findMails(Pageable pageable) {
         return repo.findAll(pageable);
     }
 
-    private Page<Application> findSearchable(Pageable pageable, Specification<Application> spec) {
-        return repo.findAll(spec, pageable);
+    @Override
+    public DataTable findFilteredAndSort(DataTablesInput dti) {
+        Pair<Pageable, Specification<?>> specPair = constructPageableSpecification(dti);
+        Page<Application> pages = Objects.isNull(specPair.getSecond()) ? findMails(specPair.getFirst()) : findSearchable(specPair);
+        return constructPage(dti, pages, packApplicationList(pages.getContent()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Page<Application> findSearchable(Pair<Pageable, Specification<?>> spec) {
+        return repo.findAll((Specification<Application>) spec.getSecond(), spec.getFirst());
     }
 }

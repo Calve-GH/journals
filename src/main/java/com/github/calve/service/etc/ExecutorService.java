@@ -1,7 +1,7 @@
 package com.github.calve.service.etc;
 
 import com.github.calve.model.etc.Executor;
-import com.github.calve.to.DataTable;
+import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

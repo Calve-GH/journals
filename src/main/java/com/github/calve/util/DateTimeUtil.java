@@ -1,6 +1,6 @@
 package com.github.calve.util;
 
-import com.github.calve.to.Remain;
+import com.github.calve.to.etc.Remain;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
@@ -42,9 +42,45 @@ public class DateTimeUtil {
         return new Remain((lastDay.datesUntil(now).count()) * (-1L), lastDay);
     }
 
+    @Deprecated
     public static LocalDate getLastDay(LocalDate incomeDate, boolean generics) {
-        return generics ? incomeDate.plusDays(incomeDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? 20 : 19) :
-        incomeDate.plusDays(incomeDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? 15 : 14);
+        return generics ? getLastValidDay15(incomeDate) :
+                getLastValidDay10(incomeDate);
+    }
+
+    public static boolean initExcess(LocalDate incomeDate, int days, LocalDate doneDate) {
+        if(Objects.nonNull(doneDate)) return false;
+        LocalDate lastDay = getLastValidPeriodDay(incomeDate, days);
+        LocalDate now = LocalDate.now();                               //boilerplate code
+        if (lastDay.compareTo(now) >= 0) {
+            return now.datesUntil(lastDay).count() <= 3;
+        }
+        return true;
+    }
+
+    public static Remain initRemains(LocalDate incomeDate, int days, LocalDate doneDate) {
+        if (Objects.nonNull(doneDate) || Objects.isNull(incomeDate)) return Remain.DONE_REMAIN;
+        LocalDate lastDay = getLastValidPeriodDay(incomeDate, days);
+        LocalDate now = LocalDate.now();                               //boilerplate code
+        if (lastDay.compareTo(now) >= 0) {
+            return new Remain(now.datesUntil(lastDay).count(), lastDay);
+        }
+        return new Remain((lastDay.datesUntil(now).count()) * (-1L), lastDay);
+    }
+
+    private static LocalDate getLastValidDay10(LocalDate incomeDate) {
+        return getLastValidPeriodDay(incomeDate, 15, 14);
+    }
+
+    private static LocalDate getLastValidDay15(LocalDate incomeDate) {
+        return getLastValidPeriodDay(incomeDate, 20, 19);
+    }
+
+    private static LocalDate getLastValidPeriodDay(LocalDate incomeDate, int i, int i2) {
+        return incomeDate.plusDays(incomeDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? i : i2);
+    }
+    private static LocalDate getLastValidPeriodDay(LocalDate incomeDate, int days) {
+        return incomeDate.plusDays(incomeDate.getDayOfWeek().equals(DayOfWeek.SATURDAY) ? ++days : days);
     }
 
     public static LocalDateTime adjustStartDateTime(LocalDate localDate) {
@@ -72,7 +108,9 @@ public class DateTimeUtil {
     }
 
     public static boolean validateDateRange(LocalDate from, LocalDate to) {
-        if (Objects.isNull(from) || Objects.isNull(to)) {return false;}
+        if (Objects.isNull(from) || Objects.isNull(to)) {
+            return false;
+        }
         return !from.isAfter(to);
     }
 }

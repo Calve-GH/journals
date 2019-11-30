@@ -4,7 +4,7 @@ import com.github.calve.model.etc.Executor;
 import com.github.calve.model.journal.Request;
 import com.github.calve.repository.RequestRepository;
 import com.github.calve.service.etc.ExecutorService;
-import com.github.calve.to.DataTable;
+import com.github.calve.to.etc.DataTable;
 import com.github.calve.to.MailTo;
 import com.github.calve.util.exception.NotFoundException;
 import com.github.calve.util.to.DataTablesInput;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
+import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
+import static com.github.calve.to.journal.MailTransformUtil.packRequestList;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -38,13 +41,11 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Request save(MailTo mail) {
-        Executor executor = service.findExecutorByName(mail.getExecutor()); //refactoring мб как то по другому.
+    public Request save(Request mail) {
+        Executor executor = service.findExecutorByName(mail.getExecutor().getName()); //refactoring мб как то по другому.
         if (executor == null) throw new NotFoundException("Исполнителя не существует в БД");
-        System.out.println(mail); //todo sout
-        if (mail.getIncomeIndex() == null) System.out.println("II is null"); //todo sout
-        else System.out.println("II isn't null"); //todo sout
-        return repo.save(TransformUtils.getRequest(mail, executor));
+        mail.setExecutor(executor);
+        return repo.save(mail);
     }
 
     @Override
@@ -64,25 +65,19 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public DataTable findFilteredAndSort(DataTablesInput dti) {
-
-        Pageable pageable = TransformUtils.getPageable(dti);
-        Specification<Request> spec = TransformUtils.getSpecification(dti);
-
-        if (Objects.isNull(spec)) {
-            return constructPage(dti, findMails(pageable));
-        } else {
-            return constructPage(dti, findSearchable(pageable, spec));
-        }
-    }
-
-    @Override
     public Page<Request> findMails(Pageable pageable) {
         return repo.findAll(pageable);
     }
 
-    private Page<Request> findSearchable(Pageable pageable, Specification<Request> spec) {
-        return repo.findAll(spec, pageable);
+    @Override
+    public DataTable findFilteredAndSort(DataTablesInput dti) {
+        Pair<Pageable, Specification<?>> specPair = constructPageableSpecification(dti);
+        Page<Request> pages = Objects.isNull(specPair.getSecond()) ? findMails(specPair.getFirst()) : findSearchable(specPair);
+        return constructPage(dti, pages, packRequestList(pages.getContent()));
     }
 
+    @SuppressWarnings("unchecked")
+    private Page<Request> findSearchable(Pair<Pageable, Specification<?>> spec) {
+        return repo.findAll((Specification<Request>) spec.getSecond(), spec.getFirst());
+    }
 }

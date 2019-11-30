@@ -8,10 +8,8 @@ import com.github.calve.model.email.Sent;
 import com.github.calve.model.etc.Contact;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.model.journal.*;
-import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.EmailTo;
-import com.github.calve.to.ExecutorTo;
-import com.github.calve.to.MailTo;
+import com.github.calve.to.*;
+import com.github.calve.to.email.EmailTo;
 import com.github.calve.util.builders.EmailBuilder;
 import com.github.calve.util.builders.MailBuilder;
 import com.github.calve.util.builders.ToBuilder;
@@ -176,21 +174,28 @@ public final class TransformUtils {
         return result;
     }
 
-    public static List<ExecutorTo> getExecutorsToList(List<? extends Executor> list) {
-        List<ExecutorTo> result = new ArrayList<>();
-        for (Executor executor : list) {
-            result.add(getExecutorTo(executor));
-        }
-        return result;
-    }
+//    public static List<ExecutorTo> getExecutorsToList(List<? extends Executor> list) {
+//        List<ExecutorTo> result = new ArrayList<>();
+//        for (Executor executor : list) {
+//            result.add(getExecutorTo(executor));
+//        }
+//        return result;
+//    }
 
-    public static ExecutorTo getExecutorTo(Executor executor) {
-        return new ExecutorTo(executor.getId(), executor.getName(), executor.isEnabled());
-    }
+//    public static ExecutorTo getExecutorTo(Executor executor) {
+//        return new ExecutorTo(executor.getId(), executor.getName(), executor.isEnabled());
+//    }
 
-    public static Executor getExecutorFromTo(ExecutorTo to) {
-        return new Executor(to.getId(), to.getName(), to.isEnabled());
-    }
+//    public static ContactTo getContactTo(Contact contact) {
+//        return new ContactTo(contact.getId(), contact.getAlias(), contact.getEmail());
+//    }
+
+//    public static Executor getExecutorFromTo(ExecutorTo to) {
+//        return new Executor(to.getId(), to.getName(), to.isEnabled());
+//    }
+//    public static Contact getContactFromTo(ContactTo to) {
+//        return new Contact(to.getId(), to.getName(), to.getEmail());
+//    }
 
     private static ToBuilder getBaseToBuilder(Mail mail) {
         return new ToBuilder().setId(mail.getId())

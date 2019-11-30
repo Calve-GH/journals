@@ -1,15 +1,16 @@
 package com.github.calve.service;
 
-import com.github.calve.model.etc.Executor;
-import com.github.calve.model.Mail;
-import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.DataTable;
-import com.github.calve.to.ExecutorTo;
+import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.Pair;
 
 import java.util.List;
+
+import static com.github.calve.web.TransformUtils.getPageable;
+import static com.github.calve.web.TransformUtils.getSpecification;
 
 public class ServiceUtils {
 
@@ -17,32 +18,17 @@ public class ServiceUtils {
         throw new AssertionError("Error calling ServiceUtil constructor.");
     }
 
-    //refactoring mb generics
-    public static DataTable constructPage(DataTablesInput dti, Page<? extends Mail> mails) {
-        return DataTable.builder()//refactoring generics?!
-                .data(getTos(mails))
-                .recordsTotal(mails.getTotalElements())
-                .recordsFiltered(mails.getTotalElements())
+    public static Pair<Pageable, Specification<?>> constructPageableSpecification(DataTablesInput dti) {
+        return Pair.of(getPageable(dti), getSpecification(dti));
+    }
+
+    public static DataTable constructPage(DataTablesInput dti, Page<?> pages, List<?> content) {
+        return DataTable.builder()
+                .data(content)
+                .recordsTotal(pages.getTotalElements())
+                .recordsFiltered(pages.getTotalElements())
                 .draw(dti.getDraw())
                 .start(dti.getStart())
                 .build();
-    }
-
-    public static DataTable constructExecutorsPage(DataTablesInput dti, Page<Executor> executors) {
-        return DataTable.builder()//refactoring generics?!
-                .data(getExecutorTos(executors))
-                .recordsTotal(executors.getTotalElements())
-                .recordsFiltered(executors.getTotalElements())
-                .draw(dti.getDraw())
-                .start(dti.getStart())
-                .build();
-    }
-
-    private static List<? extends BaseMailTo> getTos(Page<? extends Mail> mails) {
-        return TransformUtils.getToList(mails.getContent());
-    }
-
-    private static List<ExecutorTo> getExecutorTos(Page<Executor> mails) {
-        return TransformUtils.getExecutorsToList(mails.getContent());
     }
 }

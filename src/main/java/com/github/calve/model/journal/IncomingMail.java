@@ -80,4 +80,17 @@ public class IncomingMail extends AbstractEntity implements Mail {
     public void setExecutor(Executor executor) {
         this.executor = executor;
     }
+
+    @Override
+    public String toString() {
+        return "IncomingMail{" +
+                "incomeDate=" + incomeDate +
+                ", incomeIndex='" + incomeIndex + '\'' +
+                ", correspondent='" + correspondent + '\'' +
+                ", outerDate=" + outerDate +
+                ", outerIndex='" + outerIndex + '\'' +
+                ", description='" + description + '\'' +
+                ", executor=" + executor +
+                '}';
+    }
 }

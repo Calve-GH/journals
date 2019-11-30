@@ -68,7 +68,7 @@
             </thead>
             <tbody>
             <c:forEach items="${mails}" var="mail">
-                <jsp:useBean id="mail" type="com.github.calve.to.MailTo"/>
+                <jsp:useBean id="mail" type="com.github.calve.to.journal.ForeignerTo"/>
                 <tr data-mealExcess="${mail.excess}">
                     <td>${fn:formatDateTime(mail.incomeDate)}</td>
                     <td>${mail.incomeIndex}</td>
