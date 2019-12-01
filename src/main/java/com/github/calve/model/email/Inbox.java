@@ -15,8 +15,8 @@ public class Inbox extends AbstractEntity implements Mail {
     private Integer genIndex;
     @ManyToOne(fetch = FetchType.EAGER)
     private Contact contact;
-    @Column(name = "income_date", nullable = false)
-    private LocalDate incomeDate;
+    @Column(name = "reg_date", nullable = false)
+    private LocalDate regDate;
     @Column(name = "answer")
     private Boolean answer;
     @Column(name = "description")
@@ -29,7 +29,7 @@ public class Inbox extends AbstractEntity implements Mail {
         super.setId(id);
         this.genIndex = genIndex;
         this.contact = contact;
-        this.incomeDate = incomeDate;
+        this.regDate = incomeDate;
         this.answer = answer;
         this.description = description;
     }
@@ -52,11 +52,11 @@ public class Inbox extends AbstractEntity implements Mail {
 
     @Override
     public LocalDate getIncomeDate() {
-        return incomeDate;
+        return regDate;
     }
 
     public void setIncomeDate(LocalDate incomeDate) {
-        this.incomeDate = incomeDate;
+        this.regDate = incomeDate;
     }
 
     public Boolean getAnswer() {
@@ -81,7 +81,7 @@ public class Inbox extends AbstractEntity implements Mail {
         return new StringJoiner(", ", Inbox.class.getSimpleName() + "[", "]")
                 .add("genIndex=" + genIndex)
                 .add("contact=" + contact)
-                .add("incomeDate=" + incomeDate)
+                .add("incomeDate=" + regDate)
                 .add("answer=" + answer)
                 .add("description='" + description + "'")
                 .toString();

@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface EmailDTOMapper {
-    EmailDTOMapper DEM_INSTANCE = Mappers.getMapper(EmailDTOMapper.class);
+    EmailDTOMapper EDM_INSTANCE = Mappers.getMapper(EmailDTOMapper.class);
 
     @Mappings(@Mapping(target = "contact", source = "contact.alias"))
     EmailTo getInboxTo(Inbox mail);

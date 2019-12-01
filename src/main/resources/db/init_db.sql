@@ -161,9 +161,10 @@ CREATE UNIQUE INDEX incoming_idx ON incoming (reg_date, index);
 create TABLE sent
 (
   id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  sent_date         TIMESTAMP               NOT NULL,
+  reg_date         TIMESTAMP               NOT NULL,
   contact_id      INTEGER   			   NOT NULL,
   description      VARCHAR                 ,
+  delivery_type     VARCHAR                 ,
   FOREIGN KEY (contact_id) REFERENCES contacts (id)
 );
 
@@ -172,7 +173,7 @@ create TABLE inbox
   id            INTEGER     PRIMARY KEY DEFAULT nextval('global_seq'),
   index         INTEGER   	NOT NULL,
   contact_id    INTEGER   	NOT NULL,
-  income_date   TIMESTAMP   NOT NULL,
+  reg_date   TIMESTAMP   NOT NULL,
   answer        BOOLEAN     NOT NULL,
   description   VARCHAR     ,
   FOREIGN KEY (contact_id) REFERENCES contacts (id)

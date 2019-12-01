@@ -6,7 +6,7 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <script type="text/javascript" src="resources/js/common.js" defer></script>
-<script type="text/javascript" src="resources/js/outgoing.js" defer></script>
+<script type="text/javascript" src="resources/js/incoming.js" defer></script>
 <script type="text/javascript" src="resources/js/jquery.spring-friendly.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
@@ -48,11 +48,10 @@
         <table class="table table-striped table-bordered table-sm" id="datatable" width = "100%" style = "margin: 0px;">
             <thead>
             <tr>
-                <th width="70px"><spring:message code="table.sd"/></th>
-                <th><spring:message code="table.nii"/></th>
+                <th width="70px"><spring:message code="table.id"/></th>
                 <th><spring:message code="table.i"/></th>
-                <th><spring:message code="table.cor"/></th>
-                <th><spring:message code="table.nc"/></th>
+                <th><spring:message code="table.ds"/></th>
+                <th><spring:message code="table.deb"/></th>
                 <th><spring:message code="table.fio"/></th>
                 <th></th>
                 <th></th>
@@ -60,13 +59,12 @@
             </thead>
             <tbody>
             <c:forEach items="${mails}" var="mail">
-                <jsp:useBean id="mail" type="com.github.calve.to.common.OutgoingTo"/>
+                <jsp:useBean id="mail" type="com.github.calve.to.common.IncomingTo"/>
                 <tr data-mealExcess="${mail.excess}">
-                    <td>${fn:formatDateTime(mail.outerDate)}</td>
-                    <td>${mail.outerIndex}</td>
+                    <td>${fn:formatDateTime(mail.regDate)}</td>
                     <td>${mail.genIndex}</td>
-                    <td>${mail.correspondent}</td>
                     <td>${mail.description}</td>
+                    <td>${mail.debtor}</td>
                     <td>${mail.executor}</td>
                     <td><a onclick="updateRow(${mail.id})"><span class="fa fa-pencil"></span></a></td>
                     <td><a onclick="deleteRow(${mail.id})"><span class="fa fa-remove"></span></a></td>
@@ -93,39 +91,29 @@
 						<tr>
 						    <td>
                                 <div class="form-group">
-                                    <label for="outerDate" class="col-form-label"><spring:message code="modal.sd"/></label>
-                                    <input type="date" class="form-control" id="outerDate" name="outerDate">
+                                    <label for="regDate" class="col-form-label"><spring:message code="modal.id"/></label>
+                                    <input type="date" class="form-control" id="regDate" name="regDate">
                                 </div>
                             </td>
-							<td>
-								<div class="form-group">
-									<label for="outerIndex" class="col-form-label"><spring:message code="modal.pnn"/></label>
-									<input type="text" class="form-control" id="outerIndex" name="outerIndex">
-								</div>
-							</td>
-						</tr>
-						<tr>
 							<td>
 								<div class="form-group">
 									<label for="genIndex" class="col-form-label"><spring:message code="modal.gn"/></label>
 									<input type="number" class="form-control" id="genIndex" name="genIndex">
 								</div>
 							</td>
-							<td>
-								<div class="form-group">
-									<label for="correspondent" class="col-form-label"><spring:message code="modal.cor"/></label>
-									<input type="text" class="form-control" id="correspondent" name="correspondent">
-								</div>
-							</td>
 						</tr>
 						<tr>
+							<td>
+								<div class="form-group">
+									<label for="debtor" class="col-form-label"><spring:message code="modal.deb"/></label>
+									<input type="text" class="form-control" id="debtor" name="debtor">
+								</div>
+							</td>
 							<td>
                                 <div class="form-group">
                                     <label for="executor" class="col-form-label"><spring:message code="modal.en"/></label>
                                     <select class="form-control" id="locality-dropdown" id="executor" name="executor"></select>
                                 </div>
-							</td>
-							<td>
 							</td>
 						</tr>
 						<tr>

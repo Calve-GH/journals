@@ -11,6 +11,8 @@ import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -18,6 +20,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static com.github.calve.service.ServiceUtils.constructPage;
+import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
+import static com.github.calve.to.common.CommonTransformUtil.packIncomingList;
 
 @Service
 public class IncomingServiceImpl implements IncomingService {
@@ -43,13 +49,14 @@ public class IncomingServiceImpl implements IncomingService {
 
 // TODO: 26.11.2019  //refactoring
     @Override
-    public Incoming save(BaseMailTo mail) {
-        Executor executor = executorService.findExecutorByName(mail.getExecutor());
+    public Incoming save(Incoming mail) {
+        Executor executor = executorService.findExecutorByName(mail.getExecutor().getName());
         if (Objects.isNull(mail.getGenIndex())) {
             int index = getLastGenIndex();
             mail.setGenIndex(index);
         }
-        return repository.save(TransformUtils.getIncoming(mail, executor));
+        mail.setExecutor(executor);
+        return repository.save(mail);
     }
 
     private int getLastGenIndex() {
@@ -76,9 +83,15 @@ public class IncomingServiceImpl implements IncomingService {
         return repository.findById(id).orElse(null);
     }
 
-//refactoring // TODO: 26.11.2019
     @Override
     public DataTable findFilteredAndSort(DataTablesInput dti) {
-        return null;
+        Pair<Pageable, Specification<?>> specPair = constructPageableSpecification(dti);
+        Page<Incoming> pages = Objects.isNull(specPair.getSecond()) ? findMails(specPair.getFirst()) : findSearchable(specPair);
+        return constructPage(dti, pages, packIncomingList(pages.getContent()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Page<Incoming> findSearchable(Pair<Pageable, Specification<?>> spec) {
+        return repository.findAll((Specification<Incoming>) spec.getSecond(), spec.getFirst());
     }
 }

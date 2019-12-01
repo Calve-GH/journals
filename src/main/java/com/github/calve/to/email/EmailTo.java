@@ -21,4 +21,5 @@ public class EmailTo implements Serializable {
     private LocalDate date;
     private Boolean answer;
     private String description;
+    private String deliveryType;
 }

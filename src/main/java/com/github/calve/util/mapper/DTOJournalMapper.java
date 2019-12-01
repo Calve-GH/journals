@@ -10,7 +10,7 @@ import com.github.calve.to.journal.ResultTo;
 import com.github.calve.util.DateTimeUtil;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-
+//Mapper from Journal mails to DTO divided on two files, for better reading;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface DTOJournalMapper {
     DTOJournalMapper DJM_INSTANCE = Mappers.getMapper(DTOJournalMapper.class);

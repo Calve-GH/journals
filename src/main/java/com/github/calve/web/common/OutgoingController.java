@@ -3,9 +3,10 @@ package com.github.calve.web.common;
 import com.github.calve.service.common.OutgoingService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.BaseMailTo;
-import com.github.calve.util.to.DataTablesInput;
+import com.github.calve.to.common.CommonTransformUtil;
+import com.github.calve.to.common.OutgoingTo;
 import com.github.calve.util.Util;
-import com.github.calve.web.TransformUtils;
+import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
+
+import static com.github.calve.to.common.CommonTransformUtil.packOutgoing;
 
 @RestController
 @RequestMapping(value = OutgoingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,13 +36,13 @@ public class OutgoingController {
 
     @PostMapping //refactoring add validation
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(BaseMailTo mail, BindingResult validation) {
+    public ResponseEntity save(OutgoingTo mail, BindingResult validation) {
         return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")
-    public BaseMailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getBaseMailTo(service.findById(id));
+    public OutgoingTo getMail(@PathVariable Integer id) {
+        return packOutgoing(service.findById(id));
     }
 
     @GetMapping
@@ -59,8 +62,8 @@ public class OutgoingController {
         storageService.storeOutgoing(file);
     }
 
-    private ResponseEntity getResponseOnSave(BaseMailTo mail) {
-        service.save(mail);
+    private ResponseEntity getResponseOnSave(OutgoingTo mail) {
+        service.save(CommonTransformUtil.unpackOutgoing(mail));
         return ResponseEntity.ok().build();
     }
 }

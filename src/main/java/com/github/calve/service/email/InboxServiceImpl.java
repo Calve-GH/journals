@@ -5,18 +5,22 @@ import com.github.calve.model.etc.Contact;
 import com.github.calve.repository.ContactRepository;
 import com.github.calve.repository.InboxRepository;
 import com.github.calve.to.etc.DataTable;
-import com.github.calve.to.email.EmailTo;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static com.github.calve.service.ServiceUtils.constructPage;
+import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
+import static com.github.calve.to.email.EmailTransformUtil.packInboxList;
 
 @Service
 public class InboxServiceImpl implements InboxService {
@@ -41,15 +45,15 @@ public class InboxServiceImpl implements InboxService {
     }
 
     @Override
-    public Inbox save(EmailTo mail) {
-        Contact contact = contactRepository.findByAlias(mail.getContact());
+    public Inbox save(Inbox mail) {
+        Contact contact = contactRepository.findByAlias(mail.getContact().getAlias());
 
         if (Objects.isNull(mail.getGenIndex())) {
             int index = getLastGenIndex();
             mail.setGenIndex(index);
         }
-
-        return repository.save(TransformUtils.getInbox(mail, contact));
+        mail.setContact(contact);
+        return repository.save(mail);
     }
 
     // TODO: 21.11.2019 Spring context listener, need as bean tha can be used in excel parser;
@@ -60,7 +64,6 @@ public class InboxServiceImpl implements InboxService {
             return 1;
         }
     }
-
 
     @Override
     public int delete(Integer id) {
@@ -75,6 +78,13 @@ public class InboxServiceImpl implements InboxService {
 
     @Override
     public DataTable findFilteredAndSort(DataTablesInput dti) {
-        return null;
+        Pair<Pageable, Specification<?>> specPair = constructPageableSpecification(dti);
+        Page<Inbox> pages = Objects.isNull(specPair.getSecond()) ? findMails(specPair.getFirst()) : findSearchable(specPair);
+        return constructPage(dti, pages, packInboxList(pages.getContent()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Page<Inbox> findSearchable(Pair<Pageable, Specification<?>> spec) {
+        return repository.findAll((Specification<Inbox>) spec.getSecond(), spec.getFirst());
     }
 }

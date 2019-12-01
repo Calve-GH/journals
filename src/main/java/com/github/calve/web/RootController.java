@@ -70,6 +70,21 @@ public class RootController {
         return "applications";
     }
 
+    @GetMapping("/incoming/")
+    public String getIncoming() {
+        return "incoming";
+    }
+
+    @GetMapping("/inbox/")
+    public String getInbox() {
+        return "inbox";
+    }
+
+    @GetMapping("/sent/")
+    public String getSent() {
+        return "sent";
+    }
+
     @GetMapping("/executors/")
     public String getExecutors() {
         return "executors";

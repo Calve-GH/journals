@@ -4,6 +4,7 @@ import com.github.calve.model.etc.Executor;
 import com.github.calve.model.common.Outgoing;
 import com.github.calve.service.FilteredSortedData;
 import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.common.OutgoingTo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,7 +17,7 @@ public interface OutgoingService extends FilteredSortedData {
 
     Page<Outgoing> findMails(Pageable pageable);
 
-    Outgoing save(BaseMailTo mail);
+    Outgoing save(Outgoing mail);
 
     Outgoing save(BaseMailTo mail, Map<String, Executor> executors) throws SQLException;
 

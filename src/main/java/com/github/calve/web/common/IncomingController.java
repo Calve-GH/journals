@@ -1,8 +1,9 @@
 package com.github.calve.web.common;
 
+import com.github.calve.service.common.IncomingService;
 import com.github.calve.service.common.OutgoingService;
 import com.github.calve.service.etc.StorageService;
-import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.common.IncomingTo;
 import com.github.calve.util.Util;
 import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.web.TransformUtils;
@@ -17,30 +18,33 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.sql.SQLException;
 
+import static com.github.calve.to.common.CommonTransformUtil.packIncoming;
+import static com.github.calve.to.common.CommonTransformUtil.unpackIncoming;
+
 @RestController
 @RequestMapping(value = IncomingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class IncomingController {
     static final String REST_URL = "/rest/incoming/";
 
     //refactoring too dirty;
-    private OutgoingService service;
+    private IncomingService service;
     private StorageService storageService;
 
     @Autowired
-    public IncomingController(OutgoingService service, StorageService storageService) {
+    public IncomingController(IncomingService service, StorageService storageService) {
         this.service = service;
         this.storageService = storageService;
     }
 
     @PostMapping //refactoring add validation
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(BaseMailTo mail, BindingResult validation) {
+    public ResponseEntity createMail(IncomingTo mail, BindingResult validation) {
         return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")
-    public BaseMailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getBaseMailTo(service.findById(id));
+    public IncomingTo getMail(@PathVariable Integer id) {
+        return packIncoming(service.findById(id));
     }
 
     @GetMapping
@@ -60,8 +64,8 @@ public class IncomingController {
         storageService.storeOutgoing(file);
     }
 
-    private ResponseEntity getResponseOnSave(BaseMailTo mail) {
-        service.save(mail);
+    private ResponseEntity getResponseOnSave(IncomingTo mail) {
+        service.save(unpackIncoming(mail));
         return ResponseEntity.ok().build();
     }
 }

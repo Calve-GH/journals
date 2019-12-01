@@ -1,9 +1,8 @@
 package com.github.calve.web.journal;
 
-import com.github.calve.service.journal.ApplicationService;
 import com.github.calve.service.etc.StorageService;
+import com.github.calve.service.journal.ApplicationService;
 import com.github.calve.to.journal.ApplicationTo;
-import com.github.calve.to.journal.MailTransformUtil;
 import com.github.calve.util.Util;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import javax.validation.Valid;
 import java.sql.SQLException;
 
 import static com.github.calve.to.journal.MailTransformUtil.packApplication;
+import static com.github.calve.to.journal.MailTransformUtil.unpackApplication;
 
 @RestController
 @RequestMapping(value = ApplicationController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,6 +39,7 @@ public class ApplicationController {
     public ResponseEntity createMail(@Valid ApplicationTo mail, BindingResult validation) {
         return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
+
     @GetMapping("{id}/")
     public ApplicationTo getMail(@PathVariable Integer id) {
         return packApplication(service.findById(id));
@@ -63,7 +64,7 @@ public class ApplicationController {
 
     //boilerplate code
     private ResponseEntity getResponseOnSave(ApplicationTo mail) {
-        service.save(MailTransformUtil.unpackApplication(mail));
+        service.save(unpackApplication(mail));
         return ResponseEntity.ok().build();
     }
 }

@@ -13,7 +13,7 @@ public interface InboxService extends FilteredSortedData {
 
     Page<Inbox> findMails(Pageable pageable);
 
-    Inbox save(EmailTo mail);
+    Inbox save(Inbox mail);
 
     int delete(Integer id);
 

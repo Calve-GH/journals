@@ -12,12 +12,14 @@ import java.util.StringJoiner;
 @Table(name = "sent")
 public class Sent extends AbstractEntity implements Mail {
     
-    @Column(name = "sent_date", nullable = false)
-    private LocalDate incomeDate;
+    @Column(name = "reg_date", nullable = false)
+    private LocalDate regDate;
     @ManyToOne(fetch = FetchType.EAGER)
     private Contact contact;
     @Column(name = "description")
     private String description;
+    @Column(name = "delivery_type")
+    private String deliveryType;
 
     // TODO: 25.11.2019 thinking about email string content;
     public Sent() {
@@ -25,17 +27,17 @@ public class Sent extends AbstractEntity implements Mail {
 
     public Sent(Integer id, LocalDate sentDate, Contact contact, String description) {
         super.setId(id);
-        this.incomeDate = sentDate;
+        this.regDate = sentDate;
         this.contact = contact;
         this.description = description;
     }
 
-    public LocalDate getIncomeDate() {
-        return incomeDate;
+    public LocalDate getRegDate() {
+        return regDate;
     }
 
-    public void setIncomeDate(LocalDate incomeDate) {
-        this.incomeDate = incomeDate;
+    public void setRegDate(LocalDate regDate) {
+        this.regDate = regDate;
     }
 
     public Contact getContact() {
@@ -55,10 +57,18 @@ public class Sent extends AbstractEntity implements Mail {
         this.description = description;
     }
 
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", Sent.class.getSimpleName() + "[", "]")
-                .add("sentDate=" + incomeDate)
+                .add("sentDate=" + regDate)
                 .add("contact=" + contact)
                 .add("description='" + description + "'")
                 .toString();

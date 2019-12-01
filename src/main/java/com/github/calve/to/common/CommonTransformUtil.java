@@ -10,7 +10,7 @@ import static com.github.calve.util.mapper.CommonDTOMapper.CDM_INSTANCE;
 
 public class CommonTransformUtil {
 
-    public CommonTransformUtil() {
+    private CommonTransformUtil() {
         throw new AssertionError("Cannot create instance of util class");
     }
 

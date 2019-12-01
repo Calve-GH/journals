@@ -8,7 +8,7 @@ import com.github.calve.to.journal.ForeignerTo;
 import com.github.calve.to.journal.RootTo;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-
+//Mapper from DTO to Journal mails divided on two files, for better reading;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface JournalDTOMapper {
 

@@ -5,7 +5,6 @@ import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.email.EmailTo;
 import com.github.calve.util.Util;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static com.github.calve.to.email.EmailTransformUtil.packInbox;
+import static com.github.calve.to.email.EmailTransformUtil.unpackInbox;
 
 @RestController
 @RequestMapping(value = InboxController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,13 +33,13 @@ public class InboxController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(@Valid EmailTo mail, BindingResult validation) {
+    public ResponseEntity save(@Valid EmailTo mail, BindingResult validation) {
         return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")
     public EmailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getEmailTo(service.findById(id));
+        return packInbox(service.findById(id));
     }
 
     //refactoring
@@ -55,7 +57,7 @@ public class InboxController {
 
     //boilerplate code
     private ResponseEntity getResponseOnSave(EmailTo mail) {
-        service.save(mail);
+        service.save(unpackInbox(mail));
         return ResponseEntity.ok().build();
     }
 }

@@ -1,11 +1,11 @@
-const mailAjaxUrl = "rest/outgoing/";
+const mailAjaxUrl = "rest/sent/";
 
 function fileUpload() {
     var documentData = new FormData();
     documentData.append('file', $('input#file.findDocumentOnboarding')[0].files[0]);
 
     $.ajax({
-        url: "rest/outgoing/files/",
+        url: "rest/sent/files/",
         type: 'POST',
         data: documentData,
         cache: false,
@@ -39,35 +39,27 @@ $(function () {
         datatableOpts: {
             "columns": [
 				{
-					"data": "outerDate",
+					"data": "regDate",
 					"render": function(data, type, row) { return moment(data).format("DD-MM-YYYY"); }
 				},
 				{
-                    "defaultContent": "",
-					"data": "outerIndex",
-				    "className": "center-td"
-				},
-				{
-					"data": "genIndex",
-				    "className": "center-td"
-				},
-				{
-					"data": "correspondent"
+				    "searchable" : false,
+					"data": "contact"
 				},
 				{
 				    "defaultContent": "",
 					"data": "description",
 					"orderable": false
 				},
-				{
-				    "searchable" : false,
-					"data": "executor"
-				},
                 {
                     "searchable" : false,
                     "render": renderEditBtn,
                     "defaultContent": "",
                     "orderable": false
+                },
+                {
+                	"searchable" : false,
+                    "data": "deliveryType"
                 },
                 {
                     "searchable" : false,

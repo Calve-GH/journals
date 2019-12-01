@@ -11,10 +11,17 @@ import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.github.calve.service.ServiceUtils.constructPage;
+import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
+import static com.github.calve.to.email.EmailTransformUtil.packSentList;
 
 @Service
 public class SentServiceImpl implements SentService {
@@ -39,9 +46,10 @@ public class SentServiceImpl implements SentService {
     }
 
     @Override
-    public Sent save(EmailTo mail) {
-        Contact contact = contactRepository.findByAlias(mail.getContact());
-        return repository.save(TransformUtils.getSent(mail, contact));
+    public Sent save(Sent mail) {
+        Contact contact = contactRepository.findByAlias(mail.getContact().getAlias());
+        mail.setContact(contact);
+        return repository.save(mail);
     }
 
     @Override
@@ -59,6 +67,13 @@ public class SentServiceImpl implements SentService {
     //refactoring
     @Override
     public DataTable findFilteredAndSort(DataTablesInput dti) {
-        return null;
+        Pair<Pageable, Specification<?>> specPair = constructPageableSpecification(dti);
+        Page<Sent> pages = Objects.isNull(specPair.getSecond()) ? findMails(specPair.getFirst()) : findSearchable(specPair);
+        return constructPage(dti, pages, packSentList(pages.getContent()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Page<Sent> findSearchable(Pair<Pageable, Specification<?>> spec) {
+        return repository.findAll((Specification<Sent>) spec.getSecond(), spec.getFirst());
     }
 }

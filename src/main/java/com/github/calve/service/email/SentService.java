@@ -13,7 +13,7 @@ public interface SentService extends FilteredSortedData {
 
     Page<Sent> findMails(Pageable pageable);
 
-    Sent save(EmailTo mail);
+    Sent save(Sent mail);
 
     int delete(Integer id);
 

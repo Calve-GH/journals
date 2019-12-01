@@ -17,7 +17,7 @@ public interface IncomingService extends FilteredSortedData {
 
     Page<Incoming> findMails(Pageable pageable);
 
-    Incoming save(BaseMailTo mail);
+    Incoming save(Incoming mail);
 
     Incoming save(BaseMailTo mail, Map<String, Executor> executors) throws SQLException;
 

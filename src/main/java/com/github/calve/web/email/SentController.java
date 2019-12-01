@@ -3,9 +3,9 @@ package com.github.calve.web.email;
 import com.github.calve.service.email.SentService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.email.EmailTo;
+import com.github.calve.to.email.EmailTransformUtil;
 import com.github.calve.util.Util;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static com.github.calve.to.email.EmailTransformUtil.unpackSent;
 
 @RestController
 @RequestMapping(value = SentController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,17 +33,15 @@ public class SentController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity createMail(@Valid EmailTo mail, BindingResult validation) {
+    public ResponseEntity save(@Valid EmailTo mail, BindingResult validation) {
         return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")
     public EmailTo getMail(@PathVariable Integer id) {
-        return TransformUtils.getEmailTo(service.findById(id));
+        return EmailTransformUtil.packSent(service.findById(id));
     }
 
-    //refactoring
-    // TODO: 26.11.2019
     @GetMapping
     public ResponseEntity getMails(@Valid DataTablesInput dti) {
         return ResponseEntity.ok(service.findFilteredAndSort(dti));
@@ -55,7 +55,7 @@ public class SentController {
 
     //boilerplate code
     private ResponseEntity getResponseOnSave(EmailTo mail) {
-        service.save(mail);
+        service.save(unpackSent(mail));
         return ResponseEntity.ok().build();
     }
 }
