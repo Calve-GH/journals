@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
 import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
-import static com.github.calve.to.email.EmailTransformUtil.packInboxList;
+import static com.github.calve.to.utils.EmailTransformUtil.packInboxList;
 
 @Service
 public class InboxServiceImpl implements InboxService {

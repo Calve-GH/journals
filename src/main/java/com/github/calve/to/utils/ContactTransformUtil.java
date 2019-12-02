@@ -1,7 +1,8 @@
-package com.github.calve.to.etc;
+package com.github.calve.to.utils;
 
 import com.github.calve.model.etc.Contact;
 import com.github.calve.model.etc.Executor;
+import com.github.calve.to.etc.ContactTo;
 
 import java.util.List;
 import java.util.stream.Collectors;

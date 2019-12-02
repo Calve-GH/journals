@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
-import static com.github.calve.to.etc.ContactTransformUtil.packExecutorList;
+import static com.github.calve.to.utils.ContactTransformUtil.packExecutorList;
 import static com.github.calve.web.TransformUtils.getPageable;
 
 @Service

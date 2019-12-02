@@ -3,7 +3,7 @@ package com.github.calve.web.email;
 import com.github.calve.service.email.SentService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.email.EmailTo;
-import com.github.calve.to.email.EmailTransformUtil;
+import com.github.calve.to.utils.EmailTransformUtil;
 import com.github.calve.util.Util;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.github.calve.to.email.EmailTransformUtil.unpackSent;
+import static com.github.calve.to.utils.EmailTransformUtil.unpackSent;
 
 @RestController
 @RequestMapping(value = SentController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

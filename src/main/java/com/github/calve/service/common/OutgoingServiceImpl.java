@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
 import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
-import static com.github.calve.to.common.CommonTransformUtil.packOutgoingList;
+import static com.github.calve.to.utils.CommonTransformUtil.packOutgoingList;
 
 @Service
 public class OutgoingServiceImpl implements OutgoingService {

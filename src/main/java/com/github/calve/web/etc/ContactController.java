@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.github.calve.to.etc.ContactTransformUtil.packContact;
-import static com.github.calve.to.etc.ContactTransformUtil.unpackContact;
+import static com.github.calve.to.utils.ContactTransformUtil.packContact;
+import static com.github.calve.to.utils.ContactTransformUtil.unpackContact;
 
 @RestController
 @RequestMapping(value = ContactController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

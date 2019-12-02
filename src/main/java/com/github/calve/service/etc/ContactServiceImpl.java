@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
 import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
-import static com.github.calve.to.etc.ContactTransformUtil.packContactList;
+import static com.github.calve.to.utils.ContactTransformUtil.packContactList;
 
 @Service
 public class ContactServiceImpl implements ContactService {

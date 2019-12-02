@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.github.calve.to.email.EmailTransformUtil.packInbox;
-import static com.github.calve.to.email.EmailTransformUtil.unpackInbox;
+import static com.github.calve.to.utils.EmailTransformUtil.packInbox;
+import static com.github.calve.to.utils.EmailTransformUtil.unpackInbox;
 
 @RestController
 @RequestMapping(value = InboxController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

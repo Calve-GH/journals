@@ -7,7 +7,6 @@ import com.github.calve.service.etc.ExecutorService;
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,7 @@ import java.util.Objects;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
 import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
-import static com.github.calve.to.common.CommonTransformUtil.packIncomingList;
+import static com.github.calve.to.utils.CommonTransformUtil.packIncomingList;
 
 @Service
 public class IncomingServiceImpl implements IncomingService {

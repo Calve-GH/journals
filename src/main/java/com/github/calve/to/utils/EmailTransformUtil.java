@@ -1,7 +1,8 @@
-package com.github.calve.to.email;
+package com.github.calve.to.utils;
 
 import com.github.calve.model.email.Inbox;
 import com.github.calve.model.email.Sent;
+import com.github.calve.to.email.EmailTo;
 
 import java.util.List;
 import java.util.stream.Collectors;

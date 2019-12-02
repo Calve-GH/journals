@@ -1,7 +1,9 @@
-package com.github.calve.to.common;
+package com.github.calve.to.utils;
 
 import com.github.calve.model.common.Incoming;
 import com.github.calve.model.common.Outgoing;
+import com.github.calve.to.common.IncomingTo;
+import com.github.calve.to.common.OutgoingTo;
 
 import java.util.List;
 import java.util.stream.Collectors;

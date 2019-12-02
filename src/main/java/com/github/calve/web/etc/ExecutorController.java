@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.github.calve.to.etc.ContactTransformUtil.*;
+import static com.github.calve.to.utils.ContactTransformUtil.*;
 
 @RestController
 @RequestMapping(value = ExecutorController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

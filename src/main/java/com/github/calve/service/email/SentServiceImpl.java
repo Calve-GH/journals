@@ -5,9 +5,7 @@ import com.github.calve.model.etc.Contact;
 import com.github.calve.repository.ContactRepository;
 import com.github.calve.repository.SentRepository;
 import com.github.calve.to.etc.DataTable;
-import com.github.calve.to.email.EmailTo;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +19,7 @@ import java.util.Optional;
 
 import static com.github.calve.service.ServiceUtils.constructPage;
 import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
-import static com.github.calve.to.email.EmailTransformUtil.packSentList;
+import static com.github.calve.to.utils.EmailTransformUtil.packSentList;
 
 @Service
 public class SentServiceImpl implements SentService {
