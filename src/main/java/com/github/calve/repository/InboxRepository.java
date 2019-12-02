@@ -20,7 +20,7 @@ public interface InboxRepository extends JpaRepository<Inbox, Integer>, JpaSpeci
     @Transactional
     <I extends Inbox> I save(I entity);
 
-    @Query("SELECT max(i.genIndex) FROM Inbox i where year(i.incomeDate)=:year")
+    @Query("SELECT max(i.genIndex) FROM Inbox i where year(i.regDate)=:year")
     int maxByYear(@Param("year") Integer year);
 
     @Transactional

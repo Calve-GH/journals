@@ -37,7 +37,7 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${executors}" var="executor">
-                    <jsp:useBean id="executor" type="com.github.calve.to.ExecutorTo"/>
+                    <jsp:useBean id="executor" type="com.github.calve.to.etc.ContactTo"/>
                     <tr data-mealExcess="${executor.enabled}">
                         <td>${executor.name}</td>
                         <td>${executor.enabled}</td>
