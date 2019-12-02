@@ -142,10 +142,10 @@
 								</div>
 							</td>
 							<td>
-								<div class="form-group">
-									<label for="executor" class="col-form-label"><spring:message code="modal.ex"/></label>
-									<input type="text" class="form-control" id="executor" name="executor">
-								</div>
+                                <div class="form-group">
+                                    <label for="executor" class="col-form-label"><spring:message code="modal.ex"/>*</label>
+                                    <select class="form-control" id="locality-dropdown" id="executor" name="executor"></select>
+                                </div>
 							</td>
 						</tr>
 						<tr>
