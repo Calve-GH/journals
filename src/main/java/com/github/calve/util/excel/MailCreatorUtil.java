@@ -2,7 +2,6 @@ package com.github.calve.util.excel;
 
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.MailTo;
-import com.github.calve.util.Journals;
 import com.github.calve.util.builders.ToBuilder;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;

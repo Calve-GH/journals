@@ -1,4 +1,4 @@
-package com.github.calve.util;
+package com.github.calve.util.excel;
 
 public enum Journals {
 

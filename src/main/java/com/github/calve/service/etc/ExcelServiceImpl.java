@@ -2,7 +2,7 @@ package com.github.calve.service.etc;
 
 import com.github.calve.model.Mail;
 import com.github.calve.repository.*;
-import com.github.calve.util.Journals;
+import com.github.calve.util.excel.Journals;
 import com.github.calve.util.excel.ExcelWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

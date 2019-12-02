@@ -5,7 +5,7 @@ import com.github.calve.service.common.OutgoingService;
 import com.github.calve.service.journal.*;
 import com.github.calve.to.BaseMailTo;
 import com.github.calve.to.MailTo;
-import com.github.calve.util.Journals;
+import com.github.calve.util.excel.Journals;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;

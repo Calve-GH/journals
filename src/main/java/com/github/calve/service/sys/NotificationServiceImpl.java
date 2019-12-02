@@ -2,7 +2,7 @@ package com.github.calve.service.sys;
 
 import com.github.calve.model.Mail;
 import com.github.calve.repository.*;
-import com.github.calve.util.Journals;
+import com.github.calve.util.excel.Journals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.github.calve.util.DateTimeUtil.*;
-import static com.github.calve.util.Journals.*;
+import static com.github.calve.util.excel.Journals.*;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {

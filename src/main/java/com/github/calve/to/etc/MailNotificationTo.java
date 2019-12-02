@@ -1,6 +1,6 @@
 package com.github.calve.to.etc;
 
-import com.github.calve.util.Journals;
+import com.github.calve.util.excel.Journals;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;

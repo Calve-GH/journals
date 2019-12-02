@@ -1,12 +1,12 @@
 package com.github.calve.to.etc;
 
-import com.github.calve.util.Journals;
+import com.github.calve.util.excel.Journals;
 
 import java.io.Serializable;
 import java.util.Map;
 import java.util.StringJoiner;
 
-import static com.github.calve.util.Journals.*;
+import static com.github.calve.util.excel.Journals.*;
 
 public class NotificationTo implements Serializable {
     private int requests;
