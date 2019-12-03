@@ -1,6 +1,6 @@
 package com.github.calve.util.excel;
 
-import com.github.calve.model.*;
+import com.github.calve.model.Mail;
 import com.github.calve.model.common.Outgoing;
 import com.github.calve.util.DateTimeUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -9,10 +9,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.github.calve.util.DateTimeUtil.DATE_TIME_FORMATTER;
 import static com.github.calve.util.excel.Columns.*;
 import static com.github.calve.util.excel.DataTemplates.*;
 
@@ -22,8 +22,7 @@ public class ExcelWriter {
     private static final List<Columns> FOREIGNERS_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, DEB, PC, EX));
     private static final List<Columns> APPLICATIONS_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, WD, WI, AU, PN, EX, DD, DI, REM));
     private static final List<Columns> OUTGOING_COLUMNS = new ArrayList<>(Arrays.asList(SD, PN, IO, CORR, CN, EFIO));
-
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static CellStyle defaultCellStyle = null;
 
     public static byte[] getExcelFile(List<List<? extends Mail>> tables) throws IOException {//refactoring name mb get byte array
         Workbook workbook = new XSSFWorkbook();
@@ -39,7 +38,7 @@ public class ExcelWriter {
         return Integer.toString(mail.getOuterDate().getYear());
     }
 
-    // TODO: 12.11.2019 need new column writer; last upd 
+    // TODO: 12.11.2019 need new column writer; last upd
     public static byte[] getExcelOutFile(List<Outgoing> outgoings) throws IOException {//refactoring name mb get byte array
         Workbook workbook = new XSSFWorkbook();
 
@@ -78,8 +77,8 @@ public class ExcelWriter {
         }
     }
 
-//refactoring 
-// TODO: 20.11.2019 problem with type of mail identification; 
+    //refactoring
+// TODO: 20.11.2019 problem with type of mail identification;
     private static void createSheet(Workbook workbook, List<? extends Mail> table, String sheetName) throws IOException {
         List<Columns> columns = DEFAULT_COLUMNS;
 
@@ -176,8 +175,6 @@ public class ExcelWriter {
         workbook.write(baos);
         return baos.toByteArray();
     }
-
-    private static CellStyle defaultCellStyle = null;
 
     private static CellStyle getDefaultCellStyle(Workbook wb) {
         if (Objects.isNull(defaultCellStyle)) {

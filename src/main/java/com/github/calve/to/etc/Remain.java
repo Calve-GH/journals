@@ -2,11 +2,11 @@ package com.github.calve.to.etc;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
+import static com.github.calve.util.DateTimeUtil.DATE_TIME_FORMATTER;
 
 public class Remain implements Serializable {
 
-    private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     public final static Remain DONE_REMAIN = new Remain(0, "");
 
     private final long remains;
@@ -22,7 +22,7 @@ public class Remain implements Serializable {
     }
 
     private static String formatDate(LocalDate date) {
-        return date.format(DTF);
+        return date.format(DATE_TIME_FORMATTER);
     }
 
     public long getRemains() {

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class DateTimeUtil {
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //refactoring
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy"); //refactoring
 
     // DataBase doesn't support LocalDate.MIN/MAX
     private static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);

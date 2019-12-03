@@ -1,42 +1,14 @@
 package com.github.calve.util.excel;
 
-import com.github.calve.model.Mail;
 import com.github.calve.model.common.Incoming;
 import com.github.calve.model.common.Outgoing;
-import com.github.calve.model.email.Inbox;
-import com.github.calve.model.email.Sent;
-import com.github.calve.model.etc.Contact;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.model.journal.*;
-import com.github.calve.to.email.EmailTo;
 import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.to.excel.MailTo;
-import com.github.calve.util.builders.EmailBuilder;
 import com.github.calve.util.builders.MailBuilder;
-import com.github.calve.util.builders.ToBuilder;
-import com.github.calve.util.to.*;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public final class TransformUtils {
-
-    private final static String DATE_SOLO_TEMPLATE = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
-    private final static String DATE_YEAR_TEMPLATE = "\\.((?:19|20)\\d{2})\\s*";
-    private final static String DATE_RANGE_TEMPLATE = DATE_SOLO_TEMPLATE + "-" + DATE_SOLO_TEMPLATE;
-    private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final static LocalDate NOW = LocalDate.now();
-    //https://stackoverflow.com/questions/9382897/how-to-get-start-and-end-date-of-a-year
-    private final static LocalDate FIRST_DAY_OF_YEAR = NOW.with(TemporalAdjusters.firstDayOfYear());
-    private final static LocalDate LAST_DAY_OF_YEAR = NOW.with(TemporalAdjusters.lastDayOfYear());
 
     public TransformUtils() {
         throw new AssertionError("Cannot create instance of util class");

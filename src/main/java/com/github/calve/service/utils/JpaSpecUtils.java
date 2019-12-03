@@ -7,18 +7,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.github.calve.util.DateTimeUtil.DATE_TIME_FORMATTER;
 
 public final class JpaSpecUtils {
 
     private final static String DATE_SOLO_TEMPLATE = "\\s*(3[01]|[12][0-9]|0?[1-9])\\.(1[012]|0?[1-9])\\.((?:19|20)\\d{2})\\s*";
     private final static String DATE_YEAR_TEMPLATE = "\\.((?:19|20)\\d{2})\\s*";
     private final static String DATE_RANGE_TEMPLATE = DATE_SOLO_TEMPLATE + "-" + DATE_SOLO_TEMPLATE;
-    private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private final static LocalDate NOW = LocalDate.now();
     //https://stackoverflow.com/questions/9382897/how-to-get-start-and-end-date-of-a-year
     private final static LocalDate FIRST_DAY_OF_YEAR = NOW.with(TemporalAdjusters.firstDayOfYear());
@@ -117,7 +117,7 @@ public final class JpaSpecUtils {
     }
 
     private static <T> Specification<T> getDateSpecification(DataTablesInput dti) {
-        LocalDate date = LocalDate.parse(getSearchValue(dti).trim(), DTF);
+        LocalDate date = LocalDate.parse(getSearchValue(dti).trim(), DATE_TIME_FORMATTER);
         return new SpecDate<>(new DateCriteria(getSearchableDateParameterName(dti), date), null);
     }
 
@@ -126,7 +126,7 @@ public final class JpaSpecUtils {
     }
 
     private static LocalDate parseToDate(int i, String[] dates) {
-        return LocalDate.parse(dates[i].trim(), DTF);
+        return LocalDate.parse(dates[i].trim(), DATE_TIME_FORMATTER);
     }
 
     private static String getSearchableDateParameterName(DataTablesInput dti) {
