@@ -3,8 +3,7 @@ package com.github.calve.service.common;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.model.common.Outgoing;
 import com.github.calve.service.FilteredSortedData;
-import com.github.calve.to.BaseMailTo;
-import com.github.calve.to.common.OutgoingTo;
+import com.github.calve.to.excel.BaseMailTo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

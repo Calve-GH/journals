@@ -4,7 +4,7 @@ import com.github.calve.model.common.Outgoing;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.repository.OutgoingRepository;
 import com.github.calve.service.etc.ExecutorService;
-import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.web.TransformUtils;

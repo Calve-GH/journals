@@ -1,8 +1,8 @@
 package com.github.calve.util.builders;
 
-import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.to.email.EmailTo;
-import com.github.calve.to.MailTo;
+import com.github.calve.to.excel.MailTo;
 
 import java.time.LocalDate;
 import java.util.StringJoiner;

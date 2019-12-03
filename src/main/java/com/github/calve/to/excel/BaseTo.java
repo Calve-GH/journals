@@ -1,4 +1,4 @@
-package com.github.calve.to;
+package com.github.calve.to.excel;
 
 import com.github.calve.HasId;
 

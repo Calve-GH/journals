@@ -5,7 +5,7 @@ import com.github.calve.model.journal.Request;
 import com.github.calve.repository.RequestRepository;
 import com.github.calve.service.etc.ExecutorService;
 import com.github.calve.to.etc.DataTable;
-import com.github.calve.to.MailTo;
+import com.github.calve.to.excel.MailTo;
 import com.github.calve.util.exception.NotFoundException;
 import com.github.calve.util.to.DataTablesInput;
 import com.github.calve.web.TransformUtils;

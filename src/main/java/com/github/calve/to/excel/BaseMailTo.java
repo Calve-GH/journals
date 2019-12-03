@@ -1,4 +1,4 @@
-package com.github.calve.to;
+package com.github.calve.to.excel;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

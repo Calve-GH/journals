@@ -4,7 +4,7 @@ import com.github.calve.model.common.Incoming;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.repository.IncomingRepository;
 import com.github.calve.service.etc.ExecutorService;
-import com.github.calve.to.BaseMailTo;
+import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
