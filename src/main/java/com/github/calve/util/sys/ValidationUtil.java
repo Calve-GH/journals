@@ -1,7 +1,7 @@
 package com.github.calve.util.sys;
 
 
-import com.github.calve.HasId;
+import com.github.calve.to.excel.HasId;
 import com.github.calve.util.exception.NotFoundException;
 
 public class ValidationUtil {

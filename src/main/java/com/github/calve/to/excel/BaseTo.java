@@ -1,7 +1,5 @@
 package com.github.calve.to.excel;
 
-import com.github.calve.HasId;
-
 public abstract class BaseTo implements HasId {
     protected Integer id;
 

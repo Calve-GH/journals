@@ -1,4 +1,4 @@
-package com.github.calve;
+package com.github.calve.to.excel;
 
 public interface HasId {
     Integer getId();
