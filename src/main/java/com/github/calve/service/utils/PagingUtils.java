@@ -1,4 +1,4 @@
-package com.github.calve.service;
+package com.github.calve.service.utils;
 
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
@@ -9,12 +9,12 @@ import org.springframework.data.util.Pair;
 
 import java.util.List;
 
-import static com.github.calve.web.TransformUtils.getPageable;
-import static com.github.calve.web.TransformUtils.getSpecification;
+import static com.github.calve.service.utils.JpaSpecUtils.getPageable;
+import static com.github.calve.service.utils.JpaSpecUtils.getSpecification;
 
-public class ServiceUtils {
+public class PagingUtils {
 
-    private ServiceUtils() {
+    private PagingUtils() {
         throw new AssertionError("Error calling ServiceUtil constructor.");
     }
 

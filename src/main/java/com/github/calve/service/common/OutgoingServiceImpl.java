@@ -7,7 +7,7 @@ import com.github.calve.service.etc.ExecutorService;
 import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
-import com.github.calve.web.TransformUtils;
+import com.github.calve.util.excel.TransformUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.github.calve.service.ServiceUtils.constructPage;
-import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
+import static com.github.calve.service.utils.PagingUtils.constructPage;
+import static com.github.calve.service.utils.PagingUtils.constructPageableSpecification;
 import static com.github.calve.to.utils.CommonTransformUtil.packOutgoingList;
 
 @Service

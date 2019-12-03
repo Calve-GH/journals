@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.github.calve.service.ServiceUtils.constructPage;
-import static com.github.calve.service.ServiceUtils.constructPageableSpecification;
+import static com.github.calve.service.utils.PagingUtils.constructPage;
+import static com.github.calve.service.utils.PagingUtils.constructPageableSpecification;
 import static com.github.calve.to.utils.EmailTransformUtil.packSentList;
 
 @Service

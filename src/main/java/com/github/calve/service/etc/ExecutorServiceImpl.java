@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.calve.service.ServiceUtils.constructPage;
+import static com.github.calve.service.utils.PagingUtils.constructPage;
+import static com.github.calve.service.utils.JpaSpecUtils.getPageable;
 import static com.github.calve.to.utils.ContactTransformUtil.packExecutorList;
-import static com.github.calve.web.TransformUtils.getPageable;
 
 @Service
 public class ExecutorServiceImpl implements ExecutorService {
