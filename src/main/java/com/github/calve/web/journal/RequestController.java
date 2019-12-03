@@ -3,7 +3,7 @@ package com.github.calve.web.journal;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.service.journal.RequestService;
 import com.github.calve.to.journal.DefaultTo;
-import com.github.calve.util.sys.Util;
+import com.github.calve.util.sys.ErrorFieldsUtil;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class RequestController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity saveMail(@Valid DefaultTo mail, BindingResult validation) {
-        return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
+        return validation.hasErrors() ? ErrorFieldsUtil.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")

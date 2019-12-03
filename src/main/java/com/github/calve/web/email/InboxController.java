@@ -3,7 +3,7 @@ package com.github.calve.web.email;
 import com.github.calve.service.email.InboxService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.email.EmailTo;
-import com.github.calve.util.sys.Util;
+import com.github.calve.util.sys.ErrorFieldsUtil;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class InboxController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity save(@Valid EmailTo mail, BindingResult validation) {
-        return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
+        return validation.hasErrors() ? ErrorFieldsUtil.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")

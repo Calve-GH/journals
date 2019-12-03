@@ -4,7 +4,7 @@ import com.github.calve.service.common.OutgoingService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.utils.CommonTransformUtil;
 import com.github.calve.to.common.OutgoingTo;
-import com.github.calve.util.sys.Util;
+import com.github.calve.util.sys.ErrorFieldsUtil;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class OutgoingController {
     @PostMapping //refactoring add validation
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity save(OutgoingTo mail, BindingResult validation) {
-        return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
+        return validation.hasErrors() ? ErrorFieldsUtil.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")

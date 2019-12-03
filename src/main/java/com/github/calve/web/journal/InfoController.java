@@ -4,7 +4,7 @@ import com.github.calve.service.journal.InfoService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.journal.MailTransformUtil;
 import com.github.calve.to.journal.ResultTo;
-import com.github.calve.util.sys.Util;
+import com.github.calve.util.sys.ErrorFieldsUtil;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class InfoController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity createMail(@Valid ResultTo mail, BindingResult validation) {
-        return validation.hasErrors() ? Util.getFieldsErrors(validation) : getResponseOnSave(mail);
+        return validation.hasErrors() ? ErrorFieldsUtil.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
     @GetMapping("{id}/")

@@ -8,7 +8,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.*;
 
-public class Util {
+public class ErrorFieldsUtil {
     private static final Map<String, String> FIELD_NAMES = new HashMap<>();
 
     static {
@@ -20,7 +20,7 @@ public class Util {
         FIELD_NAMES.put("executor", "Исполнитель");
     }
 
-    private Util() {
+    private ErrorFieldsUtil() {
     }
 
     public static <T extends Comparable<? super T>> boolean isBetween(T value, @Nullable T start, @Nullable T end) {
