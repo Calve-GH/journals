@@ -9,8 +9,7 @@ import org.springframework.data.util.Pair;
 
 import java.util.List;
 
-import static com.github.calve.service.utils.JpaSpecUtils.getPageable;
-import static com.github.calve.service.utils.JpaSpecUtils.getSpecification;
+import static com.github.calve.service.utils.JpaSpecUtils.*;
 
 public class PagingUtils {
 
@@ -20,6 +19,10 @@ public class PagingUtils {
 
     public static Pair<Pageable, Specification<?>> constructPageableSpecification(DataTablesInput dti) {
         return Pair.of(getPageable(dti), getSpecification(dti));
+    }
+
+    public static Pair<Pageable, Specification<?>> constructPageableNoDateSpecification(DataTablesInput dti) {
+        return Pair.of(getPageable(dti), getDefaultNoDateSpecification(dti));
     }
 
     public static DataTable constructPage(DataTablesInput dti, Page<?> pages, List<?> content) {

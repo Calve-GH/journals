@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.github.calve.to.utils.ContactTransformUtil.packContact;
-import static com.github.calve.to.utils.ContactTransformUtil.unpackContact;
+import java.util.List;
+
+import static com.github.calve.to.utils.ContactTransformUtil.*;
 
 @RestController
 @RequestMapping(value = ContactController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,4 +49,10 @@ public class ContactController {
     public ResponseEntity getAll(@Valid DataTablesInput dti) {
         return ResponseEntity.ok(service.findFilteredAndSort(dti));
     }
+
+    @GetMapping("enabled/")
+    public List<ContactTo> getContactsEnabled() {
+        return packContactList(service.findAll());
+    }
+
 }

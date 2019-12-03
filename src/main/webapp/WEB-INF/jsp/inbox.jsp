@@ -91,8 +91,8 @@
 						<tr>
 						    <td>
                                 <div class="form-group">
-                                    <label for="date" class="col-form-label"><spring:message code="modal.id"/></label>
-                                    <input type="date" class="form-control" id="date" name="date">
+                                    <label for="regDate" class="col-form-label"><spring:message code="modal.id"/></label>
+                                    <input type="date" class="form-control" id="regDate" name="regDate">
                                 </div>
                             </td>
 							<td>
@@ -106,7 +106,7 @@
 							<td>
                                 <div class="form-group">
                                     <label for="contact" class="col-form-label"><spring:message code="modal.con"/></label>
-                                    <select class="form-control" id="locality-dropdown" id="contact" name="contact"></select>
+                                    <select class="form-control" id="locality-dropdown1" id="contact" name="contact"></select>
                                 </div>
 							</td>
 							<td>

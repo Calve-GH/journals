@@ -11,10 +11,10 @@ import org.mapstruct.factory.Mappers;
 public interface EmailDTOMapper {
     EmailDTOMapper EDM_INSTANCE = Mappers.getMapper(EmailDTOMapper.class);
 
-    @Mappings(@Mapping(target = "contact", source = "contact.alias"))
+    @Mappings(@Mapping(target = "contact", source = "contact.name"))
     EmailTo getInboxTo(Inbox mail);
 
-    @Mappings(@Mapping(target = "contact", source = "contact.alias"))
+    @Mappings(@Mapping(target = "contact", source = "contact.name"))
     EmailTo getSentTo(Sent mail);
 
     @Mappings(@Mapping(source = "dto", target = "contact", qualifiedByName = "constructExecutor"))

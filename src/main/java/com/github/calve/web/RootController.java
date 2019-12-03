@@ -90,6 +90,11 @@ public class RootController {
         return "executors";
     }
 
+    @GetMapping("/contacts/")
+    public String getContacts() {
+        return "contacts";
+    }
+
     @GetMapping(value = "/excel/")
     public void getExcelRepresentation(HttpServletResponse response) {
         try {

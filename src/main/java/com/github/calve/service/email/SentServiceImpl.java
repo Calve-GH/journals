@@ -45,7 +45,7 @@ public class SentServiceImpl implements SentService {
 
     @Override
     public Sent save(Sent mail) {
-        Contact contact = contactRepository.findByAlias(mail.getContact().getAlias());
+        Contact contact = contactRepository.findByAlias(mail.getContact().getName());
         mail.setContact(contact);
         return repository.save(mail);
     }

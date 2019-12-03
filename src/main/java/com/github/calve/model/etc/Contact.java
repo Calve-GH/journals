@@ -10,8 +10,8 @@ import java.util.StringJoiner;
 @Entity
 @Table(name = "contacts")
 public class Contact extends AbstractEntity {
-    @Column(name = "alias", nullable = false)
-    private String alias;
+    @Column(name = "name", nullable = false)
+    private String name;
     @Column(name = "email")
     private String email;
 
@@ -20,21 +20,21 @@ public class Contact extends AbstractEntity {
 
     public Contact(Integer id, String alias, String email) {
         super.setId(id);
-        this.alias = alias;
+        this.name = alias;
         this.email = email;
     }
 
     public Contact(String alias, String email) {
-        this.alias = alias;
+        this.name = alias;
         this.email = email;
     }
 
-    public String getAlias() {
-        return alias;
+    public String getName() {
+        return name;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -48,7 +48,8 @@ public class Contact extends AbstractEntity {
     @Override
     public String toString() {
         return new StringJoiner(", ", Contact.class.getSimpleName() + "[", "]")
-                .add("alias='" + alias + "'")
+                .add("id='" + super.getId() + "'")
+                .add("alias='" + name + "'")
                 .add("email='" + email + "'")
                 .toString();
     }

@@ -19,7 +19,6 @@ public class ContactTransformUtil {
     }
 
     public static Contact unpackContact(ContactTo dto) {
-
         return CDM_INSTANCE.getContact(dto);
     }
     public static List<ContactTo> packContactList(List<Contact> src) {

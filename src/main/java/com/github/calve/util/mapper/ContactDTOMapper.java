@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-// TODO: 30.11.2019 Есть мысть обьединить все интерфейсы;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ContactDTOMapper {
     ContactDTOMapper CDM_INSTANCE = Mappers.getMapper(ContactDTOMapper.class);
@@ -18,7 +17,6 @@ public interface ContactDTOMapper {
 
     Executor getExecutor(ContactTo contact);
 
-    @Mappings(@Mapping(target = "name", source = "alias"))
     ContactTo getContactTo(Contact contact);
 
     ContactTo getExecutorTo(Executor executor);

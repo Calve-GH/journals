@@ -18,7 +18,7 @@ public class EmailTo implements Serializable {
     @NotBlank(message = "не может быть пустым")
     private String contact;
     @NotNull(message = "должна быть задана")
-    private LocalDate date;
+    private LocalDate regDate;
     private Boolean answer;
     private String description;
     private String deliveryType;

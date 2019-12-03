@@ -1,7 +1,12 @@
 package com.github.calve.repository;
 
+import com.github.calve.model.etc.Contact;
 import com.github.calve.model.etc.Executor;
+import com.github.calve.to.etc.ContactTo;
+import com.github.calve.to.utils.ContactTransformUtil;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class DataJpaTest extends AbstractTest {
 
@@ -9,6 +14,12 @@ public class DataJpaTest extends AbstractTest {
 
     @Test
     void testContact() {
+
+        List<Contact> all = contactService.findAll();
+        System.out.println(all);
+        List<ContactTo> contactTos = ContactTransformUtil.packContactList(all);
+        System.out.println(contactTos);
+        System.out.println(ContactTransformUtil.unpackContact(contactTos.get(0)));
 //        Contact mts = contactService.save(new Contact("MTS", "opi@mts.by"));
 //Contact mts = null;
 //        contactService.findAll().forEach(System.out::println);
@@ -23,7 +34,6 @@ public class DataJpaTest extends AbstractTest {
 //
 //        contactService.delete(mts.getId());
 
-        contactService.findAll().forEach(System.out::println);
     }
 
     @Test

@@ -93,6 +93,16 @@ public final class JpaSpecUtils {
         return spec;
     }
 
+    public static <T> Specification<T> getDefaultNoDateSpecification(DataTablesInput dti) {
+        Specification<T> spec;
+        List<SearchCriteria> criteriaList = new ArrayList<>();
+        for (Column column : getSearchableColumns(dti)) {
+            criteriaList.add(new SearchCriteria(column.getData(), getSearchValue(dti)));
+        }
+        spec = new Spec<>(criteriaList);
+        return spec;
+    }
+
     private static <T> Specification<T> getDateRangeSpecification(DataTablesInput dti) {
         String[] dates = parseDateRange(dti);
         LocalDate from = parseToDate(0, dates);

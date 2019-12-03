@@ -11,3 +11,5 @@ Optional format excel download;
 -в тестовом варианте не стоит констр на исходящих на дату отправки и индекс;
 -bug in outgoing import if previous cell is null than iteration makes two steps forward;
 (ex: if genIndex in excel table is null);
+-java.lang.NoClassDefFoundError //https://dzone.com/articles/how-resolve-1
+ 

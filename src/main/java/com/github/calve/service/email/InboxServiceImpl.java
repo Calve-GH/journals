@@ -46,7 +46,7 @@ public class InboxServiceImpl implements InboxService {
 
     @Override
     public Inbox save(Inbox mail) {
-        Contact contact = contactRepository.findByAlias(mail.getContact().getAlias());
+        Contact contact = contactRepository.findByAlias(mail.getContact().getName());
 
         if (Objects.isNull(mail.getGenIndex())) {
             int index = getLastGenIndex();

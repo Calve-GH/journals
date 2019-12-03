@@ -16,8 +16,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface ContactRepository extends JpaRepository<Contact, Integer>, JpaSpecificationExecutor<Contact> {
 
-    @Query("SELECT c FROM Contact c WHERE c.alias=:alias")
-    Contact findByAlias(@Param("alias") String alias);
+    @Query("SELECT c FROM Contact c WHERE c.name=:name")
+    Contact findByAlias(@Param("name") String name);
 
     @Transactional
     @Modifying

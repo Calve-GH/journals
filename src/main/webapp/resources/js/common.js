@@ -59,6 +59,9 @@ function updateRow(id) {
             if (key == 'executor') {
                 form.find("select[name='" + key + "']").val(value).attr('selected', 'selected');
             }
+            if (key == 'contact') {
+                form.find("select[name='" + key + "']").val(value).attr('selected', 'selected');
+            }
             if (key == 'description') {
                 form.find("textarea[name='" + key + "']").val(value);
             }
@@ -151,6 +154,17 @@ const eurl = "rest/executors/enabled/";
 $.getJSON(eurl, function (data) {
   $.each(data, function (key, entry) {
     dropdown.append($('<option></option>').attr('value', entry.name).text(entry.name));
+  })
+});
+
+let dropdown1 = $('#locality-dropdown1');
+dropdown1.empty();
+dropdown1.append('<option selected="true" disabled>Контакты</option>');
+dropdown1.prop('selectedIndex', 0);
+const eurl1 = "rest/contacts/enabled/";
+$.getJSON(eurl1, function (data) {
+  $.each(data, function (key, entry) {
+    dropdown1.append($('<option></option>').attr('value', entry.name).text(entry.name));
   })
 });
 

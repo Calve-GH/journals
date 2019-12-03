@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.github.calve.service.utils.PagingUtils.constructPage;
-import static com.github.calve.service.utils.PagingUtils.constructPageableSpecification;
+import static com.github.calve.service.utils.PagingUtils.constructPageableNoDateSpecification;
 import static com.github.calve.to.utils.ContactTransformUtil.packContactList;
 
 @Service
@@ -63,7 +63,7 @@ public class ContactServiceImpl implements ContactService {
     // REFACTORING: 30.11.2019 add logic
     @Override
     public DataTable findFilteredAndSort(DataTablesInput dti) {
-        Pair<Pageable, Specification<?>> specPair = constructPageableSpecification(dti);
+        Pair<Pageable, Specification<?>> specPair = constructPageableNoDateSpecification(dti);
         Page<Contact> pages = Objects.isNull(specPair.getSecond()) ? findAll(specPair.getFirst()) : findSearchable(specPair);
         return constructPage(dti, pages, packContactList(pages.getContent()));
     }
