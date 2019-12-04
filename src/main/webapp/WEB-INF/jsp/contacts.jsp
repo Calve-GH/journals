@@ -8,7 +8,7 @@
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/contacts.js" defer></script>
 <script type="text/javascript" src="resources/js/jquery.spring-friendly.js" defer></script>
-<jsp:include page="fragments/bodyHeader.jsp"/>
+<jsp:include page="fragments/bodyHeaderGeneric.jsp"/>
 
 <div class="jumbotron pt-4">
     <div class="container-fluid">
@@ -23,7 +23,7 @@
         </div>
         <br/>
         <div align="center">
-        <h3>Исполнители:</h3>
+        <h3>Контакты:</h3>
         </div>
         <div class="container">
             <table class="table table-striped" id="datatable" width = "100%" style = "margin: 0px;">

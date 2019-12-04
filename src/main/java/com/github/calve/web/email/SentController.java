@@ -37,6 +37,13 @@ public class SentController {
         return validation.hasErrors() ? ErrorFieldsUtil.getFieldsErrors(validation) : getResponseOnSave(mail);
     }
 
+    @PostMapping("auto/")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void saveAuto(EmailTo mail) {
+        mail.setOption(true);
+        service.save(unpackSent(mail));
+    }
+
     @GetMapping("{id}/")
     public EmailTo getMail(@PathVariable Integer id) {
         return EmailTransformUtil.packSent(service.findById(id));
@@ -52,9 +59,11 @@ public class SentController {
     public void deleteMailById(@PathVariable Integer id) {
         service.delete(id);
     }
-
     //boilerplate code
+
     private ResponseEntity getResponseOnSave(EmailTo mail) {
+        // REFACTORING: 04.12.2019 hardcoded for handle saving;
+        mail.setOption(false);
         service.save(unpackSent(mail));
         return ResponseEntity.ok().build();
     }

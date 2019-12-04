@@ -19,4 +19,6 @@ public interface StorageService {
     void storeApplications(MultipartFile file) throws SQLException;
 
     void storeOutgoing(MultipartFile file) throws SQLException;
+
+    void storeIncoming(MultipartFile file) throws SQLException;
 }

@@ -8,7 +8,7 @@
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/executors.js" defer></script>
 <script type="text/javascript" src="resources/js/jquery.spring-friendly.js" defer></script>
-<jsp:include page="fragments/bodyHeader.jsp"/>
+<jsp:include page="fragments/bodyHeaderGeneric.jsp"/>
 
 <div class="jumbotron pt-4">
     <div class="container-fluid">

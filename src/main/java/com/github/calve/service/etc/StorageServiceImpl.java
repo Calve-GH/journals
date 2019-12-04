@@ -89,6 +89,14 @@ public class StorageServiceImpl implements StorageService {
         saveFileToDatabaseOut(file);
     }
 
+    // REFACTORING: 04.12.2019 friendly with incoming mails;
+    // FIXME: 04.12.2019 WRONG FUNCTIONAL;
+    @Override
+    public void storeIncoming(MultipartFile file) throws SQLException {
+        executorsCache = initCache();
+        saveFileToDatabaseOut(file);
+    }
+
     // TODO: 20.10.2019 single responsibility
     private static boolean validateFile(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());

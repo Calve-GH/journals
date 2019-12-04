@@ -18,8 +18,8 @@ public class Sent extends AbstractEntity implements Mail {
     private Contact contact;
     @Column(name = "description")
     private String description;
-    @Column(name = "delivery_type")
-    private String deliveryType;
+    @Column(name = "auto")
+    private Boolean auto;
 
     // TODO: 25.11.2019 thinking about email string content;
     public Sent() {
@@ -57,12 +57,12 @@ public class Sent extends AbstractEntity implements Mail {
         this.description = description;
     }
 
-    public String getDeliveryType() {
-        return deliveryType;
+    public Boolean getAuto() {
+        return auto;
     }
 
-    public void setDeliveryType(String deliveryType) {
-        this.deliveryType = deliveryType;
+    public void setAuto(Boolean auto) {
+        this.auto = auto;
     }
 
     @Override

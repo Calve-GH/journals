@@ -57,7 +57,8 @@ $(function () {
 				},
 				{
                     "defaultContent": "",
-					"data": "answer"
+					"data": "option",
+					"render": function(data, type, row) { return data ? "Дан" : "Нет"; }
 				},
                 {
                     "searchable" : false,

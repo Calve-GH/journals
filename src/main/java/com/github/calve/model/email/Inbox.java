@@ -18,7 +18,7 @@ public class Inbox extends AbstractEntity implements Mail {
     @Column(name = "reg_date", nullable = false)
     private LocalDate regDate;
     @Column(name = "answer")
-    private Boolean answer;
+    private Boolean answer = false;
     @Column(name = "description")
     private String description;
 
@@ -50,12 +50,11 @@ public class Inbox extends AbstractEntity implements Mail {
         this.contact = contact;
     }
 
-    @Override
-    public LocalDate getIncomeDate() {
+    public LocalDate getRegDate() {
         return regDate;
     }
 
-    public void setIncomeDate(LocalDate incomeDate) {
+    public void setRegDate(LocalDate incomeDate) {
         this.regDate = incomeDate;
     }
 

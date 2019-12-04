@@ -43,7 +43,7 @@ public class ToBuilder {
     }
 
     public EmailTo getEmailTo() {
-        return new EmailTo(this.id, this.genIndex, this.contact, this.incomeDate, this.answer, this.description, "");
+        return new EmailTo(this.id, this.genIndex, this.contact, this.incomeDate, this.answer, this.description);
     }
 
     public ToBuilder setContact(String contact) {

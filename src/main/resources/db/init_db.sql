@@ -164,7 +164,7 @@ create TABLE sent
   reg_date         TIMESTAMP               NOT NULL,
   contact_id      INTEGER   			   NOT NULL,
   description      VARCHAR                 ,
-  delivery_type     VARCHAR                 ,
+  auto          BOOLEAN                 ,
   FOREIGN KEY (contact_id) REFERENCES contacts (id)
 );
 
@@ -174,7 +174,7 @@ create TABLE inbox
   index         INTEGER   	NOT NULL,
   contact_id    INTEGER   	NOT NULL,
   reg_date   TIMESTAMP   NOT NULL,
-  answer        BOOLEAN     NOT NULL,
+  answer        BOOLEAN     ,
   description   VARCHAR     ,
   FOREIGN KEY (contact_id) REFERENCES contacts (id)
 );

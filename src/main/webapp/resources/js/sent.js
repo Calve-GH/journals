@@ -52,14 +52,16 @@ $(function () {
 					"orderable": false
 				},
                 {
+				    "defaultContent": "",
+                	"searchable" : false,
+                    "data": "option",
+                    "render": function(data, type, row) { return data ? "Авто" : "Вручную"; }
+                },
+                {
                     "searchable" : false,
                     "render": renderEditBtn,
                     "defaultContent": "",
                     "orderable": false
-                },
-                {
-                	"searchable" : false,
-                    "data": "deliveryType"
                 },
                 {
                     "searchable" : false,

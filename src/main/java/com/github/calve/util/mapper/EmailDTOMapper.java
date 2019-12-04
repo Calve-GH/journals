@@ -11,16 +11,20 @@ import org.mapstruct.factory.Mappers;
 public interface EmailDTOMapper {
     EmailDTOMapper EDM_INSTANCE = Mappers.getMapper(EmailDTOMapper.class);
 
-    @Mappings(@Mapping(target = "contact", source = "contact.name"))
+    @Mappings({@Mapping(target = "contact", source = "contact.name"),
+            @Mapping(target = "option", source = "answer")})
     EmailTo getInboxTo(Inbox mail);
 
-    @Mappings(@Mapping(target = "contact", source = "contact.name"))
+    @Mappings({@Mapping(target = "contact", source = "contact.name"),
+            @Mapping(target = "option", source = "auto")})
     EmailTo getSentTo(Sent mail);
 
-    @Mappings(@Mapping(source = "dto", target = "contact", qualifiedByName = "constructExecutor"))
+    @Mappings({@Mapping(source = "dto", target = "contact", qualifiedByName = "constructExecutor"),
+            @Mapping(target = "answer", source = "option")})
     Inbox getInbox(EmailTo dto);
 
-    @Mappings(@Mapping(source = "dto", target = "contact", qualifiedByName = "constructExecutor"))
+    @Mappings({@Mapping(source = "dto", target = "contact", qualifiedByName = "constructExecutor"),
+            @Mapping(target = "auto", source = "option")})
     Sent getSent(EmailTo dto);
 
     @Named("constructExecutor")

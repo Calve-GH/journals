@@ -13,17 +13,17 @@
         <div class="card border-dark">
         </div>
         <div class="container">
-            <h2>Журналы регистрации:</h2>
+            <h2>Электронная почта:</h2>
             <table>
                 <tr>
                     <td></td>
-                    <td><img src="resources/images/outgoing.png"></td>
-                    <td><a href="outgoing/">Исходящие</a></td>
+                    <td><img src="resources/images/main.png"></td>
+                    <td><a href="inbox/">Входящие</a></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><img src="resources/images/excel.png"></td>
-                    <td><a href="excelout/">Скачать журнал в формате excel</a></td>
+                    <td><img src="resources/images/outgoing.png"></td>
+                    <td><a href="sent/">Исходящие</a></td>
                 </tr>
             </table>
         </div>

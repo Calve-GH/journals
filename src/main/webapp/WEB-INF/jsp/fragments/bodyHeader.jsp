@@ -10,6 +10,5 @@
         <a href="info/" class="navbar-brand"><img src="resources/images/info.png"> <spring:message code="app.info"/></a>
         <a href="foreigners/" class="navbar-brand"><img src="resources/images/foreigner.png"> <spring:message code="app.foreigners"/></a>
         <a href="applications/" class="navbar-brand"><img src="resources/images/application.png"> <spring:message code="app.applications"/></a>
-        <a href="executors/" class="navbar-brand"><img src="resources/images/executor.png">Исполнители</a>
     </div>
 </nav>

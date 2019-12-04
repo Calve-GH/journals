@@ -6,6 +6,7 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <script type="text/javascript" src="resources/js/index.js" defer></script>
+<jsp:include page="fragments/bodyHeaderGeneric.jsp"/>
 
 <div class="jumbotron pt-4">
     <div class="container-fluid">
@@ -15,6 +16,11 @@
         <div class="container">
             <h2>Журналы регистрации:</h2>
             <table>
+                <tr>
+                    <td></td>
+                    <td><img src="resources/images/incoming48.png"></td>
+                    <td><a href="incoming/">Входящая</span></a></td>
+                </tr>
                 <tr>
                     <td><span class="badge badge-danger" id="requests"></span></td>
                     <td><img src="resources/images/request.png"></td>

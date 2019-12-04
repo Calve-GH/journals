@@ -19,7 +19,6 @@ public class EmailTo implements Serializable {
     private String contact;
     @NotNull(message = "должна быть задана")
     private LocalDate regDate;
-    private Boolean answer;
+    private Boolean option;
     private String description;
-    private String deliveryType;
 }

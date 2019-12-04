@@ -35,6 +35,11 @@ public class RootController {
         return "outcome";
     }
 
+    @GetMapping("/email/")
+    public String getEmail() {
+        return "email";
+    }
+
     @GetMapping("/outgoing/")
     public String getOutgoing() {
         return "outgoing";

@@ -8,7 +8,7 @@
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/inbox.js" defer></script>
 <script type="text/javascript" src="resources/js/jquery.spring-friendly.js" defer></script>
-<jsp:include page="fragments/bodyHeader.jsp"/>
+<jsp:include page="fragments/bodyHeaderGeneric.jsp"/>
 
 <div class="jumbotron pt-4">
     <div class="container-fluid">
@@ -19,20 +19,6 @@
         <div class="card border-dark">
 			<table>
                 <tr>
-                    <td>
-                        <div class="card-footer text-left">
-                            <button class="btn btn-primary" onclick="location.href='template/?type=outgoing'">
-                                <span class="fa fa-cloud-download"></span>
-                                    <spring:message code="common.template"/>
-                            </button>
-                            <button class="btn btn-primary" onclick="fileUpload()">
-                                <span class="fa fa-cloud-upload"></span>
-                                    <spring:message code="common.upload"/>
-                            </button>
-                            <input id="file" type="file" class="findDocumentOnboarding">
-                            <label for="file" /><span class="fa fa-folder-open"></span><spring:message code="common.choose.file"/></label>
-                        </div>
-                    </td>
                     <td>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary" onclick="add()">
@@ -61,11 +47,11 @@
             <c:forEach items="${mails}" var="mail">
                 <jsp:useBean id="mail" type="com.github.calve.to.email.EmailTo"/>
                 <tr>
-                    <td>${fn:formatDateTime(mail.date)}</td>
+                    <td>${fn:formatDateTime(mail.regDate)}</td>
                     <td>${mail.genIndex}</td>
                     <td>${mail.contact}</td>
                     <td>${mail.description}</td>
-                    <td>${mail.answer}</td>
+                    <td>${mail.option}</td>
                     <td><a onclick="updateRow(${mail.id})"><span class="fa fa-pencil"></span></a></td>
                     <td><a onclick="deleteRow(${mail.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>
@@ -111,8 +97,8 @@
 							</td>
 							<td>
 								<div class="form-group">
-									<label for="answer" class="col-form-label"><spring:message code="modal.deb"/></label>
-									<input type="text" class="form-control" id="answer" name="answer">
+									<label for="option" class="col-form-label"><spring:message code="modal.an"/></label>
+									<input type="checkbox" class="form-control" id="option" name="option">
 								</div>
 							</td>
 						</tr>

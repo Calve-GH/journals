@@ -8,7 +8,7 @@
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/sent.js" defer></script>
 <script type="text/javascript" src="resources/js/jquery.spring-friendly.js" defer></script>
-<jsp:include page="fragments/bodyHeader.jsp"/>
+<jsp:include page="fragments/bodyHeaderGeneric.jsp"/>
 
 <div class="jumbotron pt-4">
     <div class="container-fluid">
@@ -19,20 +19,6 @@
         <div class="card border-dark">
 			<table>
                 <tr>
-                    <td>
-                        <div class="card-footer text-left">
-                            <button class="btn btn-primary" onclick="location.href='template/?type=outgoing'">
-                                <span class="fa fa-cloud-download"></span>
-                                    <spring:message code="common.template"/>
-                            </button>
-                            <button class="btn btn-primary" onclick="fileUpload()">
-                                <span class="fa fa-cloud-upload"></span>
-                                    <spring:message code="common.upload"/>
-                            </button>
-                            <input id="file" type="file" class="findDocumentOnboarding">
-                            <label for="file" /><span class="fa fa-folder-open"></span><spring:message code="common.choose.file"/></label>
-                        </div>
-                    </td>
                     <td>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary" onclick="add()">
@@ -63,7 +49,7 @@
                     <td>${fn:formatDateTime(mail.date)}</td>
                     <td>${mail.contact}</td>
                     <td>${mail.description}</td>
-                    <td>${mail.deliveryType}</td>
+                    <td>${mail.option}</td>
                     <td><a onclick="updateRow(${mail.id})"><span class="fa fa-pencil"></span></a></td>
                     <td><a onclick="deleteRow(${mail.id})"><span class="fa fa-remove"></span></a></td>
                 </tr>

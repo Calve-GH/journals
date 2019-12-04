@@ -59,7 +59,7 @@ public class IncomingController {
     @PostMapping("files/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void importExcel(@RequestParam("file") MultipartFile file) throws SQLException {
-        storageService.storeOutgoing(file);
+        storageService.storeIncoming(file);
     }
 
     private ResponseEntity getResponseOnSave(IncomingTo mail) {
