@@ -4,11 +4,13 @@ import com.github.calve.model.common.Outgoing;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.repository.OutgoingRepository;
 import com.github.calve.service.etc.ExecutorService;
-import com.github.calve.to.excel.BaseMailTo;
+import com.github.calve.service.generator.IndexGenerator;
 import com.github.calve.to.etc.DataTable;
-import com.github.calve.util.to.DataTablesInput;
+import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.util.excel.TransformUtils;
+import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,7 +18,6 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -30,11 +31,13 @@ public class OutgoingServiceImpl implements OutgoingService {
 
     private OutgoingRepository repository;
     private ExecutorService executorService;
+    private IndexGenerator indexGenerator;
 
     @Autowired
-    public OutgoingServiceImpl(OutgoingRepository outgoingMailsRepository, ExecutorService executorService) {
+    public OutgoingServiceImpl(OutgoingRepository outgoingMailsRepository, ExecutorService executorService, @Qualifier("outgoing") IndexGenerator indexGenerator) {
         this.repository = outgoingMailsRepository;
         this.executorService = executorService;
+        this.indexGenerator = indexGenerator;
     }
 
     @Override
@@ -57,21 +60,14 @@ public class OutgoingServiceImpl implements OutgoingService {
         return repository.findById(id).orElse(null);
     }
 
-    //refactoring add Spring gen;
     @Override
     public Outgoing save(Outgoing mail) { // TODO: 28.10.2019 а как же 2й TO
         Executor executor = executorService.findExecutorByName(mail.getExecutor().getName());
         if (Objects.isNull(mail.getGenIndex())) {
-            int index = getLastGenIndex();
-            mail.setGenIndex(index);
+            mail.setGenIndex(indexGenerator.getNextIndex());
         }
         mail.setExecutor(executor);
         return repository.save(mail);
-    }
-
-    // TODO: 21.11.2019 Spring context listener, need as bean tha can be used in excel parser;
-    private int getLastGenIndex() {
-        return repository.maxByYear(LocalDate.now().getYear()) + 1;
     }
 
     @Override

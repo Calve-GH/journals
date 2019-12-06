@@ -23,4 +23,6 @@ public interface IncomingService extends FilteredSortedData {
     int delete(Integer id);
 
     Incoming findById(Integer id);
+
+    Integer getMaxGenIndex();
 }

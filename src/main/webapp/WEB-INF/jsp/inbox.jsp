@@ -75,31 +75,31 @@
                     <input type="hidden" id="id" name="id">
 					<table>
 						<tr>
-						    <td>
-                                <div class="form-group">
-                                    <label for="regDate" class="col-form-label"><spring:message code="modal.id"/></label>
-                                    <input type="date" class="form-control" id="regDate" name="regDate">
-                                </div>
-                            </td>
 							<td>
 								<div class="form-group">
 									<label for="genIndex" class="col-form-label"><spring:message code="modal.gn"/></label>
 									<input type="number" class="form-control" id="genIndex" name="genIndex">
 								</div>
 							</td>
+						    <td>
+                                <div class="form-group">
+                                    <label for="regDate" class="col-form-label"><spring:message code="modal.id"/></label>
+                                    <input type="date" class="form-control" id="regDate" name="regDate">
+                                </div>
+                            </td>
 						</tr>
 						<tr>
+							<td>
+								<div class="form-group">
+                                              <input class="form-check-input" type="checkbox" id="option", name="option">
+                                              <label for="option" class="form-check-label">Answer</label>
+								</div>
+							</td>
 							<td>
                                 <div class="form-group">
                                     <label for="contact" class="col-form-label"><spring:message code="modal.con"/></label>
                                     <select class="form-control" id="locality-dropdown1" id="contact" name="contact"></select>
                                 </div>
-							</td>
-							<td>
-								<div class="form-group">
-									<label for="option" class="col-form-label"><spring:message code="modal.an"/></label>
-									<input type="checkbox" class="form-control" id="option" name="option">
-								</div>
 							</td>
 						</tr>
 						<tr>

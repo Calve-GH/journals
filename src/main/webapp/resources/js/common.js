@@ -65,6 +65,9 @@ function updateRow(id) {
             if (key == 'description') {
                 form.find("textarea[name='" + key + "']").val(value);
             }
+            if (key == 'option') {
+                form.find("input[name='" + key + "']").prop('checked', value == 'yes' ? true : false);
+            }
         });
 
         $('#editRow').modal();

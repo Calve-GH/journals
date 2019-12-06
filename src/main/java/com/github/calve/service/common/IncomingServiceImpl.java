@@ -4,10 +4,12 @@ import com.github.calve.model.common.Incoming;
 import com.github.calve.model.etc.Executor;
 import com.github.calve.repository.IncomingRepository;
 import com.github.calve.service.etc.ExecutorService;
-import com.github.calve.to.excel.BaseMailTo;
+import com.github.calve.service.generator.IndexGenerator;
 import com.github.calve.to.etc.DataTable;
+import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,11 +31,13 @@ public class IncomingServiceImpl implements IncomingService {
 
     private IncomingRepository repository;
     private ExecutorService executorService;
+    private IndexGenerator indexGenerator;
 
     @Autowired
-    public IncomingServiceImpl(IncomingRepository repository, ExecutorService executorService) {
+    public IncomingServiceImpl(IncomingRepository repository, ExecutorService executorService, @Qualifier("incoming") IndexGenerator indexGenerator) {
         this.repository = repository;
         this.executorService = executorService;
+        this.indexGenerator = indexGenerator;
     }
 
     @Override
@@ -46,16 +50,25 @@ public class IncomingServiceImpl implements IncomingService {
         return repository.findAll(pageable);
     }
 
-// TODO: 26.11.2019  //refactoring
+    // TODO: 26.11.2019  //refactoring
     @Override
     public Incoming save(Incoming mail) {
         Executor executor = executorService.findExecutorByName(mail.getExecutor().getName());
         if (Objects.isNull(mail.getGenIndex())) {
-            int index = getLastGenIndex();
-            mail.setGenIndex(index);
+//            int index = getLastGenIndex();
+            mail.setGenIndex(indexGenerator.getNextIndex());
         }
         mail.setExecutor(executor);
         return repository.save(mail);
+    }
+
+    @Override
+    public Integer getMaxGenIndex() {
+        try {
+            return repository.maxByYear(LocalDate.now().getYear());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private int getLastGenIndex() {
@@ -65,8 +78,8 @@ public class IncomingServiceImpl implements IncomingService {
             return 1;
         }
     }
-
 // TODO: 26.11.2019  //refactoring
+
     @Override
     public Incoming save(BaseMailTo mail, Map<String, Executor> executors) throws SQLException {
         return null;

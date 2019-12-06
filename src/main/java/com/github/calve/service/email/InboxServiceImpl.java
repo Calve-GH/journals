@@ -4,16 +4,17 @@ import com.github.calve.model.email.Inbox;
 import com.github.calve.model.etc.Contact;
 import com.github.calve.repository.ContactRepository;
 import com.github.calve.repository.InboxRepository;
+import com.github.calve.service.generator.IndexGenerator;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,11 +28,13 @@ public class InboxServiceImpl implements InboxService {
 
     private InboxRepository repository;
     private ContactRepository contactRepository;
+    private IndexGenerator indexGenerator;
 
     @Autowired
-    public InboxServiceImpl(InboxRepository repository, ContactRepository contactRepository) {
+    public InboxServiceImpl(InboxRepository repository, ContactRepository contactRepository, @Qualifier("inbox") IndexGenerator indexGenerator) {
         this.repository = repository;
         this.contactRepository = contactRepository;
+        this.indexGenerator = indexGenerator;
     }
 
     @Override
@@ -47,22 +50,11 @@ public class InboxServiceImpl implements InboxService {
     @Override
     public Inbox save(Inbox mail) {
         Contact contact = contactRepository.findByAlias(mail.getContact().getName());
-
         if (Objects.isNull(mail.getGenIndex())) {
-            int index = getLastGenIndex();
-            mail.setGenIndex(index);
+            mail.setGenIndex(indexGenerator.getNextIndex());
         }
         mail.setContact(contact);
         return repository.save(mail);
-    }
-
-    // TODO: 21.11.2019 Spring context listener, need as bean tha can be used in excel parser;
-    private int getLastGenIndex() {
-        try {
-            return repository.maxByYear(LocalDate.now().getYear()) + 1;
-        } catch (Exception e) {
-            return 1;
-        }
     }
 
     @Override

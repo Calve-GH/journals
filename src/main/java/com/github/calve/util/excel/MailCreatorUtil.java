@@ -1,5 +1,6 @@
 package com.github.calve.util.excel;
 
+import com.github.calve.to.common.IncomingTo;
 import com.github.calve.to.excel.BaseMailTo;
 import com.github.calve.to.excel.MailTo;
 import com.github.calve.util.builders.ToBuilder;
@@ -12,7 +13,7 @@ import static com.github.calve.util.excel.ParserUtil.*;
 
 public final class MailCreatorUtil {
 
-    private MailCreatorUtil()  {
+    private MailCreatorUtil() {
         throw new AssertionError("Cannot create instance of util class");
     }
 
@@ -26,6 +27,17 @@ public final class MailCreatorUtil {
                 .setDescription(getStringValue(cellIterator))
                 .setExecutor(getStringValueRequired(cellIterator));
         return builder.getBaseMailTo();
+    }
+
+    public static IncomingTo parseRowToIncome(Row row) {
+        Iterator<Cell> cellIterator = row.cellIterator();
+        IncomingTo dto = new IncomingTo();
+        dto.setRegDate(getDateValueRequired(cellIterator));
+        dto.setGenIndex(getNumericValueDefault(cellIterator, -1));
+        dto.setDebtor(getStringValueRequired(cellIterator));
+        dto.setDescription(getStringValue(cellIterator));
+        dto.setExecutor(getStringValueRequired(cellIterator));
+        return dto;
     }
 
     public static MailTo parseRowTo(Journals type, Row row) {

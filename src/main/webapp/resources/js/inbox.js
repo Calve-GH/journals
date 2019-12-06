@@ -58,7 +58,7 @@ $(function () {
 				{
                     "defaultContent": "",
 					"data": "option",
-					"render": function(data, type, row) { return data ? "Дан" : "Нет"; }
+					"render": function(data, type, row) { return data=='yes' ? "Да" : "Нет"; }
 				},
                 {
                     "searchable" : false,

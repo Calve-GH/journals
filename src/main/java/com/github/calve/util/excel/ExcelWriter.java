@@ -1,6 +1,7 @@
 package com.github.calve.util.excel;
 
 import com.github.calve.model.Mail;
+import com.github.calve.model.common.Incoming;
 import com.github.calve.model.common.Outgoing;
 import com.github.calve.util.DateTimeUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -22,6 +23,7 @@ public class ExcelWriter {
     private static final List<Columns> FOREIGNERS_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, DEB, PC, EX));
     private static final List<Columns> APPLICATIONS_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, WD, WI, AU, PN, EX, DD, DI, REM));
     private static final List<Columns> OUTGOING_COLUMNS = new ArrayList<>(Arrays.asList(SD, PN, IO, CORR, CN, EFIO));
+    private static final List<Columns> INCOMING_COLUMNS = new ArrayList<>(Arrays.asList(SD, IO, DEB, CN, EFIO));
     private static CellStyle defaultCellStyle = null;
 
     public static byte[] getExcelFile(List<List<? extends Mail>> tables) throws IOException {//refactoring name mb get byte array
@@ -50,7 +52,7 @@ public class ExcelWriter {
         return writeToFile(workbook);
     }
 
-    private static void createOutcomeSheet(Workbook workbook, List<Outgoing> table, String sheetName) throws IOException {
+    private static void createOutcomeSheet(Workbook workbook, List<Outgoing> table, String sheetName) {
         Sheet sheet = workbook.createSheet(sheetName);
         setOutgoingTableColumnsWidth(sheet);
         int colNum = 0;
@@ -69,6 +71,31 @@ public class ExcelWriter {
             row.createCell(colNum++).setCellValue(mail.getGenIndex());
             Cell corr = row.createCell(colNum++);
             corr.setCellValue(mail.getCorrespondent());
+            corr.setCellStyle(getDefaultCellStyle(workbook));
+            Cell descr = row.createCell(colNum++);
+            descr.setCellValue(mail.getDescription());
+            descr.setCellStyle(getDefaultCellStyle(workbook));
+            row.createCell(colNum).setCellValue(mail.getExecutor().getName());
+        }
+    }
+    private static void createIncomeSheet(Workbook workbook, List<Incoming> table, String sheetName) {
+        Sheet sheet = workbook.createSheet(sheetName);
+        setOutgoingTableColumnsWidth(sheet);
+        int colNum = 0;
+        int rowNum = 0;
+        Row row1 = sheet.createRow(rowNum++);
+        for (Columns column : INCOMING_COLUMNS) {
+            Cell headCell = row1.createCell(colNum++);
+            headCell.setCellValue(column.getName());
+            headCell.setCellStyle(getDefaultCellStyle(workbook));
+        }
+        for (Incoming mail : table) { //refactoring sheet
+            colNum = 0;
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(colNum++).setCellValue(wrapDateCell(mail.getRegDate()));
+            row.createCell(colNum++).setCellValue(mail.getGenIndex());
+            Cell corr = row.createCell(colNum++);
+            corr.setCellValue(mail.getDebtor());
             corr.setCellStyle(getDefaultCellStyle(workbook));
             Cell descr = row.createCell(colNum++);
             descr.setCellValue(mail.getDescription());
@@ -160,14 +187,6 @@ public class ExcelWriter {
         sheet.setColumnWidth(3, 36 * 256);
         sheet.setColumnWidth(4, 36 * 256);
         sheet.setColumnWidth(5, 8 * 256);
-
-/*        sheet.setColumnWidth(0, 13 * 256);
-        sheet.setColumnWidth(1, 12 * 256);
-        sheet.setColumnWidth(2, 10 * 256);
-        sheet.setColumnWidth(3, 36 * 256);
-        sheet.setColumnWidth(4, 36 * 256);
-        sheet.setColumnWidth(5, 8 * 256);
-        sheet.setColumnWidth(6, 16 * 256);*/
     }
 
     private static byte[] writeToFile(Workbook workbook) throws IOException {
@@ -210,6 +229,10 @@ public class ExcelWriter {
                 }
                 case OUTGOING: {
                     createOutcomeSheet(workbook, Collections.singletonList(OUTGOING_TEMPLATE), EXAMPLE);
+                    break;
+                }
+                case INCOMING: {
+                    createIncomeSheet(workbook, Collections.singletonList(INCOMING_TEMPLATE), EXAMPLE);
                     break;
                 }
 //            default:{}

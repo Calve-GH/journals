@@ -12,7 +12,7 @@ drop table IF EXISTS executors;
 drop table IF EXISTS contacts;
 drop sequence IF EXISTS global_seq;
 
-create sequence global_seq start with 100000;
+create sequence global_seq start with 1000;
 
 create TABLE executors
 (

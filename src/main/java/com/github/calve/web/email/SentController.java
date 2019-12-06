@@ -40,7 +40,7 @@ public class SentController {
     @PostMapping("auto/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void saveAuto(EmailTo mail) {
-        mail.setOption(true);
+        mail.setOption(Boolean.TRUE.toString());
         service.save(unpackSent(mail));
     }
 
@@ -63,7 +63,7 @@ public class SentController {
 
     private ResponseEntity getResponseOnSave(EmailTo mail) {
         // REFACTORING: 04.12.2019 hardcoded for handle saving;
-        mail.setOption(false);
+        mail.setOption(Boolean.FALSE.toString());
         service.save(unpackSent(mail));
         return ResponseEntity.ok().build();
     }

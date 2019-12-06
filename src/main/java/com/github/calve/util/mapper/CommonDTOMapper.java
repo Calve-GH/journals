@@ -13,10 +13,10 @@ import org.mapstruct.factory.Mappers;
 public interface CommonDTOMapper {
     CommonDTOMapper CDM_INSTANCE = Mappers.getMapper(CommonDTOMapper.class);
 
-    @Mappings(@Mapping(source = "dto", target = "executor", qualifiedByName = "constructExecutor"))
+    @Mappings(@Mapping(source = "dto", target = "executor", qualifiedByName = "constructExecutorOut"))
     Outgoing getOutgoing(OutgoingTo dto);
 
-    @Mappings(@Mapping(source = "dto", target = "executor", qualifiedByName = "constructExecutor"))
+    @Mappings(@Mapping(source = "dto", target = "executor", qualifiedByName = "constructExecutorIn"))
     Incoming getIncoming(IncomingTo dto);
 
     @Mappings(@Mapping(target = "executor", source = "executor.name"))
@@ -25,10 +25,17 @@ public interface CommonDTOMapper {
     @Mappings(@Mapping(target = "executor", source = "executor.name"))
     IncomingTo getIncomingTo(Incoming mail);
 
-    @Named("constructExecutor")
-    default Executor getExecutor(RootTo root) {
+    @Named("constructExecutorOut")
+    default Executor getExecutor(OutgoingTo dto) {
         //todo stab;
         //refactoring mb;
-        return new Executor(root.getExecutor());
+        return new Executor(dto.getExecutor());
+    }
+
+    @Named("constructExecutorIn")
+    default Executor getExecutor(IncomingTo dto) {
+        //todo stab;
+        //refactoring mb;
+        return new Executor(dto.getExecutor());
     }
 }

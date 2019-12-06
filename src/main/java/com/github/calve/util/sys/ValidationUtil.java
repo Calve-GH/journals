@@ -4,7 +4,7 @@ package com.github.calve.util.sys;
 import com.github.calve.to.excel.HasId;
 import com.github.calve.util.exception.NotFoundException;
 
-public class ValidationUtil {
+public final class ValidationUtil {
 
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);

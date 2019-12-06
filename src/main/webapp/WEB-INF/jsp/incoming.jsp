@@ -21,7 +21,7 @@
                 <tr>
                     <td>
                         <div class="card-footer text-left">
-                            <button class="btn btn-primary" onclick="location.href='template/?type=outgoing'">
+                            <button class="btn btn-primary" onclick="location.href='template/?type=incoming'">
                                 <span class="fa fa-cloud-download"></span>
                                     <spring:message code="common.template"/>
                             </button>

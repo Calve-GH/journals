@@ -8,7 +8,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.*;
 
-public class ErrorFieldsUtil {
+public final class ErrorFieldsUtil {
     private static final Map<String, String> FIELD_NAMES = new HashMap<>();
 
     static {

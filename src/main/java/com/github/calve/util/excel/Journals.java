@@ -8,7 +8,8 @@ public enum Journals {
     INFO("Запросы ст.9"),
     FOREIGNERS(""),
     APPLICATIONS("Проверка бухгалтерии"),
-    OUTGOING("Входящие");
+    OUTGOING("Входящие"),
+    INCOMING("Исходящие");
 
     private String name;
 

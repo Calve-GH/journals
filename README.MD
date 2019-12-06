@@ -4,9 +4,6 @@ todo list:
 3) Exceptions review;
 
 Optional import incoming;
-Optional import contacts;
-Optional spring gen util;
-Optional format excel download;
 
 -db constraints thinking;
 -рефакторинг index gen импорт
@@ -15,3 +12,4 @@ Optional format excel download;
 (ex: if genIndex in excel table is null);
 -java.lang.NoClassDefFoundError //https://dzone.com/articles/how-resolve-1
  
+ Optional review qualifier system in generator;

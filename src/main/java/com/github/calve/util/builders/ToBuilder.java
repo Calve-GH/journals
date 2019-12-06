@@ -42,10 +42,6 @@ public class ToBuilder {
                 this.correspondent, this.description, this.executor);
     }
 
-    public EmailTo getEmailTo() {
-        return new EmailTo(this.id, this.genIndex, this.contact, this.incomeDate, this.answer, this.description);
-    }
-
     public ToBuilder setContact(String contact) {
         this.contact = contact;
         return this;

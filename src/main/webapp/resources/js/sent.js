@@ -55,7 +55,7 @@ $(function () {
 				    "defaultContent": "",
                 	"searchable" : false,
                     "data": "option",
-                    "render": function(data, type, row) { return data ? "Авто" : "Вручную"; }
+                    "render": function(data, type, row) { return data=='true' ? "Авто" : "Вручную"; }
                 },
                 {
                     "searchable" : false,

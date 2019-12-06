@@ -22,7 +22,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><img src="resources/images/outgoing.png"></td>
+                    <td><img src="resources/images/incoming48.png"></td>
                     <td><a href="sent/">Исходящие</a></td>
                 </tr>
             </table>
