@@ -30,7 +30,7 @@ public class IncomingIG implements IndexGenerator {
         index.set(initMax.getMaxIncomingGI());
     }
 
-    @Scheduled(fixedRate = 1200000)
+    @Scheduled(initialDelay = 1200000, fixedRate = 1200000)
     @Transactional
     public synchronized void refreshIndex() {
         index.set(initMax.getMaxIncomingGI());

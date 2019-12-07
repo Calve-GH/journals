@@ -60,7 +60,7 @@ function updateRow(id) {
                 form.find("select[name='" + key + "']").val(value).attr('selected', 'selected');
             }
             if (key == 'contact') {
-                form.find("select[name='" + key + "']").val(value).attr('selected', 'selected');
+                $('.selectpicker').selectpicker('val', value);
             }
             if (key == 'description') {
                 form.find("textarea[name='" + key + "']").val(value);
@@ -168,6 +168,7 @@ const eurl1 = "rest/contacts/enabled/";
 $.getJSON(eurl1, function (data) {
   $.each(data, function (key, entry) {
     dropdown1.append($('<option></option>').attr('value', entry.name).text(entry.name));
-  })
+  });
+  dropdown1.selectpicker('refresh');
 });
 

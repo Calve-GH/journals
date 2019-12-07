@@ -91,21 +91,21 @@
 						<tr>
 							<td>
 								<div class="form-group">
-                                              <input class="form-check-input" type="checkbox" id="option", name="option">
-                                              <label for="option" class="form-check-label">Answer</label>
+									<label for="option" class="col-form-label"><spring:message code="modal.an"/></label>
+									<input type="checkbox" class="form-control" id="option" name="option">
 								</div>
 							</td>
 							<td>
                                 <div class="form-group">
                                     <label for="contact" class="col-form-label"><spring:message code="modal.con"/></label>
-                                    <select class="form-control" id="locality-dropdown1" id="contact" name="contact"></select>
+                                    <select class="form-control selectpicker" data-live-search="true" data-size="5" id="locality-dropdown1" name="contact"></select>
                                 </div>
 							</td>
 						</tr>
 						<tr>
 							<td colspan = "2">
 								<div class="form-group">
-									<label for="description" class="col-form-label"><spring:message code="modal.cn"/></label>
+									<label for="description" class="col-form-label"><spring:message code="modal.ds"/></label>
 									<textarea class="form-control" rows="3" id="description" name="description"></textarea>
 								</div>
 							</td>

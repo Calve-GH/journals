@@ -89,7 +89,7 @@
 						<tr>
 							<td colspan = "2">
 								<div class="form-group">
-									<label for="description" class="col-form-label"><spring:message code="modal.cn"/></label>
+									<label for="description" class="col-form-label"><spring:message code="modal.ds"/></label>
 									<textarea class="form-control" rows="3" id="description" name="description"></textarea>
 								</div>
 							</td>
