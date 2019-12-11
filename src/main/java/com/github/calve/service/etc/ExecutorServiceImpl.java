@@ -5,6 +5,9 @@ import com.github.calve.repository.ExecutorRepository;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,8 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.calve.service.utils.PagingUtils.constructPage;
 import static com.github.calve.service.utils.JpaSpecUtils.getPageable;
+import static com.github.calve.service.utils.PagingUtils.constructPage;
 import static com.github.calve.to.utils.ContactTransformUtil.packExecutorList;
 
 @Service
@@ -32,16 +35,21 @@ public class ExecutorServiceImpl implements ExecutorService {
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(value = "executors", allEntries = true),
+            @CacheEvict(value = "executors.enabled", allEntries = true)})
     public int delete(Integer id) {
         return repository.delete(id);
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(value = "executors", allEntries = true),
+            @CacheEvict(value = "executors.enabled", allEntries = true)})
     public Executor save(Executor executor) {
         return repository.save(executor);
     }
 
     @Override
+    @Cacheable(value = "executors.enabled")
     public List<Executor> findAllEnabled() {
         return repository.findAllEnabled();
     }
@@ -53,6 +61,8 @@ public class ExecutorServiceImpl implements ExecutorService {
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(value = "executors", allEntries = true),
+            @CacheEvict(value = "executors.enabled", allEntries = true)})
     public void enable(Integer id, boolean enable) {
         Optional<Executor> executorOptional = repository.findById(id);
         if (executorOptional.isPresent()) {
@@ -74,6 +84,7 @@ public class ExecutorServiceImpl implements ExecutorService {
     }
 
     @Override
+    @Cacheable(value = "executors")
     public List<Executor> findAll() {
         return repository.findAll();
     }

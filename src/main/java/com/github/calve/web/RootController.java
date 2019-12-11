@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Objects;
 
 @Controller
 public class RootController {
@@ -135,4 +137,19 @@ public class RootController {
         }
     }
 
+    @GetMapping(value = "incoming/allocation/")
+    public void getAllocation(HttpServletResponse response,
+                           @RequestParam(required = false) LocalDate startDate,
+                           @RequestParam(required = false) LocalDate endDate) {
+        if (Objects.nonNull(startDate)) {
+            try {
+                response.setContentType("application/vnd.ms-excel");
+                response.setHeader("Content-disposition", "attachment; filename=Allocation.xls");
+                response.getOutputStream().write(excelService.getAllocation(startDate, endDate));
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

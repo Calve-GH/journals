@@ -18,6 +18,8 @@ public final class ErrorFieldsUtil {
         FIELD_NAMES.put("outerDate", "Реквизиты вх. Дата");
         FIELD_NAMES.put("outerIndex", "Реквизиты вх. №");
         FIELD_NAMES.put("executor", "Исполнитель");
+        FIELD_NAMES.put("contact", "Контакт");
+        FIELD_NAMES.put("regDate", "Дата");
     }
 
     private ErrorFieldsUtil() {

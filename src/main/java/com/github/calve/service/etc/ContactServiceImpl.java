@@ -5,6 +5,8 @@ import com.github.calve.repository.ContactRepository;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,6 +37,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Cacheable(value = "contacts")
     public List<Contact> findAll() {
         return repository.findAll();
     }
@@ -45,11 +48,13 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @CacheEvict(value = "contacts", allEntries = true)
     public Contact save(Contact contact) {
         return repository.save(contact);
     }
 
     @Override
+    @CacheEvict(value = "contacts", allEntries = true)
     public int delete(Integer id) {
         return repository.delete(id);
     }

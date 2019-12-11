@@ -33,6 +33,7 @@ public interface EmailDTOMapper {
 
     @Named("constructExecutor")
     default Contact getExecutor(EmailTo dto) {
+        System.out.println(dto.getContact());//todo sout;
         //todo stab;
         //refactoring mb;
         return new Contact(dto.getContact(), null);

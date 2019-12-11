@@ -3,6 +3,7 @@ package com.github.calve.web.email;
 import com.github.calve.service.email.SentService;
 import com.github.calve.service.etc.StorageService;
 import com.github.calve.to.email.EmailTo;
+import com.github.calve.to.email.SentInfo;
 import com.github.calve.to.utils.EmailTransformUtil;
 import com.github.calve.util.sys.ErrorFieldsUtil;
 import com.github.calve.util.to.DataTablesInput;
@@ -39,9 +40,8 @@ public class SentController {
 
     @PostMapping("auto/")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void saveAuto(EmailTo mail) {
-        mail.setOption(Boolean.TRUE.toString());
-        service.save(unpackSent(mail));
+    public void saveAuto(SentInfo info) {
+        service.save(info);
     }
 
     @GetMapping("{id}/")

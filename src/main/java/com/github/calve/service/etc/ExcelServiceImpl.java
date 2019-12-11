@@ -1,6 +1,7 @@
 package com.github.calve.service.etc;
 
 import com.github.calve.model.Mail;
+import com.github.calve.model.common.Incoming;
 import com.github.calve.repository.*;
 import com.github.calve.util.excel.Journals;
 import com.github.calve.util.excel.ExcelWriter;
@@ -8,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ExcelServiceImpl implements ExcelService {
@@ -21,12 +24,13 @@ public class ExcelServiceImpl implements ExcelService {
     private ForeignerRepository foreignerRepository;
     private GenericRepository applicationRepository;
     private OutgoingRepository outgoingMailsRepository;
+    private IncomingRepository incomingRepository;
 
     @Autowired
     public ExcelServiceImpl(RequestRepository requestRepository, ComplaintRepository complaintRepository,
                             ApplicationRepository genericRepository, InfoRepository infoRepository,
                             ForeignerRepository foreignerRepository, GenericRepository applicationRepository,
-                            OutgoingRepository outgoingMailsRepository) {
+                            OutgoingRepository outgoingMailsRepository, IncomingRepository incomingRepository) {
         this.requestRepository = requestRepository;
         this.complaintRepository = complaintRepository;
         this.genericRepository = genericRepository;
@@ -34,6 +38,7 @@ public class ExcelServiceImpl implements ExcelService {
         this.foreignerRepository = foreignerRepository;
         this.applicationRepository = applicationRepository;
         this.outgoingMailsRepository = outgoingMailsRepository;
+        this.incomingRepository = incomingRepository;
     }
 
     @Override
@@ -67,5 +72,16 @@ public class ExcelServiceImpl implements ExcelService {
     @Override
     public byte[] getTemplate(Journals journals) {
         return ExcelWriter.getTemplate(journals);
+    }
+
+    @Override
+    public byte[] getAllocation(LocalDate start, LocalDate end) {
+        try {
+            List<Incoming> list = incomingRepository.getAllocation(start, end);
+            return ExcelWriter.getAllocationFile(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

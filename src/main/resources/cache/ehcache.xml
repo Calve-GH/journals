@@ -11,15 +11,31 @@
         <expiry>
             <ttl unit="minutes">5</ttl>
         </expiry>
-        <heap unit="entries">5000</heap>
+        <heap>5000</heap>
     </cache-template>
 
-    <cache-template name="singleNonExpiryCache">
+    <cache-template name="executorsCache">
         <expiry>
             <none/>
         </expiry>
-        <heap>1</heap>
+        <heap>10</heap>
     </cache-template>
 
-    <cache alias="executors" uses-template="singleNonExpiryCache"/>
+    <cache-template name="executorsEnabledCache">
+        <expiry>
+            <none/>
+        </expiry>
+        <heap>10</heap>
+    </cache-template>
+
+    <cache-template name="contactCache">
+        <expiry>
+            <none/>
+        </expiry>
+        <heap>500</heap>
+    </cache-template>
+
+    <cache alias="executors" uses-template="executorsCache"/>
+    <cache alias="executors.enabled" uses-template="executorsEnabledCache"/>
+    <cache alias="contacts" uses-template="contactCache"/>
 </config>

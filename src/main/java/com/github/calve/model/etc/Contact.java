@@ -1,12 +1,15 @@
 package com.github.calve.model.etc;
 
 import com.github.calve.model.AbstractEntity;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.StringJoiner;
 
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "contacts")
 public class Contact extends AbstractEntity {

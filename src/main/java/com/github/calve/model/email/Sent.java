@@ -11,7 +11,7 @@ import java.util.StringJoiner;
 @Entity
 @Table(name = "sent")
 public class Sent extends AbstractEntity implements Mail {
-    
+
     @Column(name = "reg_date", nullable = false)
     private LocalDate regDate;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -30,6 +30,11 @@ public class Sent extends AbstractEntity implements Mail {
         this.regDate = sentDate;
         this.contact = contact;
         this.description = description;
+    }
+
+    public Sent(Integer id, LocalDate regDate, Contact contact, String description, Boolean auto) {
+        this(id, regDate, contact, description);
+        this.auto = auto;
     }
 
     public LocalDate getRegDate() {

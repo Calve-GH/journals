@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +34,8 @@ public interface IncomingRepository extends JpaRepository<Incoming, Integer>, Jp
 
     @Override
     List<Incoming> findAll();
+
+    @SuppressWarnings("JpaQlInspection")
+    @Query("SELECT i from Incoming i WHERE i.regDate BETWEEN :startDate AND :endDate ORDER BY i.genIndex DESC")
+    List<Incoming> getAllocation(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

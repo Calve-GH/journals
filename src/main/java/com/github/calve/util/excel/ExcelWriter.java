@@ -24,6 +24,7 @@ public class ExcelWriter {
     private static final List<Columns> APPLICATIONS_COLUMNS = new ArrayList<>(Arrays.asList(ID, II, COR, OD, OI, WD, WI, AU, PN, EX, DD, DI, REM));
     private static final List<Columns> OUTGOING_COLUMNS = new ArrayList<>(Arrays.asList(SD, PN, IO, CORR, CN, EFIO));
     private static final List<Columns> INCOMING_COLUMNS = new ArrayList<>(Arrays.asList(SD, IO, DEB, CN, EFIO));
+    private static final List<Columns> INCOMING_COLUMNS1 = new ArrayList<>(Arrays.asList(ID, IO, CN, DEB, EFIO, SGN));
     private static CellStyle defaultCellStyle = null;
 
     public static byte[] getExcelFile(List<List<? extends Mail>> tables) throws IOException {//refactoring name mb get byte array
@@ -52,6 +53,38 @@ public class ExcelWriter {
         return writeToFile(workbook);
     }
 
+    public static byte[] getAllocationFile(List<Incoming> list) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        createIncomingSheet(workbook, list);
+        return writeToFile(workbook);
+    }
+
+    private static void createIncomingSheet(Workbook workbook, List<Incoming> table) {
+        Sheet sheet = workbook.createSheet("Разноска");// REFACTORING: 11.12.2019 hardcoded;
+//        setOutgoingTableColumnsWidth(sheet);
+        int colNum = 0;
+        int rowNum = 0;
+        Row row1 = sheet.createRow(rowNum++);
+        for (Columns column : INCOMING_COLUMNS1) {
+            Cell headCell = row1.createCell(colNum++);
+            headCell.setCellValue(column.getName());
+//            headCell.setCellStyle(getDefaultCellStyle(workbook));
+        }
+        for (Incoming mail : table) { //refactoring sheet
+            colNum = 0;
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(colNum++).setCellValue(wrapDateCell(mail.getRegDate()));
+            row.createCell(colNum++).setCellValue(mail.getGenIndex());
+            Cell corr = row.createCell(colNum++);
+            corr.setCellValue(mail.getDescription());
+//            corr.setCellStyle(getDefaultCellStyle(workbook));
+            Cell descr = row.createCell(colNum++);
+            descr.setCellValue(mail.getDebtor());
+//            descr.setCellStyle(getDefaultCellStyle(workbook));
+            row.createCell(colNum).setCellValue(mail.getExecutor().getName());
+        }
+    }
+
     private static void createOutcomeSheet(Workbook workbook, List<Outgoing> table, String sheetName) {
         Sheet sheet = workbook.createSheet(sheetName);
         setOutgoingTableColumnsWidth(sheet);
@@ -78,6 +111,7 @@ public class ExcelWriter {
             row.createCell(colNum).setCellValue(mail.getExecutor().getName());
         }
     }
+
     private static void createIncomeSheet(Workbook workbook, List<Incoming> table, String sheetName) {
         Sheet sheet = workbook.createSheet(sheetName);
         setOutgoingTableColumnsWidth(sheet);

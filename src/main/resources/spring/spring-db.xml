@@ -25,18 +25,6 @@
     <tx:annotation-driven/>
     <task:annotation-driven/>
 
-<!--    <beans profile="hsqldb">
-        <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
-
-        &lt;!&ndash;no pooling&ndash;&gt;
-        <bean id="dataSource"
-              class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-              p:driverClassName="org.hsqldb.jdbcDriver"
-              p:url="${database.url}"
-              p:username="${database.username}"
-              p:password="${database.password}"/>
-    </beans>-->
-
     <beans>
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
 
@@ -87,7 +75,7 @@
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
               p:entityManagerFactory-ref="entityManagerFactory"/>
 
-<!--        <bean class="JpaUtil"/>-->
+<!--        <bean class="com.github.calve.repository.JpaUtil"/>-->
     </beans>
 
 <!--    <beans profile="jpa">

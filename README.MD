@@ -3,7 +3,7 @@ todo list:
 2) refactoring;
 3) Exceptions review;
 
-Optional import incoming;
+Optional import incoming/inbox;
 
 -db constraints thinking;
 -рефакторинг index gen импорт
@@ -13,3 +13,5 @@ Optional import incoming;
 -java.lang.NoClassDefFoundError //https://dzone.com/articles/how-resolve-1
  
  Optional review qualifier system in generator;
+ 
+ -email sender fix description if debtor is null;

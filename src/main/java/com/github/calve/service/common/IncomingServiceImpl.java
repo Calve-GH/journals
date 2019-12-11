@@ -54,7 +54,7 @@ public class IncomingServiceImpl implements IncomingService {
     @Override
     public Incoming save(Incoming mail) {
         Executor executor = executorService.findExecutorByName(mail.getExecutor().getName());
-        if (Objects.isNull(mail.getGenIndex())) {
+        if (Objects.isNull(mail.getGenIndex()) || mail.getGenIndex() == -1) {
 //            int index = getLastGenIndex();
             mail.setGenIndex(indexGenerator.getNextIndex());
         }

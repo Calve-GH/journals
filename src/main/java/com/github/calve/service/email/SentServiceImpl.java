@@ -4,6 +4,7 @@ import com.github.calve.model.email.Sent;
 import com.github.calve.model.etc.Contact;
 import com.github.calve.repository.ContactRepository;
 import com.github.calve.repository.SentRepository;
+import com.github.calve.to.email.SentInfo;
 import com.github.calve.to.etc.DataTable;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -73,5 +75,14 @@ public class SentServiceImpl implements SentService {
     @SuppressWarnings("unchecked")
     private Page<Sent> findSearchable(Pair<Pageable, Specification<?>> spec) {
         return repository.findAll((Specification<Sent>) spec.getSecond(), spec.getFirst());
+    }
+
+    @Override
+    public void save(SentInfo info) {
+        Contact contact = contactRepository.findByEmail(info.getEmail());
+        if (Objects.nonNull(contact)) {
+            // REFACTORING: 08.12.2019 do something;
+            repository.save(new Sent(null, LocalDate.now(), contact, info.getDescription(), true));
+        }
     }
 }

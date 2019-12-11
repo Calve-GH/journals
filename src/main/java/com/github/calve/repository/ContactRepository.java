@@ -19,6 +19,9 @@ public interface ContactRepository extends JpaRepository<Contact, Integer>, JpaS
     @Query("SELECT c FROM Contact c WHERE c.name=:name")
     Contact findByAlias(@Param("name") String name);
 
+    @Query("SELECT c FROM Contact c WHERE c.email=:email")
+    Contact findByEmail(@Param("email") String email);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Contact c where c.id=:id")

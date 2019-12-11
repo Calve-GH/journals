@@ -74,8 +74,6 @@ function updateRow(id) {
     });
 }
 
-
-
 function deleteRow(id) {
     if (confirm(i18n['common.confirm'])) {
         $.ajax({
@@ -126,6 +124,16 @@ function successNoty(key) {
         timeout: 1000
     }).show();
 }
+document.addEventListener('keyup', save_shortcut, false);
+function save_shortcut(e) {
+    // this would test for whichever key is 40 and the ctrl key at the same time
+    if (e.ctrlKey && e.keyCode == 90) {
+        if($('#editRow').hasClass('show')) {
+            // call your function to do the thing
+            save();
+        }
+    }
+}
 
 function failNoty(jqXHR) {
     closeNoty();
@@ -171,4 +179,3 @@ $.getJSON(eurl1, function (data) {
   });
   dropdown1.selectpicker('refresh');
 });
-

@@ -14,7 +14,7 @@
     <div class="container-fluid">
         <%--https://getbootstrap.com/docs/4.0/components/card/--%>
         <div align="center">
-            <h5><spring:message code="outgoing.header.first"/></h5>
+            <h5><spring:message code="incoming.header.first"/></h5>
         </div>
         <div class="card border-dark">
 			<table>
@@ -31,6 +31,32 @@
                             </button>
                             <input id="file" type="file" class="findDocumentOnboarding">
                             <label for="file" /><span class="fa fa-folder-open"></span><spring:message code="common.choose.file"/></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-right">
+                            <form id="filter">
+                                <div class="row">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-5">
+                                        <label for="startDate"><spring:message code="meal.startDate"/></label>
+                                        <input class="form-control" type="date" name="startDate" id="startDate">
+                                    </div>
+                                    <div class="col-5">
+                                        <label for="endDate"><spring:message code="meal.endDate"/></label>
+                                        <input class="form-control" type="date" name="endDate" id="endDate">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card-footer text-left">
+                            <button class="btn btn-primary" onclick="location.href='incoming/allocation/' + getParams()">
+                                <span class="fa fa-filter"></span>
+                                <spring:message code="meal.filter"/>
+                            </button>
                         </div>
                     </td>
                     <td>

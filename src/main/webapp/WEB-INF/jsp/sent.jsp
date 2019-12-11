@@ -82,7 +82,7 @@
 							<td>
                                 <div class="form-group">
                                     <label for="contact" class="col-form-label"><spring:message code="modal.con"/></label>
-                                    <select class="form-control" id="locality-dropdown1" id="contact" name="contact"></select>
+                                    <select class="form-control selectpicker" data-live-search="true" data-size="5" id="locality-dropdown1" name="contact"></select>
                                 </div>
 							</td>
 						</tr>

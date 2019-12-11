@@ -2,11 +2,13 @@ package com.github.calve.web.etc;
 
 import com.github.calve.service.etc.ExecutorService;
 import com.github.calve.to.etc.ContactTo;
+import com.github.calve.util.sys.ErrorFieldsUtil;
 import com.github.calve.util.to.DataTablesInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,8 +31,8 @@ public class ExecutorController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void save(ContactTo executor) {
-        service.save(unpackExecutor(executor));
+    public ResponseEntity save(@Valid ContactTo contact, BindingResult validation) {
+        return validation.hasErrors() ? ErrorFieldsUtil.getFieldsErrors(validation) : getResponseOnSave(contact);
     }
 
     @GetMapping("{id}/")
@@ -58,5 +60,10 @@ public class ExecutorController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void enable(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
         service.enable(id, enabled);
+    }
+
+    private ResponseEntity getResponseOnSave(ContactTo contact) {
+        service.save(unpackExecutor(contact));
+        return ResponseEntity.ok().build();
     }
 }

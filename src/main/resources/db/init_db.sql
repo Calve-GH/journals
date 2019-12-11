@@ -25,7 +25,7 @@ CREATE UNIQUE INDEX executors_unique_name_idx ON executors (name);
 create TABLE contacts
 (
   id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  alias     VARCHAR                 NOT NULL,
+  name     VARCHAR                 NOT NULL,
   email     VARCHAR                 NOT NULL
 );
 CREATE UNIQUE INDEX contacts_unique_alias_email_idx ON contacts (alias, email);
@@ -178,5 +178,5 @@ create TABLE inbox
   description   VARCHAR     ,
   FOREIGN KEY (contact_id) REFERENCES contacts (id)
 );
-CREATE UNIQUE INDEX inbox_unique_index_date ON inbox (index, income_date);
+CREATE UNIQUE INDEX inbox_unique_index_date ON inbox (index, reg_date);
 

@@ -1,6 +1,8 @@
 package com.github.calve.model.etc;
 
 import com.github.calve.model.AbstractEntity;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.Table;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "executors")
 public class Executor extends AbstractEntity {
@@ -25,16 +28,16 @@ public class Executor extends AbstractEntity {
         this.enabled = enabled;
     }
 
+    public Executor(String name) {
+        this.name = name;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public Executor(String name) {
-        this.name = name;
     }
 
     public String getName() {
